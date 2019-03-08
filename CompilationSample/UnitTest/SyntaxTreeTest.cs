@@ -42,5 +42,26 @@ public static double Add(int x, double y) => x + y;
                 return Assembly.Load(memory.ToArray());
             }
         }
+
+        [TestMethod]
+        public void Add_Script()
+        {
+            var source = "Item1";
+            var globals = Tuple.Create(1.0);
+
+            var tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.CommonWithKind(SourceCodeKind.Script));
+            var compilation = CSharpCompilation.CreateScriptCompilation("CompilationSample", tree, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, globalsType: globals.GetType());
+
+            // コンパイル前にエラーの存在を確認できます。
+            var diagnostics = compilation.GetDiagnostics();
+            if (!diagnostics.IsEmpty) throw new FormatException();
+
+            using (var memory = new MemoryStream())
+            {
+                var result = compilation.Emit(memory);
+                if (!result.Success) throw new FormatException();
+                var assembly = Assembly.Load(memory.ToArray());
+            }
+        }
     }
 }
