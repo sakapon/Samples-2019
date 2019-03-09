@@ -12,7 +12,7 @@ namespace UnitTest.SyntaxLambda
     {
         public static void ExecuteExpression(string expression, Dictionary<string, object> vars)
         {
-            var assignment = GetAssignment(expression);
+            var assignment = (AssignmentExpressionSyntax)SyntaxFactory.ParseExpression(expression);
 
             var left = (IdentifierNameSyntax)assignment.Left;
             var leftVarName = left.Identifier.ValueText;
@@ -28,22 +28,6 @@ namespace UnitTest.SyntaxLambda
             Console.WriteLine(lambda);
             var func = lambda.Compile();
             vars[leftVarName] = func.DynamicInvoke(rightVars.Keys.Select(n => vars[n]).ToArray());
-        }
-
-        public static AssignmentExpressionSyntax GetAssignment(string expression)
-        {
-            var method = (MethodDeclarationSyntax)ParseMember($"void Action_0() => {expression};");
-            return (AssignmentExpressionSyntax)method.ExpressionBody.Expression;
-        }
-
-        public static MemberDeclarationSyntax ParseMember(string text)
-        {
-            var tree = CSharpSyntaxTree.ParseText(text);
-            var diagnostics = tree.GetDiagnostics().ToArray();
-            if (diagnostics.Length > 0) return null;
-
-            var root = tree.GetCompilationUnitRoot();
-            return root.Members[0];
         }
 
         public static Expression ToExpression(this ExpressionSyntax syntax, Dictionary<string, ParameterExpression> vars)
