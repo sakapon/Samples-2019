@@ -13,6 +13,31 @@ namespace UnitTest
     public class SyntaxTreeTest
     {
         [TestMethod]
+        public void Diagnostics()
+        {
+            var expression = SyntaxFactory.ParseExpression("x+y");
+            Assert.AreEqual(0, expression.GetDiagnostics().Count());
+
+            var expressionTree = CSharpSyntaxTree.ParseText("x+y");
+            Assert.IsTrue(expressionTree.GetDiagnostics().Any());
+
+            var methodTree = CSharpSyntaxTree.ParseText("void Action_0() => x + y;");
+            Assert.AreEqual(0, methodTree.GetDiagnostics().Count());
+
+            var methodComp = CSharpCompilation.Create("CompilationSample", new[] { methodTree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            Assert.IsTrue(methodComp.GetDiagnostics().Any());
+
+            var source = @"
+public static class Numerics
+{
+public static double Add(int x, double y) => x + y;
+}";
+            var tree = CSharpSyntaxTree.ParseText(source);
+            var compilation = CSharpCompilation.Create("CompilationSample", new[] { tree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            Assert.AreEqual(0, tree.GetDiagnostics().Count());
+        }
+
+        [TestMethod]
         public void Add_1()
         {
             var source = @"
