@@ -40,6 +40,28 @@ public static double Mean(double x, double y) => (x + y) / 2;
             Assert.AreEqual(typeof(double), ToType(symbol.Parameters[1]));
         }
 
+        [TestMethod]
+        public void Add_Script()
+        {
+            var source = "Item1 + Item2";
+            var globals = Tuple.Create(1, 1.3);
+
+            var tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.CommonWithKind(SourceCodeKind.Script));
+            var compilation = CSharpCompilation.CreateScriptCompilation("CompilationSample", tree, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, globalsType: globals.GetType());
+
+            var diagnostics = compilation.GetDiagnostics();
+            if (!diagnostics.IsEmpty) throw new FormatException();
+            var semantic = compilation.GetSemanticModel(tree);
+
+            var root = tree.GetCompilationUnitRoot();
+            var expression = root.DescendantNodes().First(s => s is ExpressionSyntax);
+            var symbol = (IMethodSymbol)semantic.GetSymbolInfo(expression).Symbol;
+
+            // このシンボルは op_Addition(double, double) を表します。
+            Assert.AreEqual(typeof(double), ToType(symbol.Parameters[0]));
+            Assert.AreEqual(typeof(double), ToType(symbol.Parameters[1]));
+        }
+
         static Type ToType(IParameterSymbol symbol)
         {
             var name = symbol.Type.SpecialType.ToString().Replace('_', '.');

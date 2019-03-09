@@ -45,8 +45,8 @@ public static double Add(int x, double y) => x + y;
         [TestMethod]
         public void Add_Script()
         {
-            var source = "Item1";
-            var globals = Tuple.Create(1.0);
+            var source = "Item1 + Item2";
+            var globals = Tuple.Create(1, 1.3);
 
             var tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.CommonWithKind(SourceCodeKind.Script));
             var compilation = CSharpCompilation.CreateScriptCompilation("CompilationSample", tree, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, globalsType: globals.GetType());
