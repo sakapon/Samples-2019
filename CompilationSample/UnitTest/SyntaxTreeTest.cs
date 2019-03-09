@@ -28,8 +28,7 @@ public static double Add(int x, double y) => x + y;
         public static Assembly Compile(string source)
         {
             var tree = CSharpSyntaxTree.ParseText(source);
-            var compilation = CSharpCompilation.Create("CompilationSample", new[] { tree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) });
-            compilation = compilation.WithOptions(compilation.Options.WithOutputKind(OutputKind.DynamicallyLinkedLibrary));
+            var compilation = CSharpCompilation.Create("CompilationSample", new[] { tree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             // コンパイル前にエラーの存在を確認できます。
             //var diagnostics = compilation.GetDiagnostics();

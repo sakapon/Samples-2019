@@ -25,7 +25,7 @@ public static double Add(int x, double y) { return x + y; }
             var results = provider.CompileAssemblyFromSource(options, source);
             if (results.Errors.HasErrors) throw new FormatException();
 
-            var add = results.CompiledAssembly.ExportedTypes.First().GetMethod("Add");
+            var add = results.CompiledAssembly.GetType("Numerics").GetMethod("Add");
             Assert.AreEqual(2.3, add.Invoke(null, new object[] { 1, 1.3 }));
         }
 
@@ -57,7 +57,7 @@ public static void Add(ref int x, ref double y, ref double z)
             var results = provider.CompileAssemblyFromSource(options, source);
             if (results.Errors.HasErrors) throw new FormatException();
 
-            var add = results.CompiledAssembly.ExportedTypes.First().GetMethod("Add");
+            var add = results.CompiledAssembly.GetType("Numerics").GetMethod("Add");
             var args = vars.Values.ToArray();
             add.Invoke(null, args);
             Assert.AreEqual(5.4, args[2]);

@@ -16,22 +16,22 @@ namespace UnitTest
                 { "x", 1 },
                 { "z", 0.0 },
             };
-            var global = Tuple.Create(vars);
+            var globals = Tuple.Create(vars);
 
             var script = CSharpScript.Create($@"
 var x = ({vars["x"].GetType().FullName})Item1[""x""];
 var y = 1.3;
 var z = ({vars["z"].GetType().FullName})Item1[""z""];
 z += x + y;
-", null, global.GetType());
+", globalsType: globals.GetType());
 
-            // 初回は 2 秒かかる。
-            var state = script.RunAsync(global)
+            // 初回は 2 秒ほどかかります。
+            var state = script.RunAsync(globals)
                 .GetAwaiter().GetResult();
             Assert.AreEqual(2.3, state.GetVariable("z").Value);
 
             vars["z"] = state.GetVariable("z").Value;
-            var state2 = script.RunAsync(global)
+            var state2 = script.RunAsync(globals)
                 .GetAwaiter().GetResult();
             Assert.AreEqual(4.6, state2.GetVariable("z").Value);
         }

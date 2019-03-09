@@ -21,8 +21,7 @@ public static double Add(int x, double y) => x + y;
 public static double Mean(double x, double y) => (x + y) / 2;
 }";
             var tree = CSharpSyntaxTree.ParseText(source);
-            var compilation = CSharpCompilation.Create("CompilationSample", new[] { tree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) });
-            compilation = compilation.WithOptions(compilation.Options.WithOutputKind(OutputKind.DynamicallyLinkedLibrary));
+            var compilation = CSharpCompilation.Create("CompilationSample", new[] { tree }, new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             var diagnostics = compilation.GetDiagnostics();
             if (!diagnostics.IsEmpty) throw new FormatException();
@@ -36,6 +35,7 @@ public static double Mean(double x, double y) => (x + y) / 2;
             // ただし、型情報は GetSymbolInfo でも取得できます。
             var symbol = (IMethodSymbol)semantic.GetSymbolInfo(add.ExpressionBody.Expression).Symbol;
 
+            // このシンボルは op_Addition(double, double) を表します。
             Assert.AreEqual(typeof(double), ToType(symbol.Parameters[0]));
             Assert.AreEqual(typeof(double), ToType(symbol.Parameters[1]));
         }
