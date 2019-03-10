@@ -20,7 +20,7 @@ namespace UnitTest.SyntaxLambda
 
             var context = assignment.Right.ToModel(variables);
 
-            var body = context.RootExpression.ToExpression(context.MetaVariables);
+            var body = context.RootExpression.ToExpression(context);
             var lambda = Lambda(body, context.MetaVariables.Values);
             Console.WriteLine(lambda);
             var func = lambda.Compile();
@@ -52,7 +52,7 @@ namespace UnitTest.SyntaxLambda
             };
         }
 
-        public static Expression ToExpression(this ExpressionSyntax syntax, Dictionary<string, ParameterExpression> vars)
+        public static Expression ToExpression(this ExpressionSyntax syntax, SyntaxContext context)
         {
             var kind = syntax.Kind();
 
@@ -61,15 +61,29 @@ namespace UnitTest.SyntaxLambda
                 case BinaryExpressionSyntax s:
                     var typeName = kind.ToString().Replace("Expression", "");
                     if (!Enum.TryParse<ExpressionType>(typeName, out var type)) throw new NotSupportedException();
-                    return MakeBinary(type, s.Left.ToExpression(vars), s.Right.ToExpression(vars));
+                    var left = s.Left.ToExpression(context);
+                    var right = s.Right.ToExpression(context);
+                    try
+                    {
+                        return MakeBinary(type, left, right);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        var symbol = (IMethodSymbol)context.GetSymbol(syntax);
+                        var leftType = symbol.Parameters[0].ToType();
+                        var rightType = symbol.Parameters[1].ToType();
+                        if (left.Type != leftType) left = Convert(left, leftType);
+                        if (right.Type != rightType) right = Convert(right, rightType);
+                        return MakeBinary(type, left, right);
+                    }
                 case CastExpressionSyntax s:
-                    return Convert(s.Expression.ToExpression(vars), s.Type.ToType());
+                    return Convert(s.Expression.ToExpression(context), s.Type.ToType());
                 case IdentifierNameSyntax s:
-                    return vars[s.Identifier.ValueText];
+                    return context.MetaVariables[s.Identifier.ValueText];
                 case LiteralExpressionSyntax s:
                     return Constant(s.Token.Value);
                 case ParenthesizedExpressionSyntax s:
-                    return s.Expression.ToExpression(vars);
+                    return s.Expression.ToExpression(context);
                 default:
                     throw new NotSupportedException();
             }
@@ -88,6 +102,13 @@ namespace UnitTest.SyntaxLambda
                 default:
                     throw new NotSupportedException();
             }
+        }
+
+        static Type ToType(this IParameterSymbol symbol)
+        {
+            var t = symbol.Type;
+            var name = $"{t.ContainingNamespace.Name}.{t.Name}";
+            return Type.GetType(name);
         }
     }
 
