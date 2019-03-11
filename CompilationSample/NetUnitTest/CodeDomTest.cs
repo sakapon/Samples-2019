@@ -73,7 +73,6 @@ public static void Add(ref int x, ref double y, ref double z)
             {
                 { "x", 1.0 },
                 { "y", 1.3 },
-                { "z", 0.0 },
             };
             CodeDomScript.ExecuteExpression(expression, vars);
             Assert.AreEqual(2.3, vars["z"]);
