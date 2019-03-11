@@ -50,14 +50,20 @@ namespace NetUnitTest
         [TestMethod]
         public void Multiply_1()
         {
-            var expression = "x*=7";
+            var expression = "x*=2";
             var vars = new Dictionary<string, object>
             {
-                { "x", 1.3 },
+                { "a", null },
+                { "x", 1.2 },
                 { "y", 1 },
             };
-            CodeDomScript.ExecuteExpression(expression, vars);
-            Assert.AreEqual(9.1, vars["x"]);
+            var action = CodeDomScript.CreateAction(expression, vars);
+            CodeDomScript.ExecuteAction(action, vars);
+            Assert.AreEqual(2.4, vars["x"]);
+            CodeDomScript.ExecuteAction(action, vars);
+            CodeDomScript.ExecuteAction(action, vars);
+            CodeDomScript.ExecuteAction(action, vars);
+            Assert.AreEqual(19.2, vars["x"]);
         }
 
         [TestMethod]
