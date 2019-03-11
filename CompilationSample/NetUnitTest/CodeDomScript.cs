@@ -8,7 +8,7 @@ namespace NetUnitTest
 {
     public static class CodeDomScript
     {
-        static readonly Regex ExpressionPattern = new Regex(@"^\s*(.+?)\s*=.+$");
+        static readonly Regex ExpressionPattern = new Regex(@"^\s*(.+?)\s*\S?=.+$");
 
         public static void ExecuteExpression(string expression, Dictionary<string, object> variables)
         {
