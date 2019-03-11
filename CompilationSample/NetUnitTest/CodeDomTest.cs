@@ -64,18 +64,5 @@ public static void Add(ref int x, ref double y, ref double z)
             add.Invoke(null, args);
             Assert.AreEqual(7.7, args[2]);
         }
-
-        [TestMethod]
-        public void Add_3()
-        {
-            var expression = "z = x + y";
-            var vars = new Dictionary<string, object>
-            {
-                { "x", 1.0 },
-                { "y", 1.3 },
-            };
-            CodeDomScript.ExecuteExpression(expression, vars);
-            Assert.AreEqual(2.3, vars["z"]);
-        }
     }
 }
