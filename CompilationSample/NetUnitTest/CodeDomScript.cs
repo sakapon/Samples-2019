@@ -22,7 +22,10 @@ namespace NetUnitTest
             var leftVarIndex = Array.IndexOf(variables.Keys.ToArray(), leftVarName);
 
             var script_vars = string.Join(", ", variables.Select(v => $"{(v.Key == leftVarName ? "ref " : "")}{(v.Value?.GetType() ?? typeof(object)).FullName} {v.Key}"));
-            var source = $@"
+            var source = $@"using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public static class Program
 {{
 public static void Execute({script_vars})
@@ -54,7 +57,10 @@ public static void Execute({script_vars})
                 variables[leftVarName] = null;
 
             var script_vars = string.Join(", ", variables.Select(v => $"{(v.Key == leftVarName ? "ref " : "")}{(v.Value?.GetType() ?? typeof(object)).FullName} {v.Key}"));
-            var source = $@"
+            var source = $@"using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public static class Program
 {{
 public static void Execute({script_vars})

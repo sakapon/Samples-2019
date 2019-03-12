@@ -95,7 +95,7 @@ namespace NetUnitTest
         [TestMethod]
         public void Sqrt_1()
         {
-            var expression = "z = System.Math.Sqrt(10)";
+            var expression = "z = Math.Sqrt(10)";
             var vars = new Dictionary<string, object>
             {
                 { "x", 1 },
