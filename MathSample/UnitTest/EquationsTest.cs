@@ -7,11 +7,22 @@ namespace UnitTest
     [TestClass]
     public class EquationsTest
     {
+        static void AssertNearlyEqual(double expected, double actual) =>
+            Assert.AreEqual(0.0, Math.Round(expected - actual, 12));
+
         [TestMethod]
         public void Solve_1()
         {
-            var sol = CubicEquation.Solve(0, 1, 1);
-            //var sol = CubicEquation.Solve(1, 0, 1);
+            Test(0, 1, 1);
+            Test(1, 0, 1);
+            Test(1, -1, 0);
+
+            void Test(double b, double c, double d)
+            {
+                var f = CubicEquation.CreateFunction(b, c, d);
+                foreach (var x in CubicEquation.Solve(b, c, d))
+                    AssertNearlyEqual(0, f(x));
+            }
         }
     }
 
@@ -39,15 +50,29 @@ namespace UnitTest
             var x0_sign = y_center <= 0 ? 1 : -1;
             var det_2 = b * b - 3 * c;
 
-            var r = (det_2 <= 0 ? x_center : (-b + x0_sign * Math.Sqrt(det_2)) / 3) + x0_sign;
+            var x0 = (det_2 <= 0 ? x_center : (-b + x0_sign * Math.Sqrt(det_2)) / 3) + x0_sign;
+            var x1 = SolveByNewtonMethod(f, f1, x0);
 
+            // f(x) = (x - x_1) (x^2 + px + q)
+            var p = x1 + b;
+            var q = x1 * p + c;
+            var det = p * p - 4 * q;
+
+            return det > 0 ? new[] { x1, (-p - Math.Sqrt(det)) / 2, (-p + Math.Sqrt(det)) / 2 } :
+                det == 0 ? new[] { x1, -p / 2 } :
+                new[] { x1 };
+        }
+
+        static double SolveByNewtonMethod(Func<double, double> f, Func<double, double> f1, double x0)
+        {
+            var r = x0;
             for (var i = 0; i < 100; i++)
             {
                 var temp = r - f(r) / f1(r);
                 if (r == temp) break;
                 r = temp;
             }
-            throw new NotImplementedException();
+            return r;
         }
     }
 }
