@@ -13,13 +13,16 @@ namespace UnitTest
         [TestMethod]
         public void Solve_1()
         {
-            Test1(new[] { 0.0 }, 0, 0, 0);
-            Test1(new[] { 2.0 }, 0, 0, -8);
-            Test2(0, 1, 1);
-            Test2(1, 0, 1);
-            Test2(1, -1, 0);
+            Test(new[] { 0.0 }, 0, 0, 0);
+            Test(new[] { 2.0 }, 0, 0, -8);
+            Test(new[] { 0.0 }, 1, 1, 0);
+            Test(new[] { -2.0 }, 3, 4, 4);
 
-            void Test1(double[] expected, double b, double c, double d)
+            Test(new[] { -2.0 }, 1, -1, 2);
+            Test(new[] { 1.0, -3.0 }, 1, -5, 3);
+            Test(new[] { 3.0, -3.0, 0.0 }, 0, -9, 0);
+
+            void Test(double[] expected, double b, double c, double d)
             {
                 var actual = CubicEquation.Solve(b, c, d);
                 CollectionAssert.AreEqual(expected, actual);
@@ -28,8 +31,19 @@ namespace UnitTest
                 foreach (var x in actual)
                     AssertNearlyEqual(0, f(x));
             }
+        }
 
-            void Test2(double b, double c, double d)
+        [TestMethod]
+        public void Solve_2()
+        {
+            Test(3, 3, 3);
+            Test(0, 1, 1);
+            Test(1, 0, 1);
+            Test(1, -1, 0);
+            Test(3, -2, -6);
+            Test(0, -15, -4);
+
+            void Test(double b, double c, double d)
             {
                 var actual = CubicEquation.Solve(b, c, d);
 
