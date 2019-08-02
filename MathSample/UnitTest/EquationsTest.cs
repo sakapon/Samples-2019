@@ -14,6 +14,7 @@ namespace UnitTest
         public void Solve_1()
         {
             Test1(new[] { 0.0 }, 0, 0, 0);
+            Test1(new[] { 2.0 }, 0, 0, -8);
             Test2(0, 1, 1);
             Test2(1, 0, 1);
             Test2(1, -1, 0);
@@ -61,12 +62,29 @@ namespace UnitTest
             var f = CreateFunction(b, c, d);
             var f1 = CreateDerivative(b, c, d);
 
-            var x_center = -b / 3;
-            var y_center = f(x_center);
-            var x0_sign = y_center <= 0 ? 1 : -1;
-            var det_2 = b * b - 3 * c;
+            var center_x = -b / 3;
+            var center = (x: center_x, y: f(center_x).MicroToZero());
+            var x0_sign = center.y <= 0 ? 1 : -1;
+            var det_2 = (b * b - 3 * c).MicroToZero();
 
-            var x0 = (det_2 <= 0 ? x_center : (-b + x0_sign * Math.Sqrt(det_2)) / 3) + x0_sign;
+            if (det_2 > 0)
+            {
+
+            }
+            else if (det_2 == 0)
+            {
+                if (center.y == 0)
+                    // 3重解
+                    return new[] { center.x };
+                else
+                    return new[] { SolveByNewtonMethod(f, f1, center.x + x0_sign) };
+            }
+            else
+            {
+
+            }
+
+            var x0 = (det_2 <= 0 ? center.x : (-b + x0_sign * Math.Sqrt(det_2)) / 3) + x0_sign;
             var x1 = SolveByNewtonMethod(f, f1, x0);
 
             // f(x) = (x - x_1) (x^2 + px + q)
