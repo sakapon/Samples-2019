@@ -13,14 +13,27 @@ namespace UnitTest
         [TestMethod]
         public void Solve_1()
         {
-            Test(0, 1, 1);
-            Test(1, 0, 1);
-            Test(1, -1, 0);
+            Test1(new[] { 0.0 }, 0, 0, 0);
+            Test2(0, 1, 1);
+            Test2(1, 0, 1);
+            Test2(1, -1, 0);
 
-            void Test(double b, double c, double d)
+            void Test1(double[] expected, double b, double c, double d)
             {
+                var actual = CubicEquation.Solve(b, c, d);
+                CollectionAssert.AreEqual(expected, actual);
+
                 var f = CubicEquation.CreateFunction(b, c, d);
-                foreach (var x in CubicEquation.Solve(b, c, d))
+                foreach (var x in actual)
+                    AssertNearlyEqual(0, f(x));
+            }
+
+            void Test2(double b, double c, double d)
+            {
+                var actual = CubicEquation.Solve(b, c, d);
+
+                var f = CubicEquation.CreateFunction(b, c, d);
+                foreach (var x in actual)
                     AssertNearlyEqual(0, f(x));
             }
         }
@@ -28,6 +41,9 @@ namespace UnitTest
 
     public static class CubicEquation
     {
+        public static bool IsMicro(this double x) => Math.Round(x, 12) == 0.0;
+        public static double MicroToZero(this double x) => IsMicro(x) ? 0.0 : x;
+
         public static Func<double, double> CreateFunction(double b, double c, double d) =>
             x => x * x * x + b * x * x + c * x + d;
         public static Func<double, double> CreateDerivative(double b, double c, double d) =>
@@ -72,7 +88,7 @@ namespace UnitTest
                 if (r == temp) break;
                 r = temp;
             }
-            return r;
+            return r.MicroToZero();
         }
     }
 }
