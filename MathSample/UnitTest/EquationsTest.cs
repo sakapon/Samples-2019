@@ -69,7 +69,6 @@ namespace UnitTest
 
             if (det_2 > 0)
             {
-
             }
             else if (det_2 == 0)
             {
@@ -81,10 +80,10 @@ namespace UnitTest
             }
             else
             {
-
+                return new[] { SolveByNewtonMethod(f, f1, center.x + x0_sign) };
             }
 
-            var x0 = (det_2 <= 0 ? center.x : (-b + x0_sign * Math.Sqrt(det_2)) / 3) + x0_sign;
+            var x0 = (-b + x0_sign * Math.Sqrt(det_2)) / 3 + x0_sign;
             var x1 = SolveByNewtonMethod(f, f1, x0);
 
             // f(x) = (x - x_1) (x^2 + px + q)
