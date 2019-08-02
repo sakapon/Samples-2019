@@ -69,14 +69,22 @@ namespace UnitTest
 
             if (det_2 > 0)
             {
+                var M_x = ((-b - Math.Sqrt(det_2)) / 3).MicroToZero();
+                var m_x = ((-b + Math.Sqrt(det_2)) / 3).MicroToZero();
+                var M = (x: M_x, y: f(M_x).MicroToZero());
+                var m = (x: m_x, y: f(m_x).MicroToZero());
+
+                // 重解
+                if (M.y == 0) return new[] { M.x, -2 * M.x - b };
+                if (m.y == 0) return new[] { m.x, -2 * m.x - b };
+                if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
+                if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
             }
             else if (det_2 == 0)
             {
-                if (center.y == 0)
-                    // 3重解
-                    return new[] { center.x };
-                else
-                    return new[] { SolveByNewtonMethod(f, f1, center.x + x0_sign) };
+                // 3重解
+                if (center.y == 0) return new[] { center.x };
+                return new[] { SolveByNewtonMethod(f, f1, center.x + x0_sign) };
             }
             else
             {
@@ -91,9 +99,7 @@ namespace UnitTest
             var q = x1 * p + c;
             var det = p * p - 4 * q;
 
-            return det > 0 ? new[] { x1, (-p - Math.Sqrt(det)) / 2, (-p + Math.Sqrt(det)) / 2 } :
-                det == 0 ? new[] { x1, -p / 2 } :
-                new[] { x1 };
+            return new[] { x1, ((-p - Math.Sqrt(det)) / 2).MicroToZero(), ((-p + Math.Sqrt(det)) / 2).MicroToZero() };
         }
 
         static double SolveByNewtonMethod(Func<double, double> f, Func<double, double> f1, double x0)
