@@ -53,41 +53,33 @@ namespace UnitTest
             var f = CreateFunction(c, d);
             var f1 = CreateDerivative(c, d);
 
-            if (c > 0)
-            {
-                return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
-            }
-            else if (c == 0)
-            {
-                // 3重解
-                if (d == 0) return new[] { 0.0 };
-                return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
-            }
-            else
-            {
-                var m_x = Math.Sqrt(-c / 3).RoundNearlyInteger();
-                var M = (x: -m_x, y: f(-m_x).RoundNearlyInteger());
-                var m = (x: m_x, y: f(m_x).RoundNearlyInteger());
+            // f(x) が極値を持たない場合
+            // 3重解 (c = d = 0) を含む
+            if (c >= 0) return new[] { d == 0 ? 0.0 : SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
 
-                if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
-                if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
-                // 重解
-                if (M.y == 0) return new[] { M.x, -2 * M.x };
-                if (m.y == 0) return new[] { -2 * m.x, m.x };
+            // 以下、f(x) が極値を持つ場合
+            var m_x = Math.Sqrt(-c / 3).RoundNearlyInteger();
+            var M = (x: -m_x, y: f(-m_x).RoundNearlyInteger());
+            var m = (x: m_x, y: f(m_x).RoundNearlyInteger());
 
-                // 以下、解を 3 つ持つ場合
-                if (d == 0) return new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
+            if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
+            if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
+            // 重解
+            if (M.y == 0) return new[] { M.x, -2 * M.x };
+            if (m.y == 0) return new[] { -2 * m.x, m.x };
 
-                var x0 = -Math.Sign(d) * (m_x + 1);
-                var x1 = SolveByNewtonMethod(f, f1, x0);
+            // 以下、解を 3 つ持つ場合
+            if (d == 0) return new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
 
-                // f(x) = (x - x_1) (x^2 + x_1 x + q)
-                // q = x_1^2 + c;
-                var sqrt_det = Math.Sqrt(-3 * x1 * x1 - 4 * c);
-                var x2 = ((-x1 - sqrt_det) / 2).RoundNearlyInteger();
-                var x3 = ((-x1 + sqrt_det) / 2).RoundNearlyInteger();
-                return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
-            }
+            var x0 = -Math.Sign(d) * (m_x + 1);
+            var x1 = SolveByNewtonMethod(f, f1, x0);
+
+            // f(x) = (x - x_1) (x^2 + x_1 x + q)
+            // q = x_1^2 + c;
+            var sqrt_det = Math.Sqrt(-3 * x1 * x1 - 4 * c);
+            var x2 = ((-x1 - sqrt_det) / 2).RoundNearlyInteger();
+            var x3 = ((-x1 + sqrt_det) / 2).RoundNearlyInteger();
+            return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
     }
 }
