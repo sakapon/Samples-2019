@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace UnitTest
 {
@@ -29,6 +30,24 @@ namespace UnitTest
                 x = temp;
             }
             return x.MicroToZero();
+        }
+
+        // f(x) = ax^3 + bx^2 + cx + d = 0
+        public static double[] Solve(double a, double b, double c, double d) =>
+            a != 0 ? Solve(b / a, c / a, d / a) : throw new ArgumentException("The value must not be 0.", nameof(a));
+
+        // f(x) = x^3 + bx^2 + cx + d = 0
+        public static double[] Solve(double b, double c, double d) =>
+            Solve((c - b * b / 3).MicroToZero(), (d - b * c / 3 + 2 * b * b * b / 27).MicroToZero())
+                .Select(x => (x - b / 3).MicroToZero())
+                .ToArray();
+
+        // f  (x) = x^3 + cx + d = 0
+        // f' (x) = 3x^2 + c
+        // f''(x) = 6x
+        public static double[] Solve(double c, double d)
+        {
+            throw new NotImplementedException();
         }
     }
 }
