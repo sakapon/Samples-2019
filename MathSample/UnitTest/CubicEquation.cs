@@ -47,7 +47,34 @@ namespace UnitTest
         // f''(x) = 6x
         public static double[] Solve(double c, double d)
         {
-            throw new NotImplementedException();
+            // Center: (0, d)
+            var f = CreateFunction(0, c, d);
+            var f1 = CreateDerivative(0, c, d);
+
+            if (c > 0)
+            {
+                return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
+            }
+            else if (c == 0)
+            {
+                // 3重解
+                if (d == 0) return new[] { 0.0 };
+                return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
+            }
+            else
+            {
+                var m_x = Math.Sqrt(-c / 3);
+                var M = (x: -m_x, y: f(-m_x).MicroToZero());
+                var m = (x: m_x, y: f(m_x).MicroToZero());
+
+                if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
+                if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
+                // 重解
+                if (M.y == 0) return new[] { M.x, -2 * M.x };
+                if (m.y == 0) return new[] { -2 * m.x, m.x };
+
+                throw new NotImplementedException();
+            }
         }
     }
 }

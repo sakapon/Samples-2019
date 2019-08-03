@@ -24,7 +24,7 @@ namespace UnitTest
 
             void Test(double[] expected, double b, double c, double d)
             {
-                var actual = CubicEquation0.Solve(b, c, d);
+                var actual = CubicEquation.Solve(b, c, d);
                 CollectionAssert.AreEqual(expected, actual);
 
                 var f = CubicEquation.CreateFunction(b, c, d);
@@ -45,7 +45,7 @@ namespace UnitTest
 
             void Test(double b, double c, double d)
             {
-                var actual = CubicEquation0.Solve(b, c, d);
+                var actual = CubicEquation.Solve(b, c, d);
 
                 var f = CubicEquation.CreateFunction(b, c, d);
                 foreach (var x in actual)
