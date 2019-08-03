@@ -24,7 +24,7 @@ namespace UnitTest
 
             void Test(double[] expected, double b, double c, double d)
             {
-                var actual = CubicEquation.Solve(b, c, d);
+                var actual = CubicEquation0.Solve(b, c, d);
                 CollectionAssert.AreEqual(expected, actual);
 
                 var f = CubicEquation.CreateFunction(b, c, d);
@@ -45,7 +45,7 @@ namespace UnitTest
 
             void Test(double b, double c, double d)
             {
-                var actual = CubicEquation.Solve(b, c, d);
+                var actual = CubicEquation0.Solve(b, c, d);
 
                 var f = CubicEquation.CreateFunction(b, c, d);
                 foreach (var x in actual)
@@ -54,11 +54,8 @@ namespace UnitTest
         }
     }
 
-    public static class CubicEquation
+    public static class CubicEquation0
     {
-        public static bool IsMicro(this double x) => Math.Round(x, 12) == 0.0;
-        public static double MicroToZero(this double x) => IsMicro(x) ? 0.0 : x;
-
         public static Func<double, double> CreateFunction(double b, double c, double d) =>
             x => x * x * x + b * x * x + c * x + d;
         public static Func<double, double> CreateDerivative(double b, double c, double d) =>
