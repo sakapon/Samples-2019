@@ -5,8 +5,8 @@ namespace UnitTest
 {
     public static class CubicEquation
     {
-        public static bool IsMicro(this double x) => Math.Round(x, 12) == 0.0;
-        public static double MicroToZero(this double x) => IsMicro(x) ? 0.0 : x;
+        public static bool IsNearlyInteger(this double x) => Math.Round(x, 12) == Math.Round(x);
+        public static double RoundNearlyInteger(this double x) => IsNearlyInteger(x) ? Math.Round(x) : x;
 
         public static Func<double, double> CreateFunction(double b, double c, double d) =>
             x => x * x * x + b * x * x + c * x + d;
@@ -29,7 +29,7 @@ namespace UnitTest
                 if (x == temp) break;
                 x = temp;
             }
-            return x.MicroToZero();
+            return x.RoundNearlyInteger();
         }
 
         // f(x) = ax^3 + bx^2 + cx + d = 0
@@ -38,8 +38,8 @@ namespace UnitTest
 
         // f(x) = x^3 + bx^2 + cx + d = 0
         public static double[] Solve(double b, double c, double d) =>
-            Solve((c - b * b / 3).MicroToZero(), (d - b * c / 3 + 2 * b * b * b / 27).MicroToZero())
-                .Select(x => (x - b / 3).MicroToZero())
+            Solve((c - b * b / 3).RoundNearlyInteger(), (d - b * c / 3 + 2 * b * b * b / 27).RoundNearlyInteger())
+                .Select(x => (x - b / 3).RoundNearlyInteger())
                 .ToArray();
 
         // f  (x) = x^3 + cx + d = 0
@@ -63,9 +63,9 @@ namespace UnitTest
             }
             else
             {
-                var m_x = Math.Sqrt(-c / 3);
-                var M = (x: -m_x, y: f(-m_x).MicroToZero());
-                var m = (x: m_x, y: f(m_x).MicroToZero());
+                var m_x = Math.Sqrt(-c / 3).RoundNearlyInteger();
+                var M = (x: -m_x, y: f(-m_x).RoundNearlyInteger());
+                var m = (x: m_x, y: f(m_x).RoundNearlyInteger());
 
                 if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
                 if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
