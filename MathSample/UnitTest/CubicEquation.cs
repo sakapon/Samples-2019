@@ -10,8 +10,10 @@ namespace UnitTest
 
         public static Func<double, double> CreateFunction(double b, double c, double d) =>
             x => x * x * x + b * x * x + c * x + d;
-        public static Func<double, double> CreateDerivative(double b, double c, double d) =>
-            x => 3 * x * x + 2 * b * x + c;
+        public static Func<double, double> CreateFunction(double c, double d) =>
+            x => x * x * x + c * x + d;
+        public static Func<double, double> CreateDerivative(double c, double d) =>
+            x => 3 * x * x + c;
 
         /// <summary>
         /// 方程式 f(x) = 0 を満たす近似解を Newton 法により求めます。
@@ -48,8 +50,8 @@ namespace UnitTest
         public static double[] Solve(double c, double d)
         {
             // Center: (0, d)
-            var f = CreateFunction(0, c, d);
-            var f1 = CreateDerivative(0, c, d);
+            var f = CreateFunction(c, d);
+            var f1 = CreateDerivative(c, d);
 
             if (c > 0)
             {
@@ -79,13 +81,11 @@ namespace UnitTest
                 var x0 = -Math.Sign(d) * (m_x + 1);
                 var x1 = SolveByNewtonMethod(f, f1, x0);
 
-                // f(x) = (x - x_1) (x^2 + px + q)
-                var p = x1;
-                var q = x1 * x1 + c;
-                var det = p * p - 4 * q;
-
-                var x2 = ((-p - Math.Sqrt(det)) / 2).RoundNearlyInteger();
-                var x3 = ((-p + Math.Sqrt(det)) / 2).RoundNearlyInteger();
+                // f(x) = (x - x_1) (x^2 + x_1 x + q)
+                // q = x_1^2 + c;
+                var sqrt_det = Math.Sqrt(-3 * x1 * x1 - 4 * c);
+                var x2 = ((-x1 - sqrt_det) / 2).RoundNearlyInteger();
+                var x3 = ((-x1 + sqrt_det) / 2).RoundNearlyInteger();
                 return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
             }
         }
