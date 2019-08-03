@@ -73,7 +73,20 @@ namespace UnitTest
                 if (M.y == 0) return new[] { M.x, -2 * M.x };
                 if (m.y == 0) return new[] { -2 * m.x, m.x };
 
-                throw new NotImplementedException();
+                // 以下、解を 3 つ持つ場合
+                if (d == 0) return new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
+
+                var x0 = -Math.Sign(d) * (m_x + 1);
+                var x1 = SolveByNewtonMethod(f, f1, x0);
+
+                // f(x) = (x - x_1) (x^2 + px + q)
+                var p = x1;
+                var q = x1 * x1 + c;
+                var det = p * p - 4 * q;
+
+                var x2 = ((-p - Math.Sqrt(det)) / 2).RoundNearlyInteger();
+                var x3 = ((-p + Math.Sqrt(det)) / 2).RoundNearlyInteger();
+                return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
             }
         }
     }
