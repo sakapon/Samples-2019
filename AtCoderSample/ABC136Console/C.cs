@@ -10,15 +10,13 @@ class C
 
         for (var i = a.Length - 2; i >= 0; i--)
         {
-            if (a[i] > a[i + 1] + 1)
+            var d = a[i] - a[i + 1];
+            if (d > 1)
             {
                 Console.WriteLine("No");
                 return;
             }
-            else if (a[i] == a[i + 1] + 1)
-            {
-                a[i]--;
-            }
+            if (d == 1) a[i]--;
         }
         Console.WriteLine("Yes");
     }
