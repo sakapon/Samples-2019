@@ -86,5 +86,34 @@ namespace UnitTest
             var x3 = ((-x1 + sqrt_det) / 2).RoundNeighbor();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
+
+        public static double[] Solve2(double c, double d)
+        {
+            // Center: (0, d)
+            var f = CreateFunction(c, d);
+            var f1 = CreateDerivative(c, d);
+
+            // 3重解 (c = d = 0) を含む
+            if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
+
+            // f(x) が極値を持たない場合
+            if (c >= 0) return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
+
+            // 以下、f(x) が極値を持つ場合
+            // x1 を最も外側の解とすると、x1 が重解となることはない
+            var m_x = Math.Sqrt(-c / 3).RoundNeighbor();
+            var x1 = SolveByNewtonMethod(f, f1, -Math.Sign(d) * (m_x + 1));
+
+            // f(x) = (x - x_1) (x^2 + x_1 x + q)
+            // q = x_1^2 + c;
+            var det = (-3 * x1 * x1 - 4 * c).RoundNeighbor();
+            if (det < 0) return new[] { x1 };
+            // 重解
+            if (det == 0) return x1 < 0 ? new[] { x1, m_x } : new[] { -m_x, x1 };
+
+            var x2 = ((-x1 - Math.Sqrt(det)) / 2).RoundNeighbor();
+            var x3 = ((-x1 + Math.Sqrt(det)) / 2).RoundNeighbor();
+            return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
+        }
     }
 }
