@@ -14,8 +14,18 @@ namespace UnitTest
         public void Solve_1_1()
         {
             Test(new[] { 0.0 }, 0, 0);
+            Test(new[] { -1.0 }, 0, 1);
             Test(new[] { 2.0 }, 0, -8);
+            Test(new[] { 0.0 }, 1, 0);
+            Test(new[] { -2.0 }, 2, 12);
+            Test(new[] { 1.0 }, 1, -2);
             Test(new[] { -3.0, 0.0, 3.0 }, -9, 0);
+            Test(new[] { -4.0, 2.0 }, -12, 16);
+            Test(new[] { -1.0, 2.0 }, -3, -2);
+            Test(new[] { -3.0 }, -5, 12);
+            Test(new[] { 5.0 }, -7, -90);
+            Test(new[] { -3.0, 1.0, 2.0 }, -7, 6);
+            Test(new[] { -7.0, -5.0, 12.0 }, -109, -420);
 
             void Test(double[] expected, double c, double d)
             {
