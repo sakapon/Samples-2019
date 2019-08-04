@@ -5,9 +5,21 @@ class C
 {
     static void Main()
     {
-        var n = int.Parse(Console.ReadLine());
-        var a = Console.ReadLine().Split(' ').Select((s, i) => int.Parse(s) - i - 1).ToArray();
-        var b = a.OrderBy(x => x).ElementAt(n / 2);
-        Console.WriteLine(a.Sum(x => (long)Math.Abs(x - b)));
+        Console.ReadLine();
+        var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+
+        for (var i = a.Length - 2; i >= 0; i--)
+        {
+            if (a[i] > a[i + 1] + 1)
+            {
+                Console.WriteLine("No");
+                return;
+            }
+            else if (a[i] == a[i + 1] + 1)
+            {
+                a[i]--;
+            }
+        }
+        Console.WriteLine("Yes");
     }
 }
