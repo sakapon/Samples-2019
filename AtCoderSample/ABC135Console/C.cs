@@ -5,9 +5,20 @@ class C
 {
     static void Main()
     {
-        var n = int.Parse(Console.ReadLine());
-        var a = Console.ReadLine().Split(' ').Select((s, i) => int.Parse(s) - i - 1).ToArray();
-        var b = a.OrderBy(x => x).ElementAt(n / 2);
-        Console.WriteLine(a.Sum(x => (long)Math.Abs(x - b)));
+        Console.ReadLine();
+        var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        var b = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+
+        var x = 0L;
+        for (var i = 0; i < b.Length; i++)
+        {
+            var m = Math.Min(a[i], b[i]);
+            x += m;
+            b[i] -= m;
+            var n = Math.Min(a[i + 1], b[i]);
+            x += n;
+            a[i + 1] -= n;
+        }
+        Console.WriteLine(x);
     }
 }
