@@ -6,33 +6,23 @@ class D
     static void Main()
     {
         var s = Console.ReadLine();
-        var a = s.Select((c, i) => s[i + (c == 'L' ? -1 : 1)] == c ? 0 : 1).ToArray();
+        var b = s.Select((c, i) => s[i + (c == 'L' ? -1 : 1)] == c).ToArray();
+        var a = Enumerable.Repeat(1, s.Length).ToArray();
 
-        for (var i = 0; i < a.Length; i++)
+        for (var i = 0; i < s.Length; i++)
         {
-            if (a[i] != 0) continue;
-
-            if (s[i] == 'L')
+            if (s[i] == 'R' && b[i])
             {
-                for (int j = i - 2; j >= 0; j -= 2)
-                {
-                    if (a[j] != 0)
-                    {
-                        a[j]++;
-                        break;
-                    }
-                }
+                a[i + 2] += a[i];
+                a[i] = 0;
             }
-            else
+        }
+        for (var i = s.Length - 1; i >= 0; i--)
+        {
+            if (s[i] == 'L' && b[i])
             {
-                for (var j = i + 2; j < a.Length; j += 2)
-                {
-                    if (a[j] != 0)
-                    {
-                        a[j]++;
-                        break;
-                    }
-                }
+                a[i - 2] += a[i];
+                a[i] = 0;
             }
         }
         Console.WriteLine(string.Join(" ", a));
