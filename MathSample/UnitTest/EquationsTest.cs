@@ -11,16 +11,46 @@ namespace UnitTest
             Assert.AreEqual(0.0, Math.Round(expected - actual, 12));
 
         [TestMethod]
-        public void Solve_1()
+        public void Solve_1_1()
         {
-            Test(new[] { 0.0 }, 0, 0, 0);
-            Test(new[] { 2.0 }, 0, 0, -8);
+            Test(new[] { 0.0 }, 0, 0);
+            Test(new[] { 2.0 }, 0, -8);
+            Test(new[] { -3.0, 0.0, 3.0 }, -9, 0);
+
+            void Test(double[] expected, double c, double d)
+            {
+                var actual = CubicEquation.Solve(c, d);
+                CollectionAssert.AreEqual(expected, actual);
+
+                var f = CubicEquation.CreateFunction(c, d);
+                foreach (var x in actual)
+                    AssertNearlyEqual(0, f(x));
+            }
+        }
+
+        [TestMethod]
+        public void Solve_1_2()
+        {
+            Test(1, 1);
+            Test(-15, -4);
+
+            void Test(double c, double d)
+            {
+                var actual = CubicEquation.Solve(c, d);
+
+                var f = CubicEquation.CreateFunction(c, d);
+                foreach (var x in actual)
+                    AssertNearlyEqual(0, f(x));
+            }
+        }
+
+        [TestMethod]
+        public void Solve_2_1()
+        {
             Test(new[] { 0.0 }, 1, 1, 0);
             Test(new[] { -2.0 }, 3, 4, 4);
-
             Test(new[] { -2.0 }, 1, -1, 2);
             Test(new[] { -3.0, 1.0 }, 1, -5, 3);
-            Test(new[] { -3.0, 0.0, 3.0 }, 0, -9, 0);
 
             void Test(double[] expected, double b, double c, double d)
             {
@@ -34,14 +64,12 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void Solve_2()
+        public void Solve_2_2()
         {
             Test(3, 3, 3);
-            Test(0, 1, 1);
             Test(1, 0, 1);
             Test(1, -1, 0);
             Test(3, -2, -6);
-            Test(0, -15, -4);
 
             void Test(double b, double c, double d)
             {
