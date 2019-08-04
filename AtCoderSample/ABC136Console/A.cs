@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 
 class A
 {
     static void Main()
     {
-        var n = int.Parse(Console.ReadLine());
-        Console.WriteLine(n % 2 == 0 ? n : 2 * n);
+        var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        var d = Math.Min(a[0] - a[1], a[2]);
+        Console.WriteLine(a[2] - d);
     }
 }
