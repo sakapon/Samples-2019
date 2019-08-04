@@ -5,8 +5,13 @@ namespace UnitTest
 {
     public static class CubicEquation
     {
-        public static bool IsNearlyInteger(this double x) => Math.Round(x, 12) == Math.Round(x);
-        public static double RoundNearlyInteger(this double x) => IsNearlyInteger(x) ? Math.Round(x) : x;
+        public static bool IsCloseTo(this double x, double y) => Math.Round(x - y, 12) == 0;
+        public static bool IsAlmostInteger(this double x) => x.IsCloseTo(Math.Round(x));
+        public static double RoundNeighbor(this double x)
+        {
+            var n = Math.Round(x);
+            return x.IsCloseTo(n) ? n : x;
+        }
 
         public static Func<double, double> CreateFunction(double b, double c, double d) =>
             x => x * x * x + b * x * x + c * x + d;
@@ -31,7 +36,7 @@ namespace UnitTest
                 if (x == temp) break;
                 x = temp;
             }
-            return x.RoundNearlyInteger();
+            return x.RoundNeighbor();
         }
 
         // f(x) = ax^3 + bx^2 + cx + d = 0
@@ -40,8 +45,8 @@ namespace UnitTest
 
         // f(x) = x^3 + bx^2 + cx + d = 0
         public static double[] Solve(double b, double c, double d) =>
-            Solve((c - b * b / 3).RoundNearlyInteger(), (d - b * c / 3 + 2 * b * b * b / 27).RoundNearlyInteger())
-                .Select(x => (x - b / 3).RoundNearlyInteger())
+            Solve((c - b * b / 3).RoundNeighbor(), (d - b * c / 3 + 2 * b * b * b / 27).RoundNeighbor())
+                .Select(x => (x - b / 3).RoundNeighbor())
                 .ToArray();
 
         // f  (x) = x^3 + cx + d = 0
@@ -58,9 +63,9 @@ namespace UnitTest
             if (c >= 0) return new[] { d == 0 ? 0.0 : SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
 
             // 以下、f(x) が極値を持つ場合
-            var m_x = Math.Sqrt(-c / 3).RoundNearlyInteger();
-            var M = (x: -m_x, y: f(-m_x).RoundNearlyInteger());
-            var m = (x: m_x, y: f(m_x).RoundNearlyInteger());
+            var m_x = Math.Sqrt(-c / 3).RoundNeighbor();
+            var M = (x: -m_x, y: f(-m_x).RoundNeighbor());
+            var m = (x: m_x, y: f(m_x).RoundNeighbor());
 
             if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
             if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
@@ -77,8 +82,8 @@ namespace UnitTest
             // f(x) = (x - x_1) (x^2 + x_1 x + q)
             // q = x_1^2 + c;
             var sqrt_det = Math.Sqrt(-3 * x1 * x1 - 4 * c);
-            var x2 = ((-x1 - sqrt_det) / 2).RoundNearlyInteger();
-            var x3 = ((-x1 + sqrt_det) / 2).RoundNearlyInteger();
+            var x2 = ((-x1 - sqrt_det) / 2).RoundNeighbor();
+            var x3 = ((-x1 + sqrt_det) / 2).RoundNeighbor();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
     }
