@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 
 class A
 {
     static void Main()
     {
-        Console.ReadLine();
-        var n = int.Parse(Console.ReadLine());
-        var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        var r = int.Parse(Console.ReadLine());
+        Console.WriteLine(3 * r * r);
     }
 }
