@@ -17,7 +17,7 @@ class E
 			return;
 		}
 		var ps = new List<V> { new V() };
-		var l = q.Norm % k == 0 ? 2 : k % 2 == 1 && q.Norm % 2 == 1 && q.Norm < k ? 4 : 3;
+		var l = q.Norm % k == 0 ? 2 : q.Norm % 2 == 1 && q.Norm < k ? 4 : 3;
 		if (l == 4) ps.Add(q.NextShot4(k));
 		if (l >= 3) ps.Add(ps.Last() + (q - ps.Last()).NextShot3(k));
 		while ((q - ps.Last()).Norm != 0) ps.Add(ps.Last() + (q - ps.Last()).NextShot2(k));
@@ -31,6 +31,7 @@ struct V
 	public int X;
 	public int Y;
 	public int Norm => Abs(X) + Abs(Y);
+
 	public V(int x, int y) { X = x; Y = y; }
 	public static V operator +(V v, V w) => new V(v.X + w.X, v.Y + w.Y);
 	public static V operator -(V v, V w) => new V(v.X - w.X, v.Y - w.Y);
@@ -38,7 +39,7 @@ struct V
 	public V NextShot4(int k) => Abs(X) >= Abs(Y) ? new V(-Sign(X) * (k - Norm), (Y > 0 ? -1 : 1) * Norm) : new V((X > 0 ? -1 : 1) * Norm, -Sign(Y) * (k - Norm));
 	public V NextShot3(int k)
 	{
-		var w2 = (Norm / k + 1) * k - Norm;
+		var w2 = k - Norm % k;
 		if (w2 % 2 == 1) w2 += k;
 		var w = Norm < k ? k - Norm / 2 : w2 / 2;
 		return Abs(X) >= Abs(Y) ? new V(Sign(X) * (k - w), (Y > 0 ? -1 : 1) * w) : new V((X > 0 ? -1 : 1) * w, Sign(Y) * (k - w));
