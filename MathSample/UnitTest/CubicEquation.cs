@@ -115,5 +115,24 @@ namespace UnitTest
             var x3 = ((-x1 + Math.Sqrt(det)) / 2).RoundNeighbor();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
+
+        public static double[] Solve3(double c, double d)
+        {
+            // Center: (0, d)
+            var f = CreateFunction(c, d);
+            var f1 = CreateDerivative(c, d);
+
+            // 実数解を 1 つ求めます。
+            var x1 = d == 0 ? 0 : SolveByNewtonMethod(f, f1, -Math.Sign(d) * ((c < 0 ? Math.Sqrt(-c / 3) : 0) + 1));
+
+            // f(x) = (x - x_1) (x^2 + x_1 x + q)
+            // q = x_1^2 + c;
+            var det = (-3 * x1 * x1 - 4 * c).RoundNeighbor();
+            if (det < 0) return new[] { x1 };
+
+            var x2 = ((-x1 - Math.Sqrt(det)) / 2).RoundNeighbor();
+            var x3 = ((-x1 + Math.Sqrt(det)) / 2).RoundNeighbor();
+            return new[] { x1, x2, x3 }.Distinct().OrderBy(x => x).ToArray();
+        }
     }
 }
