@@ -59,6 +59,25 @@ namespace UnitTest
             var f = CreateFunction(c, d);
             var f1 = CreateDerivative(c, d);
 
+            // 実数解を 1 つ求めます。
+            var x1 = d == 0 ? 0 : SolveByNewtonMethod(f, f1, -Sign(d) * ((c < 0 ? Sqrt(-c / 3) : 0) + 1));
+
+            // f(x) = (x - x_1) (x^2 + x_1 x + q)
+            // q = x_1^2 + c;
+            var det = (-3 * x1 * x1 - 4 * c).RoundAlmost();
+            if (det < 0) return new[] { x1 };
+
+            var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
+            var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
+            return new[] { x1, x2, x3 }.Distinct().OrderBy(x => x).ToArray();
+        }
+
+        public static double[] Solve0(double c, double d)
+        {
+            // Center: (0, d)
+            var f = CreateFunction(c, d);
+            var f1 = CreateDerivative(c, d);
+
             // f(x) が極値を持たない場合
             // 3重解 (c = d = 0) を含む
             if (c >= 0) return new[] { d == 0 ? 0.0 : SolveByNewtonMethod(f, f1, -Sign(d)) };
@@ -115,25 +134,6 @@ namespace UnitTest
             var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
             var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
-        }
-
-        public static double[] Solve3(double c, double d)
-        {
-            // Center: (0, d)
-            var f = CreateFunction(c, d);
-            var f1 = CreateDerivative(c, d);
-
-            // 実数解を 1 つ求めます。
-            var x1 = d == 0 ? 0 : SolveByNewtonMethod(f, f1, -Sign(d) * ((c < 0 ? Sqrt(-c / 3) : 0) + 1));
-
-            // f(x) = (x - x_1) (x^2 + x_1 x + q)
-            // q = x_1^2 + c;
-            var det = (-3 * x1 * x1 - 4 * c).RoundAlmost();
-            if (det < 0) return new[] { x1 };
-
-            var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
-            var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
-            return new[] { x1, x2, x3 }.Distinct().OrderBy(x => x).ToArray();
         }
     }
 }
