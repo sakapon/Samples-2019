@@ -20,10 +20,10 @@ namespace UnitTest
             Test(new[] { -2.0 }, 2, 12);
             Test(new[] { 1.0 }, 1, -2);
             Test(new[] { -3.0, 0.0, 3.0 }, -9, 0);
-            Test(new[] { -4.0, 2.0 }, -12, 16);
-            Test(new[] { -1.0, 2.0 }, -3, -2);
             Test(new[] { -3.0 }, -5, 12);
             Test(new[] { 5.0 }, -7, -90);
+            Test(new[] { -4.0, 2.0 }, -12, 16);
+            Test(new[] { -1.5, 3.0 }, -6.75, -6.75);
             Test(new[] { -3.0, 1.0, 2.0 }, -7, 6);
             Test(new[] { -7.0, -5.0, 12.0 }, -109, -420);
 
@@ -41,7 +41,17 @@ namespace UnitTest
         [TestMethod]
         public void Solve_1_2()
         {
+            Test(0, 2);
+            Test(0, -100);
+            Test(3, 0);
             Test(1, 1);
+            Test(10, -10);
+            Test(-7, 0);
+            Test(-10, 127);
+            Test(-1, -10);
+            Test(-1.5, Math.Sqrt(2) / 2);
+            Test(-6 * Math.Pow(2, 1 / 3.0), -8);
+            Test(-100, 90);
             Test(-15, -4);
 
             void Test(double c, double d)
