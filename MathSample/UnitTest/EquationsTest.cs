@@ -112,16 +112,16 @@ namespace UnitTest
             var f1 = CreateDerivative(b, c, d);
 
             var center_x = -b / 3;
-            var center = (x: center_x, y: f(center_x).RoundNeighbor());
+            var center = (x: center_x, y: f(center_x).RoundAlmost());
             var x0_sign = center.y <= 0 ? 1 : -1;
-            var det_2 = (b * b - 3 * c).RoundNeighbor();
+            var det_2 = (b * b - 3 * c).RoundAlmost();
 
             if (det_2 > 0)
             {
-                var M_x = ((-b - Math.Sqrt(det_2)) / 3).RoundNeighbor();
-                var m_x = ((-b + Math.Sqrt(det_2)) / 3).RoundNeighbor();
-                var M = (x: M_x, y: f(M_x).RoundNeighbor());
-                var m = (x: m_x, y: f(m_x).RoundNeighbor());
+                var M_x = ((-b - Math.Sqrt(det_2)) / 3).RoundAlmost();
+                var m_x = ((-b + Math.Sqrt(det_2)) / 3).RoundAlmost();
+                var M = (x: M_x, y: f(M_x).RoundAlmost());
+                var m = (x: m_x, y: f(m_x).RoundAlmost());
 
                 // 重解
                 if (M.y == 0) return new[] { M.x, -2 * M.x - b };
@@ -148,7 +148,7 @@ namespace UnitTest
             var q = x1 * p + c;
             var det = p * p - 4 * q;
 
-            return new[] { x1, ((-p - Math.Sqrt(det)) / 2).RoundNeighbor(), ((-p + Math.Sqrt(det)) / 2).RoundNeighbor() };
+            return new[] { x1, ((-p - Math.Sqrt(det)) / 2).RoundAlmost(), ((-p + Math.Sqrt(det)) / 2).RoundAlmost() };
         }
 
         static double SolveByNewtonMethod(Func<double, double> f, Func<double, double> f1, double x0)
@@ -160,7 +160,7 @@ namespace UnitTest
                 if (r == temp) break;
                 r = temp;
             }
-            return r.RoundNeighbor();
+            return r.RoundAlmost();
         }
     }
 }

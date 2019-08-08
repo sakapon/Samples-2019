@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using static System.Math;
 
 namespace UnitTest
 {
     public static class CubicEquation
     {
-        public static bool IsCloseTo(this double x, double y) => Math.Round(x - y, 12) == 0;
-        public static bool IsAlmostInteger(this double x) => x.IsCloseTo(Math.Round(x));
-        public static double RoundNeighbor(this double x)
+        public static bool IsCloseTo(this double x, double y) => Round(x - y, 12) == 0;
+        public static bool IsAlmostInteger(this double x) => x.IsCloseTo(Round(x));
+        public static double RoundAlmost(this double x)
         {
-            var n = Math.Round(x);
+            var n = Round(x);
             return x.IsCloseTo(n) ? n : x;
         }
 
@@ -36,7 +37,7 @@ namespace UnitTest
                 if (x == temp) break;
                 x = temp;
             }
-            return x.RoundNeighbor();
+            return x.RoundAlmost();
         }
 
         // f(x) = ax^3 + bx^2 + cx + d = 0
@@ -45,8 +46,8 @@ namespace UnitTest
 
         // f(x) = x^3 + bx^2 + cx + d = 0
         public static double[] Solve(double b, double c, double d) =>
-            Solve((c - b * b / 3).RoundNeighbor(), (d - b * c / 3 + 2 * b * b * b / 27).RoundNeighbor())
-                .Select(x => (x - b / 3).RoundNeighbor())
+            Solve((c - b * b / 3).RoundAlmost(), (d - b * c / 3 + 2 * b * b * b / 27).RoundAlmost())
+                .Select(x => (x - b / 3).RoundAlmost())
                 .ToArray();
 
         // f  (x) = x^3 + cx + d = 0
@@ -60,12 +61,12 @@ namespace UnitTest
 
             // f(x) が極値を持たない場合
             // 3重解 (c = d = 0) を含む
-            if (c >= 0) return new[] { d == 0 ? 0.0 : SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
+            if (c >= 0) return new[] { d == 0 ? 0.0 : SolveByNewtonMethod(f, f1, -Sign(d)) };
 
             // 以下、f(x) が極値を持つ場合
-            var m_x = Math.Sqrt(-c / 3).RoundNeighbor();
-            var M = (x: -m_x, y: f(-m_x).RoundNeighbor());
-            var m = (x: m_x, y: f(m_x).RoundNeighbor());
+            var m_x = Sqrt(-c / 3).RoundAlmost();
+            var M = (x: -m_x, y: f(-m_x).RoundAlmost());
+            var m = (x: m_x, y: f(m_x).RoundAlmost());
 
             if (M.y < 0) return new[] { SolveByNewtonMethod(f, f1, m.x + 1) };
             if (m.y > 0) return new[] { SolveByNewtonMethod(f, f1, M.x - 1) };
@@ -74,16 +75,16 @@ namespace UnitTest
             if (m.y == 0) return new[] { -2 * m.x, m.x };
 
             // 以下、解を 3 つ持つ場合
-            if (d == 0) return new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
+            if (d == 0) return new[] { -Sqrt(-c), 0.0, Sqrt(-c) };
 
-            var x0 = -Math.Sign(d) * (m_x + 1);
+            var x0 = -Sign(d) * (m_x + 1);
             var x1 = SolveByNewtonMethod(f, f1, x0);
 
             // f(x) = (x - x_1) (x^2 + x_1 x + q)
             // q = x_1^2 + c;
-            var sqrt_det = Math.Sqrt(-3 * x1 * x1 - 4 * c);
-            var x2 = ((-x1 - sqrt_det) / 2).RoundNeighbor();
-            var x3 = ((-x1 + sqrt_det) / 2).RoundNeighbor();
+            var sqrt_det = Sqrt(-3 * x1 * x1 - 4 * c);
+            var x2 = ((-x1 - sqrt_det) / 2).RoundAlmost();
+            var x3 = ((-x1 + sqrt_det) / 2).RoundAlmost();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
 
@@ -94,25 +95,25 @@ namespace UnitTest
             var f1 = CreateDerivative(c, d);
 
             // 3重解 (c = d = 0) を含む
-            if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Math.Sqrt(-c), 0.0, Math.Sqrt(-c) };
+            if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Sqrt(-c), 0.0, Sqrt(-c) };
 
             // f(x) が極値を持たない場合
-            if (c >= 0) return new[] { SolveByNewtonMethod(f, f1, -Math.Sign(d)) };
+            if (c >= 0) return new[] { SolveByNewtonMethod(f, f1, -Sign(d)) };
 
             // 以下、f(x) が極値を持つ場合
             // x1 を最も外側の解とすると、x1 が重解となることはない
-            var m_x = Math.Sqrt(-c / 3).RoundNeighbor();
-            var x1 = SolveByNewtonMethod(f, f1, -Math.Sign(d) * (m_x + 1));
+            var m_x = Sqrt(-c / 3).RoundAlmost();
+            var x1 = SolveByNewtonMethod(f, f1, -Sign(d) * (m_x + 1));
 
             // f(x) = (x - x_1) (x^2 + x_1 x + q)
             // q = x_1^2 + c;
-            var det = (-3 * x1 * x1 - 4 * c).RoundNeighbor();
+            var det = (-3 * x1 * x1 - 4 * c).RoundAlmost();
             if (det < 0) return new[] { x1 };
             // 重解
             if (det == 0) return x1 < 0 ? new[] { x1, m_x } : new[] { -m_x, x1 };
 
-            var x2 = ((-x1 - Math.Sqrt(det)) / 2).RoundNeighbor();
-            var x3 = ((-x1 + Math.Sqrt(det)) / 2).RoundNeighbor();
+            var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
+            var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
 
@@ -123,15 +124,15 @@ namespace UnitTest
             var f1 = CreateDerivative(c, d);
 
             // 実数解を 1 つ求めます。
-            var x1 = d == 0 ? 0 : SolveByNewtonMethod(f, f1, -Math.Sign(d) * ((c < 0 ? Math.Sqrt(-c / 3) : 0) + 1));
+            var x1 = d == 0 ? 0 : SolveByNewtonMethod(f, f1, -Sign(d) * ((c < 0 ? Sqrt(-c / 3) : 0) + 1));
 
             // f(x) = (x - x_1) (x^2 + x_1 x + q)
             // q = x_1^2 + c;
-            var det = (-3 * x1 * x1 - 4 * c).RoundNeighbor();
+            var det = (-3 * x1 * x1 - 4 * c).RoundAlmost();
             if (det < 0) return new[] { x1 };
 
-            var x2 = ((-x1 - Math.Sqrt(det)) / 2).RoundNeighbor();
-            var x3 = ((-x1 + Math.Sqrt(det)) / 2).RoundNeighbor();
+            var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
+            var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
             return new[] { x1, x2, x3 }.Distinct().OrderBy(x => x).ToArray();
         }
     }
