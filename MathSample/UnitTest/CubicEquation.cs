@@ -114,25 +114,24 @@ namespace UnitTest
             var f1 = CreateDerivative(c, d);
 
             // 3重解 (c = d = 0) を含む
-            if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Sqrt(-c), 0.0, Sqrt(-c) };
+            if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Sqrt(-c).RoundAlmost(), 0.0, Sqrt(-c).RoundAlmost() };
 
             // f(x) が極値を持たない場合
             if (c >= 0) return new[] { SolveByNewtonMethod(f, f1, -Sign(d)) };
 
             // 以下、f(x) が極値を持つ場合
-            // x1 を最も外側の解とすると、x1 が重解となることはない
             var m_x = Sqrt(-c / 3).RoundAlmost();
-            var x1 = SolveByNewtonMethod(f, f1, -Sign(d) * (m_x + 1));
+            var det_cd = (-4 * c * c * c - 27 * d * d).RoundAlmost();
+            if (det_cd < 0) return new[] { SolveByNewtonMethod(f, f1, -Sign(d) * (m_x + 1)) };
+            if (det_cd == 0) return d > 0 ? new[] { -2 * m_x, m_x } : new[] { -m_x, 2 * m_x };
 
+            // x1 を最も外側の解とすると、x1 が重解となることはない
             // f(x) = (x - x_1) (x^2 + x_1 x + q)
             // q = x_1^2 + c;
-            var det = (-3 * x1 * x1 - 4 * c).RoundAlmost();
-            if (det < 0) return new[] { x1 };
-            // 重解
-            if (det == 0) return x1 < 0 ? new[] { x1, m_x } : new[] { -m_x, x1 };
-
-            var x2 = ((-x1 - Sqrt(det)) / 2).RoundAlmost();
-            var x3 = ((-x1 + Sqrt(det)) / 2).RoundAlmost();
+            var x1 = SolveByNewtonMethod(f, f1, -Sign(d) * (m_x + 1));
+            var sqrt_det = Sqrt(-3 * x1 * x1 - 4 * c);
+            var x2 = ((-x1 - sqrt_det) / 2).RoundAlmost();
+            var x3 = ((-x1 + sqrt_det) / 2).RoundAlmost();
             return x1 < 0 ? new[] { x1, x2, x3 } : new[] { x2, x3, x1 };
         }
     }
