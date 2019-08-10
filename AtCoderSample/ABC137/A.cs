@@ -7,6 +7,6 @@ class A
 	{
 		Console.ReadLine();
 		var n = int.Parse(Console.ReadLine());
-		var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+		var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
 	}
 }
