@@ -3,10 +3,9 @@ using System.Linq;
 
 class A
 {
-	static void Main()
-	{
-		Console.ReadLine();
-		var n = int.Parse(Console.ReadLine());
-		var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-	}
+    static void Main()
+    {
+        var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        Console.WriteLine(Math.Min(a[0] * a[1], a[2]));
+    }
 }
