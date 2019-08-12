@@ -5,8 +5,17 @@ class D
 {
 	static void Main()
 	{
-		Console.ReadLine();
 		var n = int.Parse(Console.ReadLine());
-		var a = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+		var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+		var ms = new int[n + 1];
+		var t = 0;
+		for (var i = 1; i <= n; i++)
+		{
+			t = a[i - 1] - t;
+			ms[i] = 2 * t;
+		}
+		var d = ms[n] / 2;
+		Console.WriteLine(string.Join(" ", ms.Select((m, i) => m + (i % 2 == 0 ? d : -d)).Take(n)));
 	}
 }
