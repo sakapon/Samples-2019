@@ -8,8 +8,8 @@ class D
 		var n = int.Parse(Console.ReadLine());
 		var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-		var ms = new int[n + 1];
-		var t = 0;
+		var ms = new long[n + 1];
+		var t = 0L;
 		for (var i = 1; i <= n; i++)
 		{
 			t = a[i - 1] - t;
