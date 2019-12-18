@@ -5,7 +5,8 @@ namespace UnitTest
 {
 	public static class BinarySearch0
 	{
-		// 挿入先の番号を求めます。値が重複する場合は最後尾です。すべて正の値です。
+		// 指定された値よりも大きい値を持つ最初のインデックスを求めます。
+		// これは、挿入先のインデックスを意味します。
 		public static int IndexForInsert(IList<int> a, int v)
 		{
 			int l = 0, r = a.Count, m;
@@ -18,7 +19,9 @@ namespace UnitTest
 			return r;
 		}
 
-		// Array.BinarySearch メソッドと異なる点: 一致する値が複数存在する場合は先頭の番号。
+		// 指定された値以上の値を持つ最初のインデックスを求めます。
+		// Array.BinarySearch メソッドと同様に、一致する値が存在しない場合はその補数を返します。
+		// ただし Array.BinarySearch メソッドでは、一致する値が複数存在する場合に先頭のインデックスを返すとは限りません。
 		public static int IndexOf(IList<int> a, int v)
 		{
 			int l = 0, r = a.Count, m;
