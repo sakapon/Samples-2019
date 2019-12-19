@@ -92,6 +92,15 @@ namespace UnitTest
 		}
 
 		[TestMethod]
+		public void BuyInteger()
+		{
+			Assert.AreEqual(9, BinarySearch.BuyInteger(10, 7, 100));
+			Assert.AreEqual(1000000000, BinarySearch.BuyInteger(2, 1, 100000000000));
+			Assert.AreEqual(0, BinarySearch.BuyInteger(1000000000, 1000000000, 100));
+			Assert.AreEqual(254309, BinarySearch.BuyInteger(1234, 56789, 314159265));
+		}
+
+		[TestMethod]
 		public void Sqrt_Random()
 		{
 			for (int n = 0; n < 100; n++)

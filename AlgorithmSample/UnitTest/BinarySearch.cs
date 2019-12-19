@@ -54,6 +54,9 @@ namespace UnitTest
 			return r >= 0 && a[r] == v ? r : ~(r + 1);
 		}
 
+		// https://atcoder.jp/contests/abc146/tasks/abc146_c
+		public static int BuyInteger(long a, long b, long x) => Last(n => a * n + b * n.ToString().Length <= x, 0, 1000000000);
+
 		public static double Sqrt(double v, int digits = 9) => First(x => x * x >= v, Math.Min(v, 1), Math.Max(v, 1), digits);
 	}
 }
