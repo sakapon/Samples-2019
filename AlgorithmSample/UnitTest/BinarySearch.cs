@@ -5,8 +5,16 @@ namespace UnitTest
 {
 	public static class BinarySearch
 	{
-		// 条件を満たす先頭の番号を探索します。
-		// f に r は渡されません。
+		/// <summary>
+		/// 条件 f を満たす最初の値を探索します。
+		/// [l, x) 上で false、[x, r) 上で true となる x を返します。
+		/// f(l) が true のとき、l を返します。
+		/// f(r - 1) が false のとき、r を返します。
+		/// </summary>
+		/// <param name="f">半開区間 [l, r) 上で定義される条件。</param>
+		/// <param name="l">探索範囲の最小値。</param>
+		/// <param name="r">探索範囲の最大値。</param>
+		/// <returns>条件 f を満たす最初の値。</returns>
 		public static int First(Func<int, bool> f, int l, int r)
 		{
 			int m;
@@ -14,8 +22,16 @@ namespace UnitTest
 			return r;
 		}
 
-		// 条件を満たす最後の番号を探索します。
-		// f に l は渡されません。
+		/// <summary>
+		/// 条件 f を満たす最後の値を探索します。
+		/// (l, x] 上で true、(x, r] 上で false となる x を返します。
+		/// f(r) が true のとき、r を返します。
+		/// f(l + 1) が false のとき、l を返します。
+		/// </summary>
+		/// <param name="f">半開区間 (l, r] 上で定義される条件。</param>
+		/// <param name="l">探索範囲の最小値。</param>
+		/// <param name="r">探索範囲の最大値。</param>
+		/// <returns>条件 f を満たす最後の値。</returns>
 		public static int Last(Func<int, bool> f, int l, int r)
 		{
 			int m;
