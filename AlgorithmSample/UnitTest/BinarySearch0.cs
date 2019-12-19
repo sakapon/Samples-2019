@@ -12,7 +12,7 @@ namespace UnitTest
 			int l = 0, r = a.Count, m;
 			while (l < r)
 			{
-				m = (l + r - 1) / 2;
+				m = l + (r - l - 1) / 2;
 				if (a[m] > v) r = m;
 				else l = m + 1;
 			}
@@ -27,7 +27,7 @@ namespace UnitTest
 			int l = 0, r = a.Count, m;
 			while (l < r)
 			{
-				m = (l + r - 1) / 2;
+				m = l + (r - l - 1) / 2;
 				if (a[m] >= v) r = m;
 				else l = m + 1;
 			}

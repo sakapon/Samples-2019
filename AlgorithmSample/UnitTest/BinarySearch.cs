@@ -10,7 +10,7 @@ namespace UnitTest
 		public static int First(Func<int, bool> f, int l, int r)
 		{
 			int m;
-			while (l < r) if (f(m = (l + r - 1) / 2)) r = m; else l = m + 1;
+			while (l < r) if (f(m = l + (r - l - 1) / 2)) r = m; else l = m + 1;
 			return r;
 		}
 
@@ -19,7 +19,7 @@ namespace UnitTest
 		public static int Last(Func<int, bool> f, int l, int r)
 		{
 			int m;
-			while (l < r) if (f(m = (l + r + 1) / 2)) l = m; else r = m - 1;
+			while (l < r) if (f(m = r - (r - l - 1) / 2)) l = m; else r = m - 1;
 			return r;
 		}
 
