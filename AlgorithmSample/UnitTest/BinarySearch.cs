@@ -23,6 +23,20 @@ namespace UnitTest
 			return r;
 		}
 
+		public static double First(Func<double, bool> f, double l, double r, int digits = 9)
+		{
+			double m;
+			while (Math.Round(r - l, digits) > 0) if (f(m = l + (r - l) / 2)) r = m; else l = m;
+			return r;
+		}
+
+		public static double Last(Func<double, bool> f, double l, double r, int digits = 9)
+		{
+			double m;
+			while (Math.Round(r - l, digits) > 0) if (f(m = r - (r - l) / 2)) l = m; else r = m;
+			return r;
+		}
+
 		// 挿入先の番号を求めます。値が重複する場合は最後尾に挿入するときの番号です。すべて正の値です。
 		public static int IndexForInsert(IList<int> a, int v) => First(i => a[i] > v, 0, a.Count);
 
@@ -39,5 +53,7 @@ namespace UnitTest
 			var r = Last(i => a[i] <= v, -1, a.Count - 1);
 			return r >= 0 && a[r] == v ? r : ~(r + 1);
 		}
+
+		public static double Sqrt(double v, int digits = 9) => First(x => x * x >= v, Math.Min(v, 1), Math.Max(v, 1), digits);
 	}
 }

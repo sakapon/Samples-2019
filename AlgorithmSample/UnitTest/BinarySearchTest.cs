@@ -90,5 +90,24 @@ namespace UnitTest
 				}
 			}
 		}
+
+		[TestMethod]
+		public void Sqrt_Random()
+		{
+			for (int n = 0; n < 100; n++)
+			{
+				Test(n, 6);
+				Test(n, 9);
+				Test(random.NextDouble(), 9);
+				Test(random.NextDouble(), 12);
+				Test(100 * random.NextDouble(), 6);
+				Test(100 * random.NextDouble(), 9);
+			}
+
+			void Test(double v, int digits)
+			{
+				Assert.AreEqual(0, Math.Round(BinarySearch.Sqrt(v, digits) - Math.Sqrt(v), digits));
+			}
+		}
 	}
 }
