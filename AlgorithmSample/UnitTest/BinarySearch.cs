@@ -53,17 +53,18 @@ namespace UnitTest
 			return r;
 		}
 
-		// 挿入先の番号を求めます。値が重複する場合は最後尾に挿入するときの番号です。すべて正の値です。
+		// 指定された値よりも大きい値を持つ最初のインデックスを求めます。
+		// これは、挿入先のインデックスを意味します。
 		public static int IndexForInsert(IList<int> a, int v) => First(i => a[i] > v, 0, a.Count);
 
-		// Array.BinarySearch メソッドと異なる点: 一致する値が複数存在する場合は先頭の番号。
+		// Array.BinarySearch メソッドと異なる点: 一致する値が複数存在する場合は最初のインデックス。
 		public static int IndexOf(IList<int> a, int v)
 		{
 			var r = First(i => a[i] >= v, 0, a.Count);
 			return r < a.Count && a[r] == v ? r : ~r;
 		}
 
-		// Array.BinarySearch メソッドと異なる点: 一致する値が複数存在する場合は最後の番号。
+		// Array.BinarySearch メソッドと異なる点: 一致する値が複数存在する場合は最後のインデックス。
 		public static int LastIndexOf(IList<int> a, int v)
 		{
 			var r = Last(i => a[i] <= v, -1, a.Count - 1);
