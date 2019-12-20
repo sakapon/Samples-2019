@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AlgorithmLib
 {
-	public static class BinarySearch0
+	public static class SearchSample0
 	{
 		// 指定された値よりも大きい値を持つ最初のインデックスを求めます。
 		// これは、挿入先のインデックスを意味します。

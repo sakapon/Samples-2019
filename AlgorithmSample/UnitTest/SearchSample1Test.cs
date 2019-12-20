@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest
 {
 	[TestClass]
-	public class BinarySearchTest
+	public class SearchSample1Test
 	{
 		static readonly Random random = new Random();
 
@@ -25,7 +25,7 @@ namespace UnitTest
 				var a = Enumerable.Range(0, n).Select(_ => random.Next(0, n)).OrderBy(x => x).ToArray();
 				for (int x = -2; x < n + 2; x++)
 				{
-					var actual = BinarySearch.IndexForInsert(a, x);
+					var actual = SearchSample1.IndexForInsert(a, x);
 					Assert.IsTrue(actual == 0 || a[actual - 1] <= x);
 					Assert.IsTrue(actual == n || a[actual] > x);
 				}
@@ -46,7 +46,7 @@ namespace UnitTest
 				var a = Enumerable.Range(0, n).Select(_ => random.Next(0, n)).OrderBy(x => x).ToArray();
 				for (int x = -2; x < n + 2; x++)
 				{
-					var actual = BinarySearch.IndexOf(a, x);
+					var actual = SearchSample1.IndexOf(a, x);
 					if (actual >= 0)
 					{
 						Assert.IsTrue(actual == 0 || a[actual - 1] < x);
@@ -76,7 +76,7 @@ namespace UnitTest
 				var a = Enumerable.Range(0, n).Select(_ => random.Next(0, n)).OrderBy(x => x).ToArray();
 				for (int x = -2; x < n + 2; x++)
 				{
-					var actual = BinarySearch.LastIndexOf(a, x);
+					var actual = SearchSample1.LastIndexOf(a, x);
 					if (actual >= 0)
 					{
 						Assert.IsTrue(a[actual] == x);
@@ -95,10 +95,10 @@ namespace UnitTest
 		[TestMethod]
 		public void BuyInteger()
 		{
-			Assert.AreEqual(9, BinarySearch.BuyInteger(10, 7, 100));
-			Assert.AreEqual(1000000000, BinarySearch.BuyInteger(2, 1, 100000000000));
-			Assert.AreEqual(0, BinarySearch.BuyInteger(1000000000, 1000000000, 100));
-			Assert.AreEqual(254309, BinarySearch.BuyInteger(1234, 56789, 314159265));
+			Assert.AreEqual(9, SearchSample1.BuyInteger(10, 7, 100));
+			Assert.AreEqual(1000000000, SearchSample1.BuyInteger(2, 1, 100000000000));
+			Assert.AreEqual(0, SearchSample1.BuyInteger(1000000000, 1000000000, 100));
+			Assert.AreEqual(254309, SearchSample1.BuyInteger(1234, 56789, 314159265));
 		}
 
 		[TestMethod]
@@ -116,7 +116,7 @@ namespace UnitTest
 
 			void Test(double v, int digits)
 			{
-				Assert.AreEqual(0, Math.Round(BinarySearch.Sqrt(v, digits) - Math.Sqrt(v), digits));
+				Assert.AreEqual(0, Math.Round(SearchSample1.Sqrt(v, digits) - Math.Sqrt(v), digits));
 			}
 		}
 	}

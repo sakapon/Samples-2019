@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest
 {
 	[TestClass]
-	public class BinarySearch0Test
+	public class SearchSample0Test
 	{
 		static readonly Random random = new Random();
 
@@ -26,7 +26,7 @@ namespace UnitTest
 				for (int x = -2; x < n + 2; x++)
 				{
 					var expected = Array.BinarySearch(a, x);
-					var actual = BinarySearch0.IndexForInsert(a, x);
+					var actual = SearchSample0.IndexForInsert(a, x);
 					if (expected >= 0)
 					{
 						Assert.AreEqual(x, a[actual - 1]);
@@ -55,7 +55,7 @@ namespace UnitTest
 				for (int x = -2; x < n + 2; x++)
 				{
 					var expected = Array.BinarySearch(a, x);
-					var actual = BinarySearch0.IndexOf(a, x);
+					var actual = SearchSample0.IndexOf(a, x);
 					if (expected >= 0)
 					{
 						Assert.AreEqual(x, a[actual]);
