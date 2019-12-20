@@ -100,8 +100,10 @@ namespace UnitTest
 			Test(0, 1000000000, 1000000000, 100);
 			Test(254309, 1234, 56789, 314159265);
 
-			void Test(int expected, long a, long b, long x) =>
+			void Test(int expected, long a, long b, long x)
+			{
 				Assert.AreEqual(expected, SearchSample1.BuyInteger(a, b, x));
+			}
 		}
 
 		[TestMethod]
@@ -117,8 +119,10 @@ namespace UnitTest
 				Test(100 * random.NextDouble(), 9);
 			}
 
-			void Test(double v, int digits) =>
+			void Test(double v, int digits)
+			{
 				Assert.AreEqual(0, Math.Round(SearchSample1.Sqrt(v, digits) - Math.Sqrt(v), digits));
+			}
 		}
 	}
 }

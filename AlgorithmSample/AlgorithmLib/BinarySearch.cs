@@ -35,7 +35,7 @@ namespace AlgorithmLib
 		{
 			int m;
 			while (l < r) if (f(m = r - (r - l - 1) / 2)) l = m; else r = m - 1;
-			return r;
+			return l;
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace AlgorithmLib
 		{
 			double m;
 			while (Math.Round(r - l, digits) > 0) if (f(m = r - (r - l) / 2)) l = m; else r = m;
-			return r;
+			return l;
 		}
 	}
 }
