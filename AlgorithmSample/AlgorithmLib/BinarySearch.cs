@@ -2,6 +2,9 @@
 
 namespace AlgorithmLib
 {
+	/// <summary>
+	/// 二分探索のためのメソッドを提供します。
+	/// </summary>
 	public static class BinarySearch
 	{
 		/// <summary>

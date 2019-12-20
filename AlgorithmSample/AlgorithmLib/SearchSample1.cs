@@ -23,9 +23,10 @@ namespace AlgorithmLib
 			return r >= 0 && a[r] == v ? r : ~(r + 1);
 		}
 
+		// ABC 146 C - Buy an Integer
 		// https://atcoder.jp/contests/abc146/tasks/abc146_c
 		public static int BuyInteger(long a, long b, long x) => BinarySearch.Last(n => a * n + b * n.ToString().Length <= x, 0, 1000000000);
 
-		public static double Sqrt(double v, int digits = 9) => BinarySearch.First(x => x * x >= v, Math.Min(v, 1), Math.Max(v, 1), digits);
+		public static double Sqrt(double v, int digits = 9) => BinarySearch.First(x => x * x >= v, Math.Min(1, v), Math.Max(1, v), digits);
 	}
 }
