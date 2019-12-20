@@ -95,10 +95,13 @@ namespace UnitTest
 		[TestMethod]
 		public void BuyInteger()
 		{
-			Assert.AreEqual(9, SearchSample1.BuyInteger(10, 7, 100));
-			Assert.AreEqual(1000000000, SearchSample1.BuyInteger(2, 1, 100000000000));
-			Assert.AreEqual(0, SearchSample1.BuyInteger(1000000000, 1000000000, 100));
-			Assert.AreEqual(254309, SearchSample1.BuyInteger(1234, 56789, 314159265));
+			Test(9, 10, 7, 100);
+			Test(1000000000, 2, 1, 100000000000);
+			Test(0, 1000000000, 1000000000, 100);
+			Test(254309, 1234, 56789, 314159265);
+
+			void Test(int expected, long a, long b, long x) =>
+				Assert.AreEqual(expected, SearchSample1.BuyInteger(a, b, x));
 		}
 
 		[TestMethod]
@@ -114,10 +117,8 @@ namespace UnitTest
 				Test(100 * random.NextDouble(), 9);
 			}
 
-			void Test(double v, int digits)
-			{
+			void Test(double v, int digits) =>
 				Assert.AreEqual(0, Math.Round(SearchSample1.Sqrt(v, digits) - Math.Sqrt(v), digits));
-			}
 		}
 	}
 }
