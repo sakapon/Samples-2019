@@ -141,5 +141,18 @@ namespace UnitTest
 				Assert.AreEqual(0, Math.Round(SearchSample1.Sqrt(v, digits) - Math.Sqrt(v), digits));
 			}
 		}
+
+		[TestMethod]
+		public void IndexOf_Time()
+		{
+			var n = 500000;
+			var a = Enumerable.Range(0, n).Select(_ => random.Next(0, n)).OrderBy(x => x).ToArray();
+			var l = a.ToList();
+
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) Array.BinarySearch(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) l.BinarySearch(i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample0.IndexOf(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample1.IndexOf(a, i); });
+		}
 	}
 }
