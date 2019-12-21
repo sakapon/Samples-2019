@@ -107,6 +107,23 @@ namespace UnitTest
 		}
 
 		[TestMethod]
+		public void GuessNumber_Random()
+		{
+			Test(1, 1000000000);
+			Test(1000000000, 1000000000);
+			for (int k = 0; k < 100; k++)
+			{
+				Test(random.Next(1, 1000), 1000);
+				Test(random.Next(1, 1000000000), 1000000000);
+			}
+
+			void Test(int answer, int max)
+			{
+				Assert.AreEqual(answer, SearchSample1.GuessNumber(n => n == answer ? 0 : n > answer ? 1 : -1, max));
+			}
+		}
+
+		[TestMethod]
 		public void Sqrt_Random()
 		{
 			for (int n = 0; n < 100; n++)

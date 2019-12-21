@@ -27,6 +27,10 @@ namespace AlgorithmLib
 		// https://atcoder.jp/contests/abc146/tasks/abc146_c
 		public static int BuyInteger(long a, long b, long x) => BinarySearch.Last(n => a * n + b * n.ToString().Length <= x, 0, 1000000000);
 
+		// 数当てゲーム
+		// https://dentsu-ho.com/articles/6878
+		public static int GuessNumber(Func<int, int> reply, int max) => BinarySearch.First(n => reply(n) >= 0, 1, max);
+
 		public static double Sqrt(double v, int digits = 9) => BinarySearch.First(x => x * x >= v, Math.Min(1, v), Math.Max(1, v), digits);
 	}
 }
