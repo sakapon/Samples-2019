@@ -130,10 +130,10 @@ namespace UnitTest
 			{
 				Test(n, 6);
 				Test(n, 9);
+				Test(random.NextDouble(), 3);
 				Test(random.NextDouble(), 9);
-				Test(random.NextDouble(), 12);
-				Test(100 * random.NextDouble(), 6);
 				Test(100 * random.NextDouble(), 9);
+				Test(100 * random.NextDouble(), 12);
 			}
 
 			void Test(double v, int digits)
