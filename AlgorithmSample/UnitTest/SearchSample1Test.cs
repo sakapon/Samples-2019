@@ -153,6 +153,8 @@ namespace UnitTest
 			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) l.BinarySearch(i); });
 			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample0.IndexOf(a, i); });
 			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample1.IndexOf(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample0.IndexForInsert(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample1.IndexForInsert(a, i); });
 		}
 	}
 }

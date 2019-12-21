@@ -23,6 +23,12 @@ namespace AlgorithmLib
 			return r >= 0 && a[r] == v ? r : ~(r + 1);
 		}
 
+		public static int IndexOfDescending(IList<int> a, int v)
+		{
+			var r = BinarySearch.First(i => a[i] <= v, 0, a.Count);
+			return r < a.Count && a[r] == v ? r : ~r;
+		}
+
 		// ABC 146 C - Buy an Integer
 		// https://atcoder.jp/contests/abc146/tasks/abc146_c
 		public static int BuyInteger(long a, long b, long x) => BinarySearch.Last(n => a * n + b * n.ToString().Length <= x, 0, 1000000000);
