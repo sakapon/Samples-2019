@@ -107,22 +107,54 @@ namespace UnitTest
 		}
 
 		[TestMethod]
+		public void GuessNumber_Random()
+		{
+			Test(1, 1000000000);
+			Test(1000000000, 1000000000);
+			for (int k = 0; k < 100; k++)
+			{
+				Test(random.Next(1, 1000), 1000);
+				Test(random.Next(1, 1000000000), 1000000000);
+			}
+
+			void Test(int answer, int max)
+			{
+				Assert.AreEqual(answer, SearchSample1.GuessNumber(n => n == answer ? 0 : n > answer ? 1 : -1, max));
+			}
+		}
+
+		[TestMethod]
 		public void Sqrt_Random()
 		{
 			for (int n = 0; n < 100; n++)
 			{
 				Test(n, 6);
 				Test(n, 9);
+				Test(random.NextDouble(), 3);
 				Test(random.NextDouble(), 9);
-				Test(random.NextDouble(), 12);
-				Test(100 * random.NextDouble(), 6);
 				Test(100 * random.NextDouble(), 9);
+				Test(100 * random.NextDouble(), 12);
 			}
 
 			void Test(double v, int digits)
 			{
 				Assert.AreEqual(0, Math.Round(SearchSample1.Sqrt(v, digits) - Math.Sqrt(v), digits));
 			}
+		}
+
+		[TestMethod]
+		public void IndexOf_Time()
+		{
+			var n = 500000;
+			var a = Enumerable.Range(0, n).Select(_ => random.Next(0, n)).OrderBy(x => x).ToArray();
+			var l = a.ToList();
+
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) Array.BinarySearch(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) l.BinarySearch(i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample0.IndexOf(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample1.IndexOf(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample0.IndexForInsert(a, i); });
+			TestHelper.MeasureTime(() => { for (int i = 0; i < n; i++) SearchSample1.IndexForInsert(a, i); });
 		}
 	}
 }
