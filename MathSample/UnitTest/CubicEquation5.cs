@@ -36,7 +36,7 @@ namespace UnitTest
 				if (x == temp) break;
 				x = temp;
 			}
-			return RoundSolution(f, x);
+			return x;
 		}
 
 		public static double[] Solve(double c, double d)
@@ -45,9 +45,9 @@ namespace UnitTest
 			var f = CreateFunction(c, d);
 			var f1 = CreateDerivative(c);
 
+			if (d < 0) return Solve(c, -d).Reverse().Select(x => -x).ToArray();
 			// 3重解の場合 (c = d = 0) を含む
 			if (d == 0) return c >= 0 ? new[] { 0.0 } : new[] { -Sqrt(-c), 0.0, Sqrt(-c) };
-			if (d < 0) return Solve(c, -d).Reverse().Select(x => -x).ToArray();
 
 			// f が極値を持たない場合
 			if (c >= 0) return new[] { SolveNegative() };
@@ -62,9 +62,7 @@ namespace UnitTest
 			// f(x) = (x - x_1) (x^2 + x_1 x + q)
 			// q = x_1^2 + c;
 			var sqrt_det = Sqrt(-3 * x1 * x1 - 4 * c);
-			var x2 = RoundSolution(f, (-x1 - sqrt_det) / 2);
-			var x3 = RoundSolution(f, (-x1 + sqrt_det) / 2);
-			return new[] { x1, x2, x3 };
+			return new[] { x1, (-x1 - sqrt_det) / 2, (-x1 + sqrt_det) / 2 };
 
 			double SolveNegative()
 			{
