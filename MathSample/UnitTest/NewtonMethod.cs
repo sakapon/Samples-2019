@@ -13,14 +13,13 @@ namespace UnitTest
 		/// <returns>方程式 f(x) = 0 の解。</returns>
 		public static double Solve(Func<double, double> f, Func<double, double> f1, double x0)
 		{
-			var x = x0;
 			for (var i = 0; i < 100; i++)
 			{
-				var temp = x - f(x) / f1(x);
-				if (x == temp) break;
-				x = temp;
+				var temp = x0 - f(x0) / f1(x0);
+				if (x0 == temp) break;
+				x0 = temp;
 			}
-			return x;
+			return x0;
 		}
 
 		public static double RoundSolution(Func<double, double> f, double x)
