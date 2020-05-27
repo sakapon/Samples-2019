@@ -2,7 +2,7 @@
 using System.Linq;
 using static System.Math;
 
-namespace UnitTest
+namespace UnitTest.Lab
 {
     public static class CubicEquation
     {
