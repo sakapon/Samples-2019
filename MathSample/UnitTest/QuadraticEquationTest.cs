@@ -18,14 +18,14 @@ namespace UnitTest
 				var actual = target1(a, b, c);
 				var det = b * b - 4 * a * c;
 				// Errors can be occurred.
-				//Assert.AreEqual(det < 0 ? 0 : det == 0 ? 1 : 2, actual.Length);
+				Assert.AreEqual(det < 0 ? 0 : det == 0 ? 1 : 2, actual.Length);
 
 				var f = QuadraticEquation1.CreateFunction(a, b, c);
 				foreach (var x in actual)
 					Assert2.AreNearlyEqual(0, f(x), -9);
 			}
 
-			// A case with error.
+			// A case with error for c - b * b / 4.
 			Test(100, 80, 16);
 
 			for (int a = -50; a <= 50; a++)

@@ -17,7 +17,7 @@ namespace UnitTest
 
 		// f(x) = x^2 + bx + c = 0
 		public static double[] Solve(double b, double c) =>
-			Array.ConvertAll(Solve(c - b * b / 4), x => x - b / 2);
+			Array.ConvertAll(Solve((c - b * b / 4).RoundAlmost()), x => x - b / 2);
 
 		// f(x) = x^2 + c = 0
 		public static double[] Solve(double c)
