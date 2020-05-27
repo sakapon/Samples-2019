@@ -13,32 +13,6 @@ namespace UnitTest
 		internal static Func<double, double> CreateDerivative(double c) =>
 			x => 3 * x * x + c;
 
-		static double RoundSolution(Func<double, double> f, double x)
-		{
-			if (f(x) == 0) return x;
-			var r = Round(x, 12);
-			return f(r) == 0 ? r : x;
-		}
-
-		/// <summary>
-		/// 方程式 f(x) = 0 を満たす近似解を Newton 法により求めます。
-		/// </summary>
-		/// <param name="f">元の関数。</param>
-		/// <param name="f1">導関数。</param>
-		/// <param name="x0">初期値。</param>
-		/// <returns>方程式 f(x) = 0 の近似解。</returns>
-		public static double SolveByNewtonMethod(Func<double, double> f, Func<double, double> f1, double x0)
-		{
-			var x = x0;
-			for (var i = 0; i < 100; i++)
-			{
-				var temp = x - f(x) / f1(x);
-				if (x == temp) break;
-				x = temp;
-			}
-			return x;
-		}
-
 		public static double[] Solve(double c, double d)
 		{
 			// Center: (0, d)
@@ -68,7 +42,7 @@ namespace UnitTest
 			{
 				var x0 = -1.0;
 				while (f(x0) > 0) x0 *= 2;
-				return SolveByNewtonMethod(f, f1, x0);
+				return NewtonMethod.Solve(f, f1, x0);
 			}
 		}
 	}

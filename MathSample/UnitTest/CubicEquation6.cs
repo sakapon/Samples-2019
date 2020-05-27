@@ -29,7 +29,7 @@ namespace UnitTest
 			{
 				var x0 = -1.0;
 				while (f(x0) > 0) x0 *= 2;
-				return CubicEquation5.SolveByNewtonMethod(f, f1, x0);
+				return NewtonMethod.Solve(f, f1, x0);
 			}
 		}
 	}
