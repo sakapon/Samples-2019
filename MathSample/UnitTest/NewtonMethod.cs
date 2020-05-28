@@ -34,5 +34,10 @@ namespace UnitTest
 			var r = Math.Round(x, 9);
 			return Math.Round(r - x, 12) == 0 ? r : x;
 		}
+
+		public static bool EqualsNearly(this double x, double y, int digits = 12)
+		{
+			return Math.Round(x - y, digits) == 0;
+		}
 	}
 }

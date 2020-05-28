@@ -24,6 +24,9 @@ namespace UnitTest
 
 			// A case with error for the determinant.
 			Test(20, 8, 0, 0);
+			//Test(6, 47, 0, 0);
+			//Test(5, 33, 0, 0);
+			//Test(2, 49, 0, 0);
 
 			for (int a = -15; a <= 15; a++)
 				if (a != 0)
