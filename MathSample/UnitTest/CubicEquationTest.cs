@@ -53,6 +53,11 @@ namespace UnitTest
 			for (int c = -100; c <= 100; c++)
 				for (int d = 0; d <= 100; d++)
 					Test(c, d);
+			for (int c1 = 1; c1 <= 20; c1++)
+				for (double c2 = -20; c2 <= 20; c2++)
+					for (int d1 = 1; d1 <= 20; d1++)
+						for (double d2 = -20; d2 <= 20; d2++)
+							Test(c2 / c1, d2 / d1);
 		}
 	}
 }

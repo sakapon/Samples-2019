@@ -46,11 +46,14 @@ namespace UnitTest
 
 				var f = QuadraticEquation1.CreateFunction(c);
 				foreach (var x in actual)
-					Assert2.AreNearlyEqual(0, f(x), -9);
+					Assert2.AreNearlyEqual(0, f(x));
 			}
 
-			for (int c = -10000; c <= 10000; c++)
+			for (int c = -1000; c <= 1000; c++)
 				Test(c);
+			for (int c1 = 1; c1 <= 100; c1++)
+				for (double c2 = -100; c2 <= 100; c2++)
+					Test(c2 / c1);
 		}
 	}
 }
