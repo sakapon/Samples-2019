@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace UnitTest
 {
-	public static class CubicEquation7
+	public static class CubicEquation1
 	{
 		// (別解) 負の実数解を求め、残りの二次方程式を解きます。
 		public static double[] Solve(double c, double d)
