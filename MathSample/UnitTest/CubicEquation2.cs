@@ -4,28 +4,23 @@ using static System.Math;
 
 namespace UnitTest
 {
-	// 解の個数により場合分けします。
+	// 負の実数解を求め、残りの 2 次方程式を解きます。
 	// ここでは Math.Sqrt を使えることとします。
-	public static class CubicEquation5
+	public static class CubicEquation2
 	{
 		public static double[] Solve(double c, double d)
 		{
 			if (d < 0) return Solve(c, -d).Reverse().Select(x => -x).ToArray();
-			// 3重解の場合 (c = d = 0) を含む
-			if (d == 0) return c >= 0 ? new[] { 0D } : new[] { -Sqrt(-c), 0D, Sqrt(-c) };
-
-			// この式では誤差が大きくなることがあります。
-			var det3 = (-4 * c * c * c - 27 * d * d).RoundAlmost();
-			// 重解の場合
-			if (det3 == 0) return new[] { -2 * Sqrt(-c / 3), Sqrt(-c / 3) };
+			// 自明解
+			if (d == 0 && c >= 0) return new[] { 0D };
 
 			// 負の実数解
 			var x1 = SolveNegative();
-			if (det3 < 0) return new[] { x1 };
-
 			// f(x) = (x - x_1) (x^2 + x_1 x + x_1^2 + c)
-			var sqrt_det2 = Sqrt(-3 * x1 * x1 - 4 * c);
-			return new[] { x1, (-x1 - sqrt_det2) / 2, (-x1 + sqrt_det2) / 2 };
+			var det = -3 * x1 * x1 - 4 * c;
+			if (det < 0) return new[] { x1 };
+			if (det == 0) return new[] { x1, -x1 / 2 };
+			return new[] { x1, (-x1 - Sqrt(det)) / 2, (-x1 + Sqrt(det)) / 2 };
 
 			double SolveNegative()
 			{
