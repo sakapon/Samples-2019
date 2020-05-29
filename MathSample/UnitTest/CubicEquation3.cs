@@ -15,9 +15,9 @@ namespace UnitTest
 			if (d == 0) return c >= 0 ? new[] { 0D } : new[] { -Sqrt(-c), 0D, Sqrt(-c) };
 
 			// この式では誤差が大きくなることがあります。
-			var det3 = (-4 * c * c * c - 27 * d * d).RoundAlmost();
+			var det3 = -4 * c * c * c - 27 * d * d;
 			// 重解の場合
-			if (det3 == 0) return new[] { -2 * Sqrt(-c / 3), Sqrt(-c / 3) };
+			if (det3.EqualsNearly(0, 8)) return new[] { -2 * Sqrt(-c / 3), Sqrt(-c / 3) };
 
 			// 負の実数解
 			var x1 = SolveNegative();
