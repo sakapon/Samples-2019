@@ -2,6 +2,8 @@
 
 namespace UnitTest
 {
+	// 一般形のまま Newton 法を適用します。
+	// 誤差は小さいです。
 	public static class QuadraticEquation0
 	{
 		static Func<double, double> CreateFunction(double a, double b, double c) =>
