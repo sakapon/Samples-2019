@@ -13,8 +13,8 @@ namespace UnitTest
 			// 3重解の場合 (c = d = 0)、f'(0) = 0 のため Newton 法を避けます。
 			if (c == 0 && d == 0) return new[] { 0D };
 
-			var f = CubicEquation5.CreateFunction(c, d);
-			var f1 = CubicEquation5.CreateDerivative(c);
+			var f = CubicEquation1.CreateFunction(c, d);
+			var f1 = CubicEquation1.CreateDerivative(c);
 
 			// 最小の実数解
 			var x1 = SolveMin();

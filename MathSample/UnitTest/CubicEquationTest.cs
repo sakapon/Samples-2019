@@ -7,8 +7,8 @@ namespace UnitTest
 	[TestClass]
 	public class CubicEquationTest
 	{
-		readonly Func<double, double, double, double, double[]> target1 = CubicEquation5.Solve;
-		readonly Func<double, double, double[]> target2 = CubicEquation5.Solve;
+		readonly Func<double, double, double, double, double[]> target1 = CubicEquation1.Solve;
+		readonly Func<double, double, double[]> target2 = CubicEquation1.Solve;
 
 		[TestMethod]
 		public void Solve_1()
@@ -17,16 +17,16 @@ namespace UnitTest
 			{
 				var actual = target1(a, b, c, d);
 
-				var f = CubicEquation5.CreateFunction(a, b, c, d);
+				var f = CubicEquation1.CreateFunction(a, b, c, d);
 				foreach (var x in actual)
 					Assert2.AreNearlyEqual(0, f(x), -9);
 			}
 
 			// A case with error for the determinant.
 			Test(20, 8, 0, 0);
-			//Test(6, 47, 0, 0);
-			//Test(5, 33, 0, 0);
-			//Test(2, 49, 0, 0);
+			Test(6, 47, 0, 0);
+			Test(5, 33, 0, 0);
+			Test(2, 49, 0, 0);
 
 			for (int a = -15; a <= 15; a++)
 				if (a != 0)
@@ -45,7 +45,7 @@ namespace UnitTest
 				var det = -4 * c * c * c - 27 * d * d;
 				Assert.AreEqual(c == 0 & d == 0 || det < 0 ? 1 : det == 0 ? 2 : 3, actual.Length);
 
-				var f = CubicEquation5.CreateFunction(c, d);
+				var f = CubicEquation1.CreateFunction(c, d);
 				foreach (var x in actual)
 					Assert2.AreNearlyEqual(0, f(x));
 			}
