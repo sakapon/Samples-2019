@@ -30,8 +30,8 @@ namespace UnitTest
 
 			// 負の実数解
 			var x1 = SolveNegative();
-			// f(x) = (x - x_1) (x^2 + x_1 x + c + x_1^2)
-			return QuadraticEquation0.Solve(1, x1, c + x1 * x1).Prepend(x1).ToArray();
+			// f(x) = (x - x_1) (x^2 + x_1 x + x_1^2 + c)
+			return QuadraticEquation0.Solve(1, x1, x1 * x1 + c).Prepend(x1).ToArray();
 
 			double SolveNegative()
 			{

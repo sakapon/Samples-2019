@@ -23,8 +23,8 @@ namespace UnitTest
 			var x1 = SolveNegative();
 			if (det3 < 0) return new[] { x1 };
 
-			// f(x) = (x - x_1) (x^2 + x_1 x + c + x_1^2)
-			var sqrt_det2 = Sqrt(-4 * c - 3 * x1 * x1);
+			// f(x) = (x - x_1) (x^2 + x_1 x + x_1^2 + c)
+			var sqrt_det2 = Sqrt(-3 * x1 * x1 - 4 * c);
 			return new[] { x1, (-x1 - sqrt_det2) / 2, (-x1 + sqrt_det2) / 2 };
 
 			double SolveNegative()

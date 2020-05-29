@@ -16,8 +16,8 @@ namespace UnitTest
 
 			// 負の実数解
 			var x1 = SolveNegative();
-			// f(x) = (x - x_1) (x^2 + x_1 x + c + x_1^2)
-			var det = -4 * c - 3 * x1 * x1;
+			// f(x) = (x - x_1) (x^2 + x_1 x + x_1^2 + c)
+			var det = -3 * x1 * x1 - 4 * c;
 			if (det < 0) return new[] { x1 };
 			if (det == 0) return new[] { x1, -x1 / 2 };
 			return new[] { x1, (-x1 - Sqrt(det)) / 2, (-x1 + Sqrt(det)) / 2 };
