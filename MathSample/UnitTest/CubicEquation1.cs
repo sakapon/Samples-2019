@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace UnitTest
 {
-	// 負の実数解を求め、残りの二次方程式を解きます。
+	// 負の実数解を求め、残りの 2 次方程式を解きます。
 	public static class CubicEquation1
 	{
 		public static Func<double, double> CreateFunction(double a, double b, double c, double d) =>
