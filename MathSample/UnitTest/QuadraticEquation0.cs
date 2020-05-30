@@ -18,8 +18,8 @@ namespace UnitTest
 			if (a < 0) return Solve(-a, -b, -c);
 
 			var det = b * b - 4 * a * c;
+			if (det.EqualsNearly(0)) return new[] { -b / (2 * a) };
 			if (det < 0) return new double[0];
-			if (det == 0) return new[] { -b / (2 * a) };
 
 			var f = CreateFunction(a, b, c);
 			var f1 = CreateDerivative(a, b);

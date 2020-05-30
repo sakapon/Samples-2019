@@ -96,7 +96,7 @@ namespace UnitTest.Lab
 			void Test(double c, double d)
 			{
 				var actual = target2(c, d);
-				var det = -4 * c * c * c - 27 * d * d;
+				var det = (-4 * c * c * c - 27 * d * d).RoundAlmost();
 				Assert.AreEqual(c == 0 & d == 0 || det < 0 ? 1 : det == 0 ? 2 : 3, actual.Length);
 
 				var f = CubicEquation1.CreateFunction(c, d);
