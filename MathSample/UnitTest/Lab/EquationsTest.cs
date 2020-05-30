@@ -22,6 +22,7 @@ namespace UnitTest.Lab
 			void Test(double[] expected, double b, double c, double d)
 			{
 				var actual = target1(b, c, d);
+				actual = Array.ConvertAll(actual, x => x.RoundAlmost());
 				CollectionAssert.AreEqual(expected, actual);
 
 				var f = CubicEquation1.CreateFunction(1, b, c, d);
@@ -87,10 +88,10 @@ namespace UnitTest.Lab
 			Test(-7, 0);
 			Test(-10, 127);
 			Test(-1, -10);
-			Test(-1.5, Math.Sqrt(2) / 2);
-			Test(-6 * Math.Pow(2, 1 / 3.0), -8);
 			Test(-100, 90);
 			Test(-15, -4);
+			Test(-1.5, Math.Sqrt(2) / 2);
+			Test(-6 * Math.Pow(2, 1 / 3.0), -8);
 
 			void Test(double c, double d)
 			{
