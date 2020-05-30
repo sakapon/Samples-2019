@@ -29,15 +29,15 @@ namespace UnitTest
 			return f(r) == 0 ? r : x;
 		}
 
+		public static bool EqualsNearly(this double x, double y, int digits = 12) =>
+			Math.Round(x - y, digits) == 0;
+		public static bool IsAlmostInteger(this double x, int digits = 12) =>
+			Math.Round(x - Math.Round(x), digits) == 0;
+
 		public static double RoundAlmost(this double x)
 		{
-			var r = Math.Round(x, 9);
-			return Math.Round(r - x, 12) == 0 ? r : x;
-		}
-
-		public static bool EqualsNearly(this double x, double y, int digits = 12)
-		{
-			return Math.Round(x - y, digits) == 0;
+			var r = Math.Round(x, 6);
+			return Math.Round(x - r, 12) == 0 ? r : x;
 		}
 	}
 }
