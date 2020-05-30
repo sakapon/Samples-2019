@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest.Lab
 {
 	[TestClass]
-	public class EquationsTest
+	public class CubicEquationTest2
 	{
 		readonly Func<double, double, double, double[]> target1 = CubicEquation1.Solve;
 		readonly Func<double, double, double[]> target2 = CubicEquation1.Solve;
