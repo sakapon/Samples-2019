@@ -19,10 +19,31 @@ namespace FibonacciTest
 			return a;
 		}
 
+		// O(n)
+		public static long[] CreateWithMod(int max, long mod)
+		{
+			var a = new long[max + 1];
+			a[1] = 1;
+			for (int i = 2; i <= max; i++)
+				a[i] = (a[i - 1] + a[i - 2]) % mod;
+			return a;
+		}
+
 		public static long GetValue(int n)
 		{
 			var v = (Pow(φ, n) - Pow(φ_, n)) * Sqrt5 / 5;
 			return (long)Round(v);
+		}
+
+		public static long GetValueByPhi(int n)
+		{
+			var v = GetValueByPhiD(n);
+			return (long)Round(v);
+		}
+
+		public static double GetValueByPhiD(int n)
+		{
+			return Pow(φ, n) * Sqrt5 / 5;
 		}
 	}
 }
