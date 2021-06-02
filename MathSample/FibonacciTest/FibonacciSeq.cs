@@ -8,7 +8,7 @@ namespace FibonacciTest
 		public const int N_MaxForInt64 = 92;
 
 		// F_92 は Int64 の範囲内です。
-		public static long[] Create(int nLast = N_MaxForInt64)
+		public static long[] CreateSeq(int nLast = N_MaxForInt64)
 		{
 			var a = new long[nLast + 1];
 			a[1] = 1;
@@ -18,7 +18,7 @@ namespace FibonacciTest
 		}
 
 		// O(n)
-		public static long[] CreateWithMod(int nLast, long mod)
+		public static long[] CreateSeqWithMod(int nLast, long mod)
 		{
 			var a = new long[nLast + 1];
 			a[1] = 1;
@@ -28,7 +28,7 @@ namespace FibonacciTest
 		}
 
 		// O(log n)
-		public static long GetValue(int n, long mod)
+		public static long GetValueWithMod(int n, long mod)
 		{
 			var m = new ModMatrixOperator(mod);
 
