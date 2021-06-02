@@ -29,19 +29,29 @@ namespace FibonacciTest
 			return a;
 		}
 
-		public static long GetValue(int n)
+		public static long GetValue(int n, long mod)
+		{
+			var m = new ModMatrixOperator(mod);
+
+			var a = new long[2, 2];
+			a[0, 0] = a[0, 1] = a[1, 0] = 1;
+			a = m.MPow(a, n);
+			return a[1, 0];
+		}
+
+		public static long GetValueByPhi(int n)
 		{
 			var v = (Pow(φ, n) - Pow(φ_, n)) * Sqrt5 / 5;
 			return (long)Round(v);
 		}
 
-		public static long GetValueByPhi(int n)
+		public static long GetValueByPhi1(int n)
 		{
-			var v = GetValueByPhiD(n);
+			var v = GetValueByPhi1D(n);
 			return (long)Round(v);
 		}
 
-		public static double GetValueByPhiD(int n)
+		public static double GetValueByPhi1D(int n)
 		{
 			return Pow(φ, n) * Sqrt5 / 5;
 		}

@@ -6,6 +6,8 @@ namespace FibonacciTest
 	[TestClass]
 	public class FibonacciSeqTest
 	{
+		const long M = 1000000007;
+
 		[TestMethod]
 		public void Create()
 		{
@@ -19,7 +21,7 @@ namespace FibonacciTest
 		public void CreateWithMod()
 		{
 			var f = FibonacciSeq.Create(44);
-			var fm = FibonacciSeq.CreateWithMod(44, 1000000007);
+			var fm = FibonacciSeq.CreateWithMod(44, M);
 
 			CollectionAssert.AreEqual(f, fm);
 		}
@@ -27,13 +29,11 @@ namespace FibonacciTest
 		[TestMethod]
 		public void GetValue()
 		{
-			var f = FibonacciSeq.Create();
+			var maxN = 100000;
+			var fm = FibonacciSeq.CreateWithMod(maxN, M);
 
-			for (int i = 0; i <= 70; i++)
-				Assert.AreEqual(f[i], FibonacciSeq.GetValue(i));
-
-			for (int i = 71; i <= 92; i++)
-				Assert.AreNotEqual(f[i], FibonacciSeq.GetValue(i));
+			for (int i = 0; i <= maxN; i++)
+				Assert.AreEqual(fm[i], FibonacciSeq.GetValue(i, M));
 		}
 
 		[TestMethod]
@@ -49,12 +49,24 @@ namespace FibonacciTest
 		}
 
 		[TestMethod]
-		public void Display_GetValueByPhiD()
+		public void GetValueByPhi1()
+		{
+			var f = FibonacciSeq.Create();
+
+			for (int i = 0; i <= 70; i++)
+				Assert.AreEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
+
+			for (int i = 71; i <= 92; i++)
+				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
+		}
+
+		[TestMethod]
+		public void Display_GetValueByPhi1D()
 		{
 			var f = FibonacciSeq.Create();
 
 			for (var i = 0; i <= 92; i++)
-				Console.WriteLine($"φ^{i}/√5 = {FibonacciSeq.GetValueByPhiD(i)} ≒ {f[i]}");
+				Console.WriteLine($"φ^{i}/√5 = {FibonacciSeq.GetValueByPhi1D(i)} ≒ {f[i]}");
 		}
 	}
 }
