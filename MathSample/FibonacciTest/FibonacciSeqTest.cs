@@ -6,6 +6,7 @@ namespace FibonacciTest
 	[TestClass]
 	public class FibonacciSeqTest
 	{
+		const int N_MaxForInt64 = FibonacciSeq.N_MaxForInt64;
 		const long M = 1000000007;
 
 		[TestMethod]
@@ -14,14 +15,16 @@ namespace FibonacciTest
 			var expected = new[] { 0L, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 };
 			var f = FibonacciSeq.Create();
 
-			CollectionAssert.AreEqual(expected, f[..13]);
+			CollectionAssert.AreEqual(expected, f[..expected.Length]);
 		}
 
 		[TestMethod]
 		public void CreateWithMod()
 		{
-			var f = FibonacciSeq.Create(44);
-			var fm = FibonacciSeq.CreateWithMod(44, M);
+			// F_n < M となる範囲
+			var nLast = 44;
+			var f = FibonacciSeq.Create(nLast);
+			var fm = FibonacciSeq.CreateWithMod(nLast, M);
 
 			CollectionAssert.AreEqual(f, fm);
 		}
@@ -29,10 +32,10 @@ namespace FibonacciTest
 		[TestMethod]
 		public void GetValue()
 		{
-			var maxN = 100000;
-			var fm = FibonacciSeq.CreateWithMod(maxN, M);
+			var nLast = 100000;
+			var fm = FibonacciSeq.CreateWithMod(nLast, M);
 
-			for (int i = 0; i <= maxN; i++)
+			for (int i = 0; i <= nLast; i++)
 				Assert.AreEqual(fm[i], FibonacciSeq.GetValue(i, M));
 		}
 
@@ -44,7 +47,7 @@ namespace FibonacciTest
 			for (int i = 0; i <= 70; i++)
 				Assert.AreEqual(f[i], FibonacciSeq.GetValueByPhi(i));
 
-			for (int i = 71; i <= 92; i++)
+			for (int i = 71; i <= N_MaxForInt64; i++)
 				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByPhi(i));
 		}
 
@@ -56,7 +59,7 @@ namespace FibonacciTest
 			for (int i = 0; i <= 70; i++)
 				Assert.AreEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
 
-			for (int i = 71; i <= 92; i++)
+			for (int i = 71; i <= N_MaxForInt64; i++)
 				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
 		}
 
@@ -65,7 +68,7 @@ namespace FibonacciTest
 		{
 			var f = FibonacciSeq.Create();
 
-			for (var i = 0; i <= 92; i++)
+			for (var i = 0; i <= N_MaxForInt64; i++)
 				Console.WriteLine($"φ^{i}/√5 = {FibonacciSeq.GetValueByPhi1D(i)} ≒ {f[i]}");
 		}
 	}

@@ -15,14 +15,14 @@ namespace FibonacciTest
 			return r;
 		}
 
-		public long[,] MPow(long[,] b, long i)
+		public long[,] Pow(long[,] b, long i)
 		{
 			var r = Unit(b.GetLength(0));
-			for (; i != 0; b = MMul(b, b), i >>= 1) if ((i & 1) != 0) r = MMul(r, b);
+			for (; i != 0; b = Mul(b, b), i >>= 1) if ((i & 1) != 0) r = Mul(r, b);
 			return r;
 		}
 
-		public long[,] MMul(long[,] a, long[,] b)
+		public long[,] Mul(long[,] a, long[,] b)
 		{
 			var n = a.GetLength(0);
 			var r = new long[n, n];
@@ -33,7 +33,7 @@ namespace FibonacciTest
 			return r;
 		}
 
-		public long[] MMul(long[,] a, long[] v)
+		public long[] Mul(long[,] a, long[] v)
 		{
 			var n = v.Length;
 			var r = new long[n];
