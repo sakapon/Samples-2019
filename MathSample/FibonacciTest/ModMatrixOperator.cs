@@ -3,9 +3,10 @@
 namespace FibonacciTest
 {
 	// Uses Square Matrices
-	public static class ModuloMatrixHelper
+	public class ModMatrixOperator
 	{
-		const long M = 1000000007;
+		long M;
+		public ModMatrixOperator(long mod) { M = mod; }
 
 		public static long[,] Unit(int n)
 		{
@@ -14,14 +15,14 @@ namespace FibonacciTest
 			return r;
 		}
 
-		public static long[,] MPow(long[,] b, long i)
+		public long[,] MPow(long[,] b, long i)
 		{
 			var r = Unit(b.GetLength(0));
 			for (; i != 0; b = MMul(b, b), i >>= 1) if ((i & 1) != 0) r = MMul(r, b);
 			return r;
 		}
 
-		public static long[,] MMul(long[,] a, long[,] b)
+		public long[,] MMul(long[,] a, long[,] b)
 		{
 			var n = a.GetLength(0);
 			var r = new long[n, n];
@@ -32,7 +33,7 @@ namespace FibonacciTest
 			return r;
 		}
 
-		public static long[] MMul(long[,] a, long[] v)
+		public long[] MMul(long[,] a, long[] v)
 		{
 			var n = v.Length;
 			var r = new long[n];
