@@ -40,36 +40,36 @@ namespace FibonacciTest
 		}
 
 		[TestMethod]
-		public void GetValueByPhi()
+		public void GetValueByGeneral()
 		{
 			var f = FibonacciSeq.CreateSeq();
 
 			for (int i = 0; i <= 70; i++)
-				Assert.AreEqual(f[i], FibonacciSeq.GetValueByPhi(i));
+				Assert.AreEqual(f[i], FibonacciSeq.GetValueByGeneral(i));
 
 			for (int i = 71; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByPhi(i));
+				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByGeneral(i));
 		}
 
 		[TestMethod]
-		public void GetValueByPhi1()
+		public void GetValueByApprox()
 		{
 			var f = FibonacciSeq.CreateSeq();
 
 			for (int i = 0; i <= 70; i++)
-				Assert.AreEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
+				Assert.AreEqual(f[i], FibonacciSeq.GetValueByApprox(i));
 
 			for (int i = 71; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByPhi1(i));
+				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByApprox(i));
 		}
 
 		[TestMethod]
-		public void Display_GetValueByPhi1D()
+		public void Display_GetRawValueByApprox()
 		{
 			var f = FibonacciSeq.CreateSeq();
 
 			for (var i = 0; i <= N_MaxForInt64; i++)
-				Console.WriteLine($"φ^{i}/√5 = {FibonacciSeq.GetValueByPhi1D(i)} ≒ {f[i]}");
+				Console.WriteLine($"φ^{i} / √5 = {FibonacciSeq.GetRawValueByApprox(i)} ≒ {f[i]}");
 		}
 	}
 }

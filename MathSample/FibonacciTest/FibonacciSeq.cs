@@ -7,7 +7,7 @@ namespace FibonacciTest
 	{
 		public const int N_MaxForInt64 = 92;
 
-		// F_92 は Int64 の範囲内です。
+		// F_92 までは Int64 の範囲内です。
 		public static long[] CreateSeq(int nLast = N_MaxForInt64)
 		{
 			var a = new long[nLast + 1];
@@ -45,19 +45,20 @@ namespace FibonacciTest
 		static readonly double φ = (1 + Sqrt5) / 2;
 		static readonly double φ_ = (1 - Sqrt5) / 2;
 
-		internal static long GetValueByPhi(int n)
+		internal static long GetValueByGeneral(int n)
 		{
 			var v = (Pow(φ, n) - Pow(φ_, n)) * Sqrt5 / 5;
 			return (long)Round(v);
 		}
 
-		internal static long GetValueByPhi1(int n)
+		// 第 1 項のみ
+		internal static long GetValueByApprox(int n)
 		{
-			var v = GetValueByPhi1D(n);
+			var v = GetRawValueByApprox(n);
 			return (long)Round(v);
 		}
 
-		internal static double GetValueByPhi1D(int n)
+		internal static double GetRawValueByApprox(int n)
 		{
 			return Pow(φ, n) * Sqrt5 / 5;
 		}
