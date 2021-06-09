@@ -4,16 +4,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FibonacciTest
 {
 	[TestClass]
-	public class FibonacciSeqTest
+	public class FibonacciNumbersTest
 	{
-		const int N_MaxForInt64 = FibonacciSeq.N_MaxForInt64;
+		const int N_MaxForInt64 = FibonacciNumbers.N_MaxForInt64;
 		const long M = 1000000007;
 
 		[TestMethod]
 		public void CreateSeq()
 		{
 			var expected = new[] { 0L, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 };
-			var f = FibonacciSeq.CreateSeq();
+			var f = FibonacciNumbers.CreateSeq();
 
 			CollectionAssert.AreEqual(expected, f[..expected.Length]);
 		}
@@ -23,8 +23,8 @@ namespace FibonacciTest
 		{
 			// F_n < M となる範囲
 			var nLast = 44;
-			var f = FibonacciSeq.CreateSeq(nLast);
-			var fm = FibonacciSeq.CreateSeqWithMod(nLast, M);
+			var f = FibonacciNumbers.CreateSeq(nLast);
+			var fm = FibonacciNumbers.CreateSeqWithMod(nLast, M);
 
 			CollectionAssert.AreEqual(f, fm);
 		}
@@ -33,43 +33,43 @@ namespace FibonacciTest
 		public void GetValueWithMod()
 		{
 			var nLast = 100000;
-			var fm = FibonacciSeq.CreateSeqWithMod(nLast, M);
+			var fm = FibonacciNumbers.CreateSeqWithMod(nLast, M);
 
 			for (int i = 0; i <= nLast; i++)
-				Assert.AreEqual(fm[i], FibonacciSeq.GetValueWithMod(i, M));
+				Assert.AreEqual(fm[i], FibonacciNumbers.GetValueWithMod(i, M));
 		}
 
 		[TestMethod]
 		public void GetValueByGeneral()
 		{
-			var f = FibonacciSeq.CreateSeq();
+			var f = FibonacciNumbers.CreateSeq();
 
 			for (int i = 0; i <= 70; i++)
-				Assert.AreEqual(f[i], FibonacciSeq.GetValueByGeneral(i));
+				Assert.AreEqual(f[i], FibonacciNumbers.GetValueByGeneral(i));
 
 			for (int i = 71; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByGeneral(i));
+				Assert.AreNotEqual(f[i], FibonacciNumbers.GetValueByGeneral(i));
 		}
 
 		[TestMethod]
 		public void GetValueByApprox()
 		{
-			var f = FibonacciSeq.CreateSeq();
+			var f = FibonacciNumbers.CreateSeq();
 
 			for (int i = 0; i <= 70; i++)
-				Assert.AreEqual(f[i], FibonacciSeq.GetValueByApprox(i));
+				Assert.AreEqual(f[i], FibonacciNumbers.GetValueByApprox(i));
 
 			for (int i = 71; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], FibonacciSeq.GetValueByApprox(i));
+				Assert.AreNotEqual(f[i], FibonacciNumbers.GetValueByApprox(i));
 		}
 
 		[TestMethod]
 		public void Display_GetRawValueByApprox()
 		{
-			var f = FibonacciSeq.CreateSeq();
+			var f = FibonacciNumbers.CreateSeq();
 
 			for (var i = 0; i <= N_MaxForInt64; i++)
-				Console.WriteLine($"φ^{i} / √5 = {FibonacciSeq.GetRawValueByApprox(i)} ≒ {f[i]}");
+				Console.WriteLine($"φ^{i} / √5 = {FibonacciNumbers.GetRawValueByApprox(i)} ≒ {f[i]}");
 		}
 	}
 }

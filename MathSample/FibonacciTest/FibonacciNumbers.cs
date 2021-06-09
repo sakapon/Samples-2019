@@ -3,7 +3,7 @@ using static System.Math;
 
 namespace FibonacciTest
 {
-	public static class FibonacciSeq
+	public static class FibonacciNumbers
 	{
 		public const int N_MaxForInt64 = 92;
 
