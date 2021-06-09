@@ -13,9 +13,9 @@ namespace FibonacciTest
 		public void CreateSeq()
 		{
 			var expected = new[] { 2L, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199 };
-			var f = LucasNumbers.CreateSeq();
+			var a = LucasNumbers.CreateSeq();
 
-			CollectionAssert.AreEqual(expected, f[..expected.Length]);
+			CollectionAssert.AreEqual(expected, a[..expected.Length]);
 		}
 
 		[TestMethod]
@@ -23,54 +23,54 @@ namespace FibonacciTest
 		{
 			// L_n < M となる範囲
 			var nLast = 43;
-			var f = LucasNumbers.CreateSeq(nLast);
-			var fm = LucasNumbers.CreateSeqWithMod(nLast, M);
+			var a = LucasNumbers.CreateSeq(nLast);
+			var am = LucasNumbers.CreateSeqWithMod(nLast, M);
 
-			CollectionAssert.AreEqual(f, fm);
+			CollectionAssert.AreEqual(a, am);
 		}
 
 		[TestMethod]
 		public void GetValueWithMod()
 		{
 			var nLast = 100000;
-			var fm = LucasNumbers.CreateSeqWithMod(nLast, M);
+			var am = LucasNumbers.CreateSeqWithMod(nLast, M);
 
 			for (int i = 0; i <= nLast; i++)
-				Assert.AreEqual(fm[i], LucasNumbers.GetValueWithMod(i, M));
+				Assert.AreEqual(am[i], LucasNumbers.GetValueWithMod(i, M));
 		}
 
 		[TestMethod]
 		public void GetValueByGeneral()
 		{
-			var f = LucasNumbers.CreateSeq();
+			var a = LucasNumbers.CreateSeq();
 
 			for (int i = 0; i <= 68; i++)
-				Assert.AreEqual(f[i], LucasNumbers.GetValueByGeneral(i));
+				Assert.AreEqual(a[i], LucasNumbers.GetValueByGeneral(i));
 
 			for (int i = 69; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], LucasNumbers.GetValueByGeneral(i));
+				Assert.AreNotEqual(a[i], LucasNumbers.GetValueByGeneral(i));
 		}
 
 		[TestMethod]
 		public void GetValueByApprox()
 		{
-			var f = LucasNumbers.CreateSeq();
+			var a = LucasNumbers.CreateSeq();
 
 			// i < 2 は省略
 			for (int i = 2; i <= 68; i++)
-				Assert.AreEqual(f[i], LucasNumbers.GetValueByApprox(i));
+				Assert.AreEqual(a[i], LucasNumbers.GetValueByApprox(i));
 
 			for (int i = 69; i <= N_MaxForInt64; i++)
-				Assert.AreNotEqual(f[i], LucasNumbers.GetValueByApprox(i));
+				Assert.AreNotEqual(a[i], LucasNumbers.GetValueByApprox(i));
 		}
 
 		[TestMethod]
 		public void Display_GetRawValueByApprox()
 		{
-			var f = LucasNumbers.CreateSeq();
+			var a = LucasNumbers.CreateSeq();
 
 			for (var i = 0; i <= N_MaxForInt64; i++)
-				Console.WriteLine($"φ^{i} = {LucasNumbers.GetRawValueByApprox(i)} ≒ {f[i]}");
+				Console.WriteLine($"φ^{i} = {LucasNumbers.GetRawValueByApprox(i)} ≒ {a[i]}");
 		}
 	}
 }
