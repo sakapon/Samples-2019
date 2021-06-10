@@ -7,6 +7,7 @@ namespace FibonacciTest
 	{
 		long M;
 		public ModMatrixOperator(long mod) { M = mod; }
+		long MInt(long x) => (x %= M) < 0 ? x + M : x;
 
 		public static long[,] Unit(int n)
 		{
@@ -29,7 +30,7 @@ namespace FibonacciTest
 			for (var i = 0; i < n; i++)
 				for (var j = 0; j < n; j++)
 					for (var k = 0; k < n; k++)
-						r[i, j] = (r[i, j] + a[i, k] * b[k, j]) % M;
+						r[i, j] = MInt(r[i, j] + a[i, k] * b[k, j]);
 			return r;
 		}
 
@@ -39,7 +40,7 @@ namespace FibonacciTest
 			var r = new long[n];
 			for (var i = 0; i < n; i++)
 				for (var k = 0; k < n; k++)
-					r[i] = (r[i] + a[i, k] * v[k]) % M;
+					r[i] = MInt(r[i] + a[i, k] * v[k]);
 			return r;
 		}
 	}
