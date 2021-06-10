@@ -20,7 +20,7 @@ namespace FibonacciTest
 		}
 
 		// O(log n)
-		public static long GetValueWithMod(long p, long q, long a0, long a1, int n, long mod)
+		public static long GetValueWithMod(long p, long q, long a0, long a1, long n, long mod)
 		{
 			var m = new ModMatrixOperator(mod);
 
