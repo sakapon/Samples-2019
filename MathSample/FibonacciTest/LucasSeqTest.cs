@@ -8,6 +8,7 @@ namespace FibonacciTest
 	{
 		const long M = 1000000007;
 
+		// 非実数解のとき、a_{n+1} / a_n は振動します。
 		[TestMethod]
 		public void CreateSeqWithMod()
 		{
@@ -29,13 +30,33 @@ namespace FibonacciTest
 		}
 
 		[TestMethod]
-		public void Display_GetRawValueByApprox()
+		public void Display_GetRawValueByApprox_1()
+		{
+			var nLast = 30;
+			var am = LucasSeq.CreateSeqWithMod(1, -1, 7, 2, nLast, M);
+
+			for (var i = 0; i <= nLast; i++)
+				Console.WriteLine($"{i}: {LucasSeq.GetRawValueByApprox(1, -1, 7, 2, i)} ≒ {am[i]}");
+		}
+
+		[TestMethod]
+		public void Display_GetRawValueByApprox_2()
 		{
 			var nLast = 30;
 			var am = LucasSeq.CreateSeqWithMod(2, -1, 2, 2, nLast, M);
 
 			for (var i = 0; i <= nLast; i++)
 				Console.WriteLine($"{i}: {LucasSeq.GetRawValueByApprox(2, -1, 2, 2, i)} ≒ {am[i]}");
+		}
+
+		[TestMethod]
+		public void Display_GetRawValueByApprox_3()
+		{
+			var nLast = 30;
+			var am = LucasSeq.CreateSeqWithMod(5, 2, 0, 1, nLast, M);
+
+			for (var i = 0; i <= nLast; i++)
+				Console.WriteLine($"{i}: {LucasSeq.GetRawValueByApprox(5, 2, 0, 1, i)} ≒ {am[i]}");
 		}
 	}
 }

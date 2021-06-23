@@ -42,7 +42,7 @@ namespace FibonacciTest
 			var d = p * p - 4 * q;
 			var α = (p + Sqrt(d)) / 2;
 			var β = (p - Sqrt(d)) / 2;
-			return Pow(α, n) * (a1 - a0 * β) * Sqrt(d) / d;
+			return Pow(α, n) * (a1 - β * a0) * Sqrt(d) / d;
 		}
 		#endregion
 	}
