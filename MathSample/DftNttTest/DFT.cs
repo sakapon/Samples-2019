@@ -5,6 +5,9 @@ namespace DftNttTest
 {
 	public static class DFT
 	{
+		public static long[] ToLong(this Complex[] a) => Array.ConvertAll(a, c => (long)Math.Round(c.Real));
+		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, c => new Complex(c, 0));
+
 		// k-th "n-th root" of 1
 		static Complex NthRoot(int n, int k)
 		{
