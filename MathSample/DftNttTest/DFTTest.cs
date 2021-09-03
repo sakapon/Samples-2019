@@ -11,12 +11,18 @@ namespace DftNttTest
 		public void Transform()
 		{
 			var n = 123;
-			var c = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
+			var f1 = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
 
 			// f^ は整数になるとは限りません。
-			var r = DFT.Transform(n, c.ToComplex(), false);
-			r = DFT.Transform(n, r, true);
-			CollectionAssert.AreEqual(c, r.ToLong());
+			var f_ = DFT.Transform(n, f1.ToComplex(), false);
+			var f2 = DFT.Transform(n, f_, true);
+			CollectionAssert.AreEqual(f1, f2.ToLong());
+
+			var n2 = 127;
+			f_ = DFT.Transform(n2, f1.ToComplex(), false);
+			f2 = DFT.Transform(n2, f_, true);
+			Array.Resize(ref f2, n);
+			CollectionAssert.AreEqual(f1, f2.ToLong());
 		}
 	}
 }
