@@ -14,8 +14,8 @@ namespace DftNttTest
 			var c = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
 
 			// f^ は整数になるとは限りません。
-			var r = DFT.Transform(c.ToComplex(), false);
-			r = DFT.Transform(r, true);
+			var r = DFT.Transform(n, c.ToComplex(), false);
+			r = DFT.Transform(n, r, true);
 			CollectionAssert.AreEqual(c, r.ToLong());
 		}
 	}
