@@ -24,5 +24,15 @@ namespace DftNttTest
 			Array.Resize(ref f2, n);
 			CollectionAssert.AreEqual(f1, f2.ToLong());
 		}
+
+		[TestMethod]
+		public void Convolution()
+		{
+			var a = new long[] { 1, 2, 3, 4 };
+			var b = new long[] { 5, 6, 7, 8, 9 };
+			var expected = new long[] { 5, 16, 34, 60, 70, 70, 59, 36 };
+			var actual = DFT.Convolution(a, b);
+			CollectionAssert.AreEqual(expected, actual);
+		}
 	}
 }
