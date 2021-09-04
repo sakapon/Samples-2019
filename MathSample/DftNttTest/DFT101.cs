@@ -5,7 +5,7 @@ namespace DftNttTest
 {
 	public static class DFT101
 	{
-		// k-th "n-th root" of 1
+		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;
@@ -28,6 +28,25 @@ namespace DftNttTest
 				if (inverse) r[k] /= n;
 			}
 			return r;
+		}
+
+		public static Complex[] Convolution(Complex[] a, Complex[] b)
+		{
+			if (a == null) throw new ArgumentNullException(nameof(a));
+			if (b == null) throw new ArgumentNullException(nameof(b));
+
+			var n = a.Length + b.Length - 1;
+			Array.Resize(ref a, n);
+			Array.Resize(ref b, n);
+
+			var fa = Transform(a, false);
+			var fb = Transform(b, false);
+
+			for (int k = 0; k < n; ++k)
+			{
+				fa[k] *= fb[k];
+			}
+			return Transform(fa, true);
 		}
 	}
 }
