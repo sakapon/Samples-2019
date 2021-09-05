@@ -13,7 +13,7 @@ namespace DftNttTest
 			var c1 = new Complex[] { 3, 4, 5, 6, 7 };
 			var t = DFT101.Transform(c1, false);
 			var c2 = DFT101.Transform(t, true);
-			CollectionAssert.AreEqual(c2.ToLong(), c1.ToLong());
+			CollectionAssert.AreEqual(c2.ToInt64(), c1.ToInt64());
 		}
 
 		[TestMethod]
@@ -23,7 +23,7 @@ namespace DftNttTest
 			var b = new Complex[] { 5, 6, 7, 8, 9 };
 			var expected = new long[] { 5, 16, 34, 60, 70, 70, 59, 36 };
 			var actual = DFT101.Convolution(a, b);
-			CollectionAssert.AreEqual(expected, actual.ToLong());
+			CollectionAssert.AreEqual(expected, actual.ToInt64());
 		}
 	}
 }

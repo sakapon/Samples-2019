@@ -5,8 +5,8 @@ namespace DftNttTest
 {
 	public static class DFT
 	{
-		public static long[] ToLong(this Complex[] a) => Array.ConvertAll(a, c => (long)Math.Round(c.Real));
-		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, c => new Complex(c, 0));
+		public static long[] ToInt64(this Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
+		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
 
 		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)
@@ -71,12 +71,12 @@ namespace DftNttTest
 
 		public static long[] Convolution(int n, long[] a, long[] b)
 		{
-			return Convolution(n, a?.ToComplex(), b?.ToComplex()).ToLong();
+			return Convolution(n, a?.ToComplex(), b?.ToComplex()).ToInt64();
 		}
 
 		public static long[] Convolution(long[] a, long[] b)
 		{
-			return Convolution(a?.ToComplex(), b?.ToComplex()).ToLong();
+			return Convolution(a?.ToComplex(), b?.ToComplex()).ToInt64();
 		}
 	}
 }
