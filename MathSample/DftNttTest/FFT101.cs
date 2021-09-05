@@ -69,16 +69,18 @@ namespace DftNttTest
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var n = ToPowerOf2(c.Length);
-			if (c.Length < n) Array.Resize(ref c, n);
 
+			// コピー先のインデックス。
+			// n = 8: { 0, 4, 2, 6, 1, 5, 3, 7 }
 			var b = new int[n];
 			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
 				for (int i = 0; i < p; ++i)
 					b[i + p] = b[i] + d;
 
+			// c を Resize する必要はありません。
 			var t = new Complex[n];
-			for (int k = 0; k < n; ++k)
-				t[k] = c[b[k]];
+			for (int k = 0; k < c.Length; ++k)
+				t[b[k]] = c[k];
 
 			for (int p = 1; p < n; p <<= 1)
 			{
