@@ -63,6 +63,46 @@ namespace DftNttTest
 			return t;
 		}
 
+		public static Complex[] Transform(Complex[] c, bool inverse)
+		{
+			if (c == null) throw new ArgumentNullException(nameof(c));
+
+			var n = ToPowerOf2(c.Length);
+			if (c.Length < n) Array.Resize(ref c, n);
+
+			var b = new int[n];
+			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
+				for (int i = 0; i < p; ++i)
+					b[i + p] = b[i] + d;
+
+			var t = new Complex[n];
+			for (int k = 0; k < n; ++k)
+				t[k] = c[b[k]];
+
+			var t2 = new Complex[n];
+			for (int p = 1; p < n; p <<= 1)
+			{
+				for (int s = 0; s < n; s += p << 1)
+				{
+					for (int k = 0; k < p; ++k)
+					{
+						var z0 = t[s + k];
+						var z1 = t[s + k + p] * NthRoot(p << 1, k);
+						t2[s + k] = z0 + z1;
+						t2[s + k + p] = z0 - z1;
+					}
+				}
+				(t, t2) = (t2, t);
+			}
+
+			if (inverse && n > 1)
+			{
+				Array.Reverse(t, 1, n - 1);
+				for (int k = 0; k < n; ++k) t[k] /= n;
+			}
+			return t;
+		}
+
 		// 戻り値の長さは 2 の冪となります。
 		public static Complex[] Convolution(Complex[] a, Complex[] b)
 		{

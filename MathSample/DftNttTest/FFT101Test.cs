@@ -19,13 +19,34 @@ namespace DftNttTest
 		}
 
 		[TestMethod]
+		public void Transform()
+		{
+			var c1 = new Complex[] { 3, 4, 5, 6, 7 };
+			var t = FFT101.Transform(c1, false);
+			var c2 = FFT101.Transform(t, true);
+			Array.Resize(ref c1, FFT101.ToPowerOf2(c1.Length));
+			CollectionAssert.AreEqual(c2.ToInt64(), c1.ToInt64());
+		}
+
+		[TestMethod]
 		public void TransformRec_Many()
 		{
-			var n = 1 << 16;
+			var n = 1 << 18;
 			var a = Enumerable.Range(3, n).ToArray();
 			var c1 = Array.ConvertAll(a, x => new Complex(x, 0));
 			var t = FFT101.TransformRec(c1, false);
 			var c2 = FFT101.TransformRec(t, true);
+			CollectionAssert.AreEqual(c2.ToInt64(), c1.ToInt64());
+		}
+
+		[TestMethod]
+		public void Transform_Many()
+		{
+			var n = 1 << 18;
+			var a = Enumerable.Range(3, n).ToArray();
+			var c1 = Array.ConvertAll(a, x => new Complex(x, 0));
+			var t = FFT101.Transform(c1, false);
+			var c2 = FFT101.Transform(t, true);
 			CollectionAssert.AreEqual(c2.ToInt64(), c1.ToInt64());
 		}
 
