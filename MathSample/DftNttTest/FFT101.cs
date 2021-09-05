@@ -20,7 +20,7 @@ namespace DftNttTest
 		}
 
 		// n = c.Length は 2 の冪としてください。
-		static void TransformRecIn(Complex[] c, bool inverse)
+		static void TransformRecIn(Complex[] c)
 		{
 			var n = c.Length;
 			if (n == 1) return;
@@ -34,12 +34,12 @@ namespace DftNttTest
 				c1[k] = c[2 * k + 1];
 			}
 
-			TransformRecIn(c0, inverse);
-			TransformRecIn(c1, inverse);
+			TransformRecIn(c0);
+			TransformRecIn(c1);
 
 			for (int k = 0; k < n2; ++k)
 			{
-				var z = c1[k] * NthRoot(n, inverse ? -k : k);
+				var z = c1[k] * NthRoot(n, k);
 				c[k] = c0[k] + z;
 				c[k + n2] = c0[k] - z;
 			}
@@ -53,8 +53,13 @@ namespace DftNttTest
 			var n = ToPowerOf2(c.Length);
 			var t = new Complex[n];
 			c.CopyTo(t, 0);
-			TransformRecIn(t, inverse);
-			if (inverse) for (int k = 0; k < n; ++k) t[k] /= n;
+			TransformRecIn(t);
+
+			if (inverse && n > 1)
+			{
+				Array.Reverse(t, 1, n - 1);
+				for (int k = 0; k < n; ++k) t[k] /= n;
+			}
 			return t;
 		}
 
