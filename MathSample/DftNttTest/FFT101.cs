@@ -39,9 +39,10 @@ namespace DftNttTest
 
 			for (int k = 0; k < n2; ++k)
 			{
-				var z = c1[k] * NthRoot(n, k);
-				c[k] = c0[k] + z;
-				c[k + n2] = c0[k] - z;
+				var v0 = c0[k];
+				var v1 = c1[k] * NthRoot(n, k);
+				c[k] = v0 + v1;
+				c[k + n2] = v0 - v1;
 			}
 		}
 
@@ -79,20 +80,18 @@ namespace DftNttTest
 			for (int k = 0; k < n; ++k)
 				t[k] = c[b[k]];
 
-			var t2 = new Complex[n];
 			for (int p = 1; p < n; p <<= 1)
 			{
 				for (int s = 0; s < n; s += p << 1)
 				{
 					for (int k = 0; k < p; ++k)
 					{
-						var z0 = t[s + k];
-						var z1 = t[s + k + p] * NthRoot(p << 1, k);
-						t2[s + k] = z0 + z1;
-						t2[s + k + p] = z0 - z1;
+						var v0 = t[s + k];
+						var v1 = t[s + k + p] * NthRoot(p << 1, k);
+						t[s + k] = v0 + v1;
+						t[s + k + p] = v0 - v1;
 					}
 				}
-				(t, t2) = (t2, t);
 			}
 
 			if (inverse && n > 1)
