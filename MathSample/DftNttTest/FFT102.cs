@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace DftNttTest
 {
-	public static class FFT101
+	public static class FFT102
 	{
 		public static int ToPowerOf2(int n)
 		{
@@ -19,42 +19,37 @@ namespace DftNttTest
 			return Complex.FromPolarCoordinates(1, t);
 		}
 
-		// n = c.Length は 2 の冪としてください。
-		static void TransformRecursive(Complex[] c)
-		{
-			var n = c.Length;
-			if (n == 1) return;
-
-			var n2 = n >> 1;
-			var c0 = new Complex[n2];
-			var c1 = new Complex[n2];
-			for (int k = 0; k < n2; ++k)
-			{
-				c0[k] = c[2 * k];
-				c1[k] = c[2 * k + 1];
-			}
-
-			TransformRecursive(c0);
-			TransformRecursive(c1);
-
-			for (int k = 0; k < n2; ++k)
-			{
-				var v0 = c0[k];
-				var v1 = c1[k] * NthRoot(n, k);
-				c[k] = v0 + v1;
-				c[k + n2] = v0 - v1;
-			}
-		}
-
-		// 戻り値の長さは 2 の冪となります。
 		public static Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var n = ToPowerOf2(c.Length);
+
+			// コピー先のインデックス。
+			// n = 8: { 0, 4, 2, 6, 1, 5, 3, 7 }
+			var b = new int[n];
+			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
+				for (int i = 0; i < p; ++i)
+					b[i | p] = b[i] | d;
+
+			// c を Resize する必要はありません。
 			var t = new Complex[n];
-			c.CopyTo(t, 0);
-			TransformRecursive(t);
+			for (int k = 0; k < c.Length; ++k)
+				t[b[k]] = c[k];
+
+			for (int p = 1; p < n; p <<= 1)
+			{
+				for (int s = 0; s < n; s += p << 1)
+				{
+					for (int k = 0; k < p; ++k)
+					{
+						var v0 = t[s + k];
+						var v1 = t[s + k + p] * NthRoot(p << 1, k);
+						t[s + k] = v0 + v1;
+						t[s + k + p] = v0 - v1;
+					}
+				}
+			}
 
 			if (inverse && n > 1)
 			{
