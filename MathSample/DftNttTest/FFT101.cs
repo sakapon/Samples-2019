@@ -75,7 +75,7 @@ namespace DftNttTest
 			var b = new int[n];
 			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
 				for (int i = 0; i < p; ++i)
-					b[i + p] = b[i] + d;
+					b[i | p] = b[i] | d;
 
 			// c を Resize する必要はありません。
 			var t = new Complex[n];
