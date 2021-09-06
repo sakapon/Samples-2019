@@ -19,7 +19,7 @@ namespace DftNttTest
 			return Complex.FromPolarCoordinates(1, t);
 		}
 
-		// n = c.Length は 2 の冪としてください。
+		// c の長さは 2 の冪とします。
 		static void TransformRecursive(Complex[] c)
 		{
 			var n = c.Length;

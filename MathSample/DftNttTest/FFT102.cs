@@ -19,6 +19,7 @@ namespace DftNttTest
 			return Complex.FromPolarCoordinates(1, t);
 		}
 
+		// 戻り値の長さは 2 の冪となります。
 		public static Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
