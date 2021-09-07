@@ -54,6 +54,7 @@ namespace DftNttTest
 			var n = ToPowerOf2(c.Length);
 			var t = new Complex[n];
 			c.CopyTo(t, 0);
+
 			TransformRecursive(t);
 
 			if (inverse && n > 1)

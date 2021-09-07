@@ -12,6 +12,29 @@ namespace DftNttTest
 			return p;
 		}
 
+		// コピー先のインデックス。O(n)
+		// n = 8: { 0, 4, 2, 6, 1, 5, 3, 7 }
+		static int[] BitReversal(int n)
+		{
+			var b = new int[n];
+			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
+				for (int i = 0; i < p; ++i)
+					b[i | p] = b[i] | d;
+			return b;
+		}
+
+		// O(n log n)
+		[Obsolete]
+		static int[] BitReversal_Old(int n)
+		{
+			var b = new int[n];
+			for (int u = 1, d = n >> 1; u < n; u <<= 1, d >>= 1)
+				for (int i = 0; i < n; ++i)
+					if ((i & u) != 0)
+						b[i] |= d;
+			return b;
+		}
+
 		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)
 		{
@@ -25,13 +48,7 @@ namespace DftNttTest
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var n = ToPowerOf2(c.Length);
-
-			// コピー先のインデックス。
-			// n = 8: { 0, 4, 2, 6, 1, 5, 3, 7 }
-			var b = new int[n];
-			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
-				for (int i = 0; i < p; ++i)
-					b[i | p] = b[i] | d;
+			var b = BitReversal(n);
 
 			// c を Resize する必要はありません。
 			var t = new Complex[n];
