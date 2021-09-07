@@ -26,7 +26,7 @@ namespace DftNttTest
 			return b;
 		}
 
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (0 <= k < n/2)
 		static Complex[] NthRoots(int n)
 		{
 			var r = new Complex[n >> 1];
@@ -37,14 +37,14 @@ namespace DftNttTest
 
 		int n;
 		public int Length => n;
-		int[] b;
+		int[] br;
 		Complex[] roots;
 
 		// n は 2 の冪に変更されます。
 		public FFT(int n)
 		{
 			this.n = n = ToPowerOf2(n);
-			b = BitReversal(n);
+			br = BitReversal(n);
 			roots = NthRoots(n);
 		}
 
@@ -52,21 +52,20 @@ namespace DftNttTest
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
-			// c を Resize する必要はありません。
 			var t = new Complex[n];
 			for (int k = 0; k < c.Length; ++k)
-				t[b[k]] = c[k];
+				t[br[k]] = c[k];
 
 			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
 			{
-				for (int s = 0; s < n; s += p << 1)
+				for (int l = 0; l < n; l += p << 1)
 				{
 					for (int k = 0; k < p; ++k)
 					{
-						var v0 = t[s + k];
-						var v1 = t[s + k + p] * roots[d * k];
-						t[s + k] = v0 + v1;
-						t[s + k + p] = v0 - v1;
+						var v0 = t[l + k];
+						var v1 = t[l + k + p] * roots[d * k];
+						t[l + k] = v0 + v1;
+						t[l + k + p] = v0 - v1;
 					}
 				}
 			}

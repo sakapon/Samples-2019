@@ -21,7 +21,6 @@ namespace DftNttTest
 		public int Length => n;
 		Complex[] roots;
 
-		// n は 2 の冪に変更されます。
 		public DFT(int n)
 		{
 			this.n = n;
@@ -29,8 +28,8 @@ namespace DftNttTest
 		}
 
 		// f(ω_n^k) の値
-		// long 型にしておかないとオーバーフローします。
-		Complex f(Complex[] c, long k)
+		// DFT が O(n^2) のため、k * j はオーバーフローしないと仮定しています。
+		Complex f(Complex[] c, int k)
 		{
 			Complex r = 0;
 			for (int j = 0; j < c.Length; ++j)

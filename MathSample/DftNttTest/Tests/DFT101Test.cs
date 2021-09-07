@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +15,16 @@ namespace DftNttTest.Tests
 			var t = DFT101.Transform(c1, false);
 			var c2 = DFT101.Transform(t, true);
 			CollectionAssert.AreEqual(c2.ToInt64(), c1.ToInt64());
+		}
+
+		[TestMethod]
+		public void Transform_Many()
+		{
+			var n = 1 << 10;
+			var c1 = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
+			var t = DFT101.Transform(c1.ToComplex(), false);
+			var c2 = DFT101.Transform(t, true);
+			CollectionAssert.AreEqual(c1, c2.ToInt64());
 		}
 
 		[TestMethod]

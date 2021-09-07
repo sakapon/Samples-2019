@@ -48,23 +48,22 @@ namespace DftNttTest
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var n = ToPowerOf2(c.Length);
-			var b = BitReversal(n);
+			var br = BitReversal(n);
 
-			// c を Resize する必要はありません。
 			var t = new Complex[n];
 			for (int k = 0; k < c.Length; ++k)
-				t[b[k]] = c[k];
+				t[br[k]] = c[k];
 
 			for (int p = 1; p < n; p <<= 1)
 			{
-				for (int s = 0; s < n; s += p << 1)
+				for (int l = 0; l < n; l += p << 1)
 				{
 					for (int k = 0; k < p; ++k)
 					{
-						var v0 = t[s + k];
-						var v1 = t[s + k + p] * NthRoot(p << 1, k);
-						t[s + k] = v0 + v1;
-						t[s + k + p] = v0 - v1;
+						var v0 = t[l + k];
+						var v1 = t[l + k + p] * NthRoot(p << 1, k);
+						t[l + k] = v0 + v1;
+						t[l + k + p] = v0 - v1;
 					}
 				}
 			}
