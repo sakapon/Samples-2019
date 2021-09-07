@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DftNttTest
+namespace DftNttTest.Tests
 {
 	[TestClass]
 	public class DFTTest

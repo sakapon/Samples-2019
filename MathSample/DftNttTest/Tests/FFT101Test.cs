@@ -3,7 +3,7 @@ using System.Linq;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DftNttTest
+namespace DftNttTest.Tests
 {
 	[TestClass]
 	public class FFT101Test
