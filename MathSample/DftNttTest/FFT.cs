@@ -5,6 +5,9 @@ namespace DftNttTest
 {
 	public class FFT
 	{
+		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
+		public static Complex[] ToComplex(long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
+
 		public static int ToPowerOf2(int n)
 		{
 			var p = 1;
@@ -95,6 +98,13 @@ namespace DftNttTest
 			var c = fft.Transform(fa, true);
 			if (n < c.Length) Array.Resize(ref c, n);
 			return c;
+		}
+
+		public static long[] Convolution(long[] a, long[] b)
+		{
+			if (a == null) throw new ArgumentNullException(nameof(a));
+			if (b == null) throw new ArgumentNullException(nameof(b));
+			return ToInt64(Convolution(ToComplex(a), ToComplex(b)));
 		}
 	}
 }

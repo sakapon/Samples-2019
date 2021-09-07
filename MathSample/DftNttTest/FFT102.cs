@@ -12,14 +12,14 @@ namespace DftNttTest
 			return p;
 		}
 
-		// コピー先のインデックス。O(n)
+		// コピー先のインデックス O(n)
 		// n = 8: { 0, 4, 2, 6, 1, 5, 3, 7 }
 		static int[] BitReversal(int n)
 		{
 			var b = new int[n];
 			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
-				for (int i = 0; i < p; ++i)
-					b[i | p] = b[i] | d;
+				for (int k = 0; k < p; ++k)
+					b[k | p] = b[k] | d;
 			return b;
 		}
 
@@ -29,9 +29,9 @@ namespace DftNttTest
 		{
 			var b = new int[n];
 			for (int u = 1, d = n >> 1; u < n; u <<= 1, d >>= 1)
-				for (int i = 0; i < n; ++i)
-					if ((i & u) != 0)
-						b[i] |= d;
+				for (int k = 0; k < n; ++k)
+					if ((k & u) != 0)
+						b[k] |= d;
 			return b;
 		}
 

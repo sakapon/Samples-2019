@@ -40,5 +40,15 @@ namespace DftNttTest
 			var actual = FFT.Convolution(a, b);
 			CollectionAssert.AreEqual(expected, actual.ToInt64());
 		}
+
+		[TestMethod]
+		public void Convolution_Int64()
+		{
+			var a = new long[] { 2, 1, 1 };
+			var b = new long[] { -1, -1, 1 };
+			var expected = new long[] { -2, -3, 0, 0, 1 };
+			var actual = FFT.Convolution(a, b);
+			CollectionAssert.AreEqual(expected, actual);
+		}
 	}
 }
