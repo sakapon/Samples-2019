@@ -40,10 +40,10 @@ namespace DftNttTest
 		int[] br;
 		Complex[] roots;
 
-		// n は 2 の冪に変更されます。
-		public FFT(int n)
+		// length は 2 の冪に変更されます。
+		public FFT(int length)
 		{
-			this.n = n = ToPowerOf2(n);
+			n = ToPowerOf2(length);
 			br = BitReversal(n);
 			roots = NthRoots(n);
 		}

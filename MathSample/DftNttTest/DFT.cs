@@ -21,9 +21,9 @@ namespace DftNttTest
 		public int Length => n;
 		Complex[] roots;
 
-		public DFT(int n)
+		public DFT(int length)
 		{
-			this.n = n;
+			n = length;
 			roots = NthRoots(n);
 		}
 
