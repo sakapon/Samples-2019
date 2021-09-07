@@ -3,16 +3,22 @@ using System.Numerics;
 
 namespace DftNttTest
 {
-	public static class DFT101
+	public static class DFT102
 	{
-		public static long[] ToInt64(this Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
-		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
-
 		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;
 			return Complex.FromPolarCoordinates(1, t);
+		}
+
+		// f(ω_n^k) の値
+		static Complex f(int n, Complex[] c, int k)
+		{
+			Complex r = 0;
+			for (int j = 0; j < c.Length; ++j)
+				r += c[j] * NthRoot(n, k * j);
+			return r;
 		}
 
 		public static Complex[] Transform(Complex[] c, bool inverse)
@@ -21,15 +27,8 @@ namespace DftNttTest
 
 			var n = c.Length;
 			var r = new Complex[n];
-
 			for (int k = 0; k < n; ++k)
-			{
-				for (int j = 0; j < n; ++j)
-				{
-					r[k] += c[j] * NthRoot(n, (inverse ? -k : k) * j);
-				}
-				if (inverse) r[k] /= n;
-			}
+				r[k] = inverse ? f(n, c, -k) / n : f(n, c, k);
 			return r;
 		}
 

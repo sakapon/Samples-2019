@@ -3,80 +3,74 @@ using System.Numerics;
 
 namespace DftNttTest
 {
-	public static class DFT
+	public class DFT
 	{
-		public static long[] ToInt64(this Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
-		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
+		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
+		public static Complex[] ToComplex(long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
 
 		// k 番目の 1 の n 乗根
-		static Complex NthRoot(int n, int k)
+		static Complex[] NthRoots(int n)
 		{
-			var t = 2 * Math.PI * k / n;
-			return Complex.FromPolarCoordinates(1, t);
-		}
-
-		// f(ω_n^k) の値
-		static Complex f(int n, Complex[] c, int k)
-		{
-			Complex r = 0;
-			for (int j = 0; j < c.Length; ++j)
-				r += c[j] * NthRoot(n, k * j);
+			var r = new Complex[n];
+			for (int k = 0; k < n; ++k)
+				r[k] = Complex.FromPolarCoordinates(1, 2 * Math.PI * k / n);
 			return r;
 		}
 
-		// c.Length <= n であれば、復元が保証されます。
-		// それ以外の場合、範囲外の係数が 0 であれば復元が保証されます。
-		public static Complex[] Transform(int n, Complex[] c, bool inverse)
+		int n;
+		public int Length => n;
+		Complex[] roots;
+
+		// n は 2 の冪に変更されます。
+		public DFT(int n)
 		{
-			// 0 次元でも可。
-			if (n < 0) throw new ArgumentOutOfRangeException(nameof(n));
+			this.n = n;
+			roots = NthRoots(n);
+		}
+
+		// f(ω_n^k) の値
+		// long 型にしておかないとオーバーフローします。
+		Complex f(Complex[] c, long k)
+		{
+			Complex r = 0;
+			for (int j = 0; j < c.Length; ++j)
+				r += c[j] * roots[k * j % n];
+			return r;
+		}
+
+		public Complex[] Transform(Complex[] c, bool inverse)
+		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var r = new Complex[n];
 			for (int k = 0; k < n; ++k)
-				r[k] = inverse ? f(n, c, -k) / n : f(n, c, k);
+				r[k] = inverse ? f(c, n - k) / n : f(c, k);
 			return r;
-		}
-
-		public static Complex[] Transform(Complex[] c, bool inverse)
-		{
-			if (c == null) throw new ArgumentNullException(nameof(c));
-			return Transform(c.Length, c, inverse);
-		}
-
-		// n: 多項式の積の次元数
-		// a.Length + b.Length - 1 <= n であれば、結果が保証されます。
-		// それ以外の場合、範囲外の係数が 0 であれば結果が保証されます。
-		public static Complex[] Convolution(int n, Complex[] a, Complex[] b)
-		{
-			// 0 次元でも可。
-			if (n < 0) throw new ArgumentOutOfRangeException(nameof(n));
-			if (a == null) throw new ArgumentNullException(nameof(a));
-			if (b == null) throw new ArgumentNullException(nameof(b));
-
-			var fa = Transform(n, a, false);
-			var fb = Transform(n, b, false);
-
-			for (int k = 0; k < n; ++k)
-				fa[k] *= fb[k];
-			return Transform(n, fa, true);
 		}
 
 		public static Complex[] Convolution(Complex[] a, Complex[] b)
 		{
 			if (a == null) throw new ArgumentNullException(nameof(a));
 			if (b == null) throw new ArgumentNullException(nameof(b));
-			return Convolution(a.Length + b.Length - 1, a, b);
-		}
 
-		public static long[] Convolution(int n, long[] a, long[] b)
-		{
-			return Convolution(n, a?.ToComplex(), b?.ToComplex()).ToInt64();
+			var n = a.Length + b.Length - 1;
+			var dft = new DFT(n);
+
+			var fa = dft.Transform(a, false);
+			var fb = dft.Transform(b, false);
+
+			for (int k = 0; k < n; ++k)
+			{
+				fa[k] *= fb[k];
+			}
+			return dft.Transform(fa, true);
 		}
 
 		public static long[] Convolution(long[] a, long[] b)
 		{
-			return Convolution(a?.ToComplex(), b?.ToComplex()).ToInt64();
+			if (a == null) throw new ArgumentNullException(nameof(a));
+			if (b == null) throw new ArgumentNullException(nameof(b));
+			return ToInt64(Convolution(ToComplex(a), ToComplex(b)));
 		}
 	}
 }
