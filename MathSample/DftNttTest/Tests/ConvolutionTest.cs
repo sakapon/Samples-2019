@@ -7,13 +7,28 @@ namespace DftNttTest.Tests
 	[TestClass]
 	public class ConvolutionTest
 	{
-		static void Test(Func<long[], long[], long[]> convolution)
+		static void Test01(Func<long[], long[], long[]> convolution)
 		{
 			var f = new long[] { 2, 1, 1 };
 			var g = new long[] { -1, -1, 1 };
 			var expected = new long[] { -2, -3, 0, 0, 1 };
 			var actual = convolution(f, g);
 			CollectionAssert.AreEqual(expected, actual);
+		}
+
+		static void Test02(Func<long[], long[], long[]> convolution)
+		{
+			var f = new long[] { 1, 2, 3, 4 };
+			var g = new long[] { 5, 6, 7, 8, 9 };
+			var expected = new long[] { 5, 16, 34, 60, 70, 70, 59, 36 };
+			var actual = convolution(f, g);
+			CollectionAssert.AreEqual(expected, actual);
+		}
+
+		static void Test(Func<long[], long[], long[]> convolution)
+		{
+			Test01(convolution);
+			Test02(convolution);
 		}
 
 		[TestMethod]
