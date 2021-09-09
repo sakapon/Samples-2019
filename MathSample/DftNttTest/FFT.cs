@@ -48,6 +48,7 @@ namespace DftNttTest
 			roots = NthRoots(n);
 		}
 
+		// f が整数でも f^ は整数になるとは限りません。
 		public Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
