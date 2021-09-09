@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DftNttTest.Tests
 {
 	[TestClass]
-	public class ConvolutionManyTest
+	public class ConvolutionNaiveTest
 	{
 		const int n1 = 1 << 10;
 		const int n2 = 1 << 16;
