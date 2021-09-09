@@ -23,18 +23,6 @@ namespace DftNttTest
 			return b;
 		}
 
-		// O(n log n)
-		[Obsolete]
-		static int[] BitReversal_Old(int n)
-		{
-			var b = new int[n];
-			for (int u = 1, d = n >> 1; u < n; u <<= 1, d >>= 1)
-				for (int k = 0; k < n; ++k)
-					if ((k & u) != 0)
-						b[k] |= d;
-			return b;
-		}
-
 		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)
 		{
