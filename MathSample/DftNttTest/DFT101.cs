@@ -7,6 +7,7 @@ namespace DftNttTest
 	{
 		public static long[] ToInt64(this Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
 		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
+		public static T[] Resize<T>(this T[] a, int size) { Array.Resize(ref a, size); return a; }
 
 		// k 番目の 1 の n 乗根
 		static Complex NthRoot(int n, int k)

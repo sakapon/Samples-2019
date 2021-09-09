@@ -36,5 +36,24 @@ namespace DftNttTest.Tests
 		{
 			Test(f => DFT102.Transform(f, false), f => DFT102.Transform(f, true));
 		}
+
+		[TestMethod]
+		public void Transform_FFT()
+		{
+			var fft = new FFT(n);
+			Test(f => fft.Transform(f, false), f => fft.Transform(f, true).Resize(n));
+		}
+
+		[TestMethod]
+		public void Transform_FFT101()
+		{
+			Test(f => FFT101.Transform(f, false), f => FFT101.Transform(f, true).Resize(n));
+		}
+
+		[TestMethod]
+		public void Transform_FFT102()
+		{
+			Test(f => FFT102.Transform(f, false), f => FFT102.Transform(f, true).Resize(n));
+		}
 	}
 }
