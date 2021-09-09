@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DftNttTest.Tests
 {
 	[TestClass]
-	public class TransformManyTest
+	public class TransformNaiveTest
 	{
 		const int n1 = 1 << 11;
 		const int n2 = 1 << 18;
