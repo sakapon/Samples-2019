@@ -16,21 +16,23 @@ namespace DftNttTest
 			return Complex.FromPolarCoordinates(1, t);
 		}
 
+		// f(ω_n^k) の値
+		static Complex f(int n, Complex[] c, int k)
+		{
+			Complex r = 0;
+			for (int j = 0; j < c.Length; ++j)
+				r += c[j] * NthRoot(n, k * j);
+			return r;
+		}
+
 		public static Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
 			var n = c.Length;
 			var r = new Complex[n];
-
 			for (int k = 0; k < n; ++k)
-			{
-				for (int j = 0; j < n; ++j)
-				{
-					r[k] += c[j] * NthRoot(n, (inverse ? -k : k) * j);
-				}
-				if (inverse) r[k] /= n;
-			}
+				r[k] = inverse ? f(n, c, -k) / n : f(n, c, k);
 			return r;
 		}
 
