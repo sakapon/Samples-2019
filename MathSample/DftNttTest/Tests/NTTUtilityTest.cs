@@ -32,7 +32,7 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void FindNthRoots()
 		{
-			for (int m = 2; m <= 300; m++)
+			for (int m = 2; m <= 200; m++)
 			{
 				FindNthRoots(m);
 			}
@@ -46,15 +46,15 @@ namespace DftNttTest.Tests
 			var l = new List<long>();
 			for (long w = 2; w < m; w++)
 			{
-				var n = GetOrder(w);
-				if (n != -1) Console.WriteLine($"m = {m}, w = {w}, n = {n}");
+				var (n, isCyclic, hasNInv) = GetOrder(w);
+				if (n != -1 && isCyclic && hasNInv) Console.WriteLine($"m = {m}, w = {w}, n = {n}, {(isCyclic ? 'T' : 'F')}{(hasNInv ? 'T' : 'F')}");
 			}
 
 			// NTT の十分条件を満たす場合、w の位数 n を返します。
-			int GetOrder(long w)
+			(int, bool, bool) GetOrder(long w)
 			{
 				// 1 の累乗根かどうか
-				if (Gcd(w, m) != 1) return -1;
+				if (Gcd(w, m) != 1) return (-1, false, false);
 
 				l.Clear();
 				l.Add(1);
@@ -65,7 +65,7 @@ namespace DftNttTest.Tests
 
 				var n = l.Count;
 				// n の逆元が存在するかどうか
-				if (Gcd(n, m) != 1) return -1;
+				var hasNInv = Gcd(n, m) == 1;
 
 				var ws = l.ToArray();
 				var rn = Enumerable.Range(0, n).ToArray();
@@ -73,9 +73,9 @@ namespace DftNttTest.Tests
 				{
 					// 一周の和が 0 かどうか
 					var s = rn.Sum(k => ws[k * j % n]) % m;
-					if (s != 0) return -1;
+					if (s != 0) return (n, false, hasNInv);
 				}
-				return n;
+				return (n, true, hasNInv);
 			}
 		}
 
