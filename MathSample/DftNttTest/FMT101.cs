@@ -2,7 +2,7 @@
 
 namespace DftNttTest
 {
-	public class NTT101
+	public class FMT101
 	{
 		static long Totient(long n)
 		{
@@ -21,7 +21,7 @@ namespace DftNttTest
 		long mod, nthRoot;
 		long nInv;
 
-		public NTT101(int n, long mod, long nthRoot)
+		public FMT101(int n, long mod, long nthRoot)
 		{
 			this.n = n;
 			this.mod = mod;
@@ -36,25 +36,52 @@ namespace DftNttTest
 			return r;
 		}
 
-		// f(ω_n^k) の値
-		long f(long[] c, int k)
+		// c の長さは 2 の冪とします。
+		void TransformRecursive(long[] c)
 		{
-			var r = 0L;
-			for (int j = 0; j < c.Length; ++j)
-				r += c[j] * MPow(nthRoot, k * j) % mod;
-			return r % mod;
+			var n = c.Length;
+			if (n == 1) return;
+
+			var n2 = n >> 1;
+			var c0 = new long[n2];
+			var c1 = new long[n2];
+			for (int k = 0; k < n2; ++k)
+			{
+				c0[k] = c[2 * k];
+				c1[k] = c[2 * k + 1];
+			}
+
+			TransformRecursive(c0);
+			TransformRecursive(c1);
+
+			for (int k = 0; k < n2; ++k)
+			{
+				var v0 = c0[k];
+				var v1 = c1[k] * MPow(nthRoot, this.n / n * k) % mod;
+				c[k] = (v0 + v1) % mod;
+				c[k + n2] = (v0 - v1 + mod) % mod;
+			}
 		}
 
+		// 戻り値の長さは 2 の冪となります。
 		public long[] Transform(long[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
 
-			var r = new long[n];
-			for (int k = 0; k < n; ++k)
-				r[k] = inverse ? f(c, n - k) * nInv % mod : f(c, k);
-			return r;
+			var t = new long[n];
+			c.CopyTo(t, 0);
+
+			TransformRecursive(t);
+
+			if (inverse && n > 1)
+			{
+				Array.Reverse(t, 1, n - 1);
+				for (int k = 0; k < n; ++k) t[k] = t[k] * nInv % mod;
+			}
+			return t;
 		}
 
+		// 戻り値の長さは 2 の冪となります。
 		public long[] Convolution(long[] a, long[] b)
 		{
 			if (a == null) throw new ArgumentNullException(nameof(a));
