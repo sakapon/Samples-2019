@@ -3,9 +3,9 @@ using System.Numerics;
 
 namespace DftNttTest
 {
-	// FFT103 から発展
+	// FFT102 から発展
 	// 1 の n 乗根の集合を保持します。
-	public class FFT
+	public class FFT202
 	{
 		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
 		public static Complex[] ToComplex(long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
@@ -43,11 +43,29 @@ namespace DftNttTest
 		Complex[] roots;
 
 		// length は 2 の冪に変更されます。
-		public FFT(int length)
+		public FFT202(int length)
 		{
 			n = ToPowerOf2(length);
 			br = BitReversal(n);
 			roots = NthRoots(n);
+		}
+
+		// c の長さは 2 の冪とします。
+		// h: 更新対象の長さの半分
+		void TransformRecursive(Complex[] c, int l, int h)
+		{
+			if (h == 0) return;
+
+			TransformRecursive(c, l, h >> 1);
+			TransformRecursive(c, l + h, h >> 1);
+
+			for (int k = 0; k < h; ++k)
+			{
+				var v0 = c[l + k];
+				var v1 = c[l + k + h] * roots[(n >> 1) / h * k];
+				c[l + k] = v0 + v1;
+				c[l + k + h] = v0 - v1;
+			}
 		}
 
 		// f が整数でも f^ は整数になるとは限りません。
@@ -59,19 +77,7 @@ namespace DftNttTest
 			for (int k = 0; k < c.Length; ++k)
 				t[br[k]] = c[k];
 
-			for (int h = 1, d = n >> 1; h < n; h <<= 1, d >>= 1)
-			{
-				for (int l = 0; l < n; l += h << 1)
-				{
-					for (int k = 0; k < h; ++k)
-					{
-						var v0 = t[l + k];
-						var v1 = t[l + k + h] * roots[d * k];
-						t[l + k] = v0 + v1;
-						t[l + k + h] = v0 - v1;
-					}
-				}
-			}
+			TransformRecursive(t, 0, n >> 1);
 
 			if (inverse && n > 1)
 			{
@@ -88,7 +94,7 @@ namespace DftNttTest
 			if (b == null) throw new ArgumentNullException(nameof(b));
 
 			var n = a.Length + b.Length - 1;
-			var fft = new FFT(n);
+			var fft = new FFT202(n);
 
 			var fa = fft.Transform(a, false);
 			var fb = fft.Transform(b, false);

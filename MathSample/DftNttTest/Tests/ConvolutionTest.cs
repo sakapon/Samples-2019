@@ -72,5 +72,11 @@ namespace DftNttTest.Tests
 		{
 			Test((f, g) => FFT103.Convolution(f.ToComplex(), g.ToComplex()).ToInt64().Resize(f.Length + g.Length - 1));
 		}
+
+		[TestMethod]
+		public void Convolution_FFT202()
+		{
+			Test(FFT202.Convolution);
+		}
 	}
 }
