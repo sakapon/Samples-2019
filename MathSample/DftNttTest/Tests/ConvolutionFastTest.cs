@@ -40,5 +40,28 @@ namespace DftNttTest.Tests
 		{
 			Test((f, g) => FFT103.Convolution(f.ToComplex(), g.ToComplex()).ToInt64().Resize(f.Length + g.Length - 1));
 		}
+
+		[TestMethod]
+		public void Convolution_FMT()
+		{
+			var fmt = new FMT(n << 1);
+			Test((f, g) => fmt.Convolution(f, g).Resize((n << 1) - 1));
+		}
+
+		[TestMethod]
+		public void Convolution_FMT101()
+		{
+			var w = MPow(g, (M - 1) / (n << 1));
+			var fmt = new FMT101(n << 1, M, w);
+			Test((f, g) => fmt.Convolution(f, g).Resize((n << 1) - 1));
+		}
+
+		const long M = 998244353, g = 3;
+		static long MPow(long b, long i)
+		{
+			long r = 1;
+			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;
+			return r;
+		}
 	}
 }
