@@ -9,7 +9,7 @@ namespace DftNttTest
 		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
 		public static Complex[] ToComplex(long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
 
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (ω_n^k)
 		static Complex[] NthRoots(int n)
 		{
 			var r = new Complex[n];

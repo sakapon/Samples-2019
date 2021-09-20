@@ -3,13 +3,14 @@ using System.Numerics;
 
 namespace DftNttTest
 {
+	// 最も基本的な DFT の実装です。
 	public static class DFT101
 	{
 		public static long[] ToInt64(this Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
 		public static Complex[] ToComplex(this long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
 		public static T[] Resize<T>(this T[] a, int size) { Array.Resize(ref a, size); return a; }
 
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (ω_n^k)
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;

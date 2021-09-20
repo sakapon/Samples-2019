@@ -6,7 +6,7 @@ namespace DftNttTest
 	// DFT101 の Transform メソッドを二重ループで実装します。
 	public static class DFT102
 	{
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (ω_n^k)
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;
