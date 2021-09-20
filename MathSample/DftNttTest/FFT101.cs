@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace DftNttTest
 {
+	// 最も基本的な FFT の実装です。
 	public static class FFT101
 	{
 		public static int ToPowerOf2(int n)
@@ -12,7 +13,7 @@ namespace DftNttTest
 			return p;
 		}
 
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (ω_n^k)
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;
@@ -25,10 +26,10 @@ namespace DftNttTest
 			var n = c.Length;
 			if (n == 1) return;
 
-			var n2 = n >> 1;
-			var c0 = new Complex[n2];
-			var c1 = new Complex[n2];
-			for (int k = 0; k < n2; ++k)
+			var h = n >> 1;
+			var c0 = new Complex[h];
+			var c1 = new Complex[h];
+			for (int k = 0; k < h; ++k)
 			{
 				c0[k] = c[2 * k];
 				c1[k] = c[2 * k + 1];
@@ -37,12 +38,12 @@ namespace DftNttTest
 			TransformRecursive(c0);
 			TransformRecursive(c1);
 
-			for (int k = 0; k < n2; ++k)
+			for (int k = 0; k < h; ++k)
 			{
 				var v0 = c0[k];
 				var v1 = c1[k] * NthRoot(n, k);
 				c[k] = v0 + v1;
-				c[k + n2] = v0 - v1;
+				c[k + h] = v0 - v1;
 			}
 		}
 

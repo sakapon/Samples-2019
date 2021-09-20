@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace DftNttTest
 {
+	// bit-reversal permutation を利用し、再帰で実装します。
 	public static class FFT102
 	{
 		public static int ToPowerOf2(int n)
@@ -35,7 +36,7 @@ namespace DftNttTest
 			return b;
 		}
 
-		// k 番目の 1 の n 乗根
+		// k 番目の 1 の n 乗根 (ω_n^k)
 		static Complex NthRoot(int n, int k)
 		{
 			var t = 2 * Math.PI * k / n;
@@ -82,6 +83,7 @@ namespace DftNttTest
 			return t;
 		}
 
+		// FFT101 と同じです。
 		// 戻り値の長さは 2 の冪となります。
 		public static Complex[] Convolution(Complex[] a, Complex[] b)
 		{
