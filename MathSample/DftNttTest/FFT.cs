@@ -57,16 +57,16 @@ namespace DftNttTest
 			for (int k = 0; k < c.Length; ++k)
 				t[br[k]] = c[k];
 
-			for (int p = 1, d = n >> 1; p < n; p <<= 1, d >>= 1)
+			for (int h = 1, d = n >> 1; h < n; h <<= 1, d >>= 1)
 			{
-				for (int l = 0; l < n; l += p << 1)
+				for (int l = 0; l < n; l += h << 1)
 				{
-					for (int k = 0; k < p; ++k)
+					for (int k = 0; k < h; ++k)
 					{
 						var v0 = t[l + k];
-						var v1 = t[l + k + p] * roots[d * k];
+						var v1 = t[l + k + h] * roots[d * k];
 						t[l + k] = v0 + v1;
-						t[l + k + p] = v0 - v1;
+						t[l + k + h] = v0 - v1;
 					}
 				}
 			}

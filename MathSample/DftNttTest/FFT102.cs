@@ -43,20 +43,20 @@ namespace DftNttTest
 		}
 
 		// c の長さは 2 の冪とします。
-		// p: 更新対象の長さの半分
-		static void TransformRecursive(Complex[] c, int l, int p)
+		// h: 更新対象の長さの半分
+		static void TransformRecursive(Complex[] c, int l, int h)
 		{
-			if (p == 0) return;
+			if (h == 0) return;
 
-			TransformRecursive(c, l, p >> 1);
-			TransformRecursive(c, l + p, p >> 1);
+			TransformRecursive(c, l, h >> 1);
+			TransformRecursive(c, l + h, h >> 1);
 
-			for (int k = 0; k < p; ++k)
+			for (int k = 0; k < h; ++k)
 			{
 				var v0 = c[l + k];
-				var v1 = c[l + k + p] * NthRoot(p << 1, k);
+				var v1 = c[l + k + h] * NthRoot(h << 1, k);
 				c[l + k] = v0 + v1;
-				c[l + k + p] = v0 - v1;
+				c[l + k + h] = v0 - v1;
 			}
 		}
 
