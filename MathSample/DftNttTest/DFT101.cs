@@ -25,6 +25,7 @@ namespace DftNttTest
 			return r;
 		}
 
+		// f の係数が整数のとき、f^ の係数も整数になるとは限りません。
 		public static Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
@@ -36,6 +37,7 @@ namespace DftNttTest
 			return r;
 		}
 
+		// 戻り値の長さは |a| + |b| - 1 となります。
 		public static Complex[] Convolution(Complex[] a, Complex[] b)
 		{
 			if (a == null) throw new ArgumentNullException(nameof(a));

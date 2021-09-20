@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace DftNttTest
 {
+	// 1 の n 乗根の集合を保持します。
 	public class DFT
 	{
 		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
@@ -28,7 +29,7 @@ namespace DftNttTest
 		}
 
 		// f(ω_n^k) の値
-		// DFT が O(n^2) のため、k * j はオーバーフローしないと仮定しています。
+		// DFT は O(n^2) のため、k * j はオーバーフローしないと仮定しています。
 		Complex f(Complex[] c, int k)
 		{
 			Complex r = 0;
@@ -37,7 +38,7 @@ namespace DftNttTest
 			return r;
 		}
 
-		// f が整数でも f^ は整数になるとは限りません。
+		// f の係数が整数のとき、f^ の係数も整数になるとは限りません。
 		public Complex[] Transform(Complex[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
@@ -48,6 +49,7 @@ namespace DftNttTest
 			return r;
 		}
 
+		// 戻り値の長さは |a| + |b| - 1 となります。
 		public static Complex[] Convolution(Complex[] a, Complex[] b)
 		{
 			if (a == null) throw new ArgumentNullException(nameof(a));
