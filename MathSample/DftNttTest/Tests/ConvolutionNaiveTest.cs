@@ -14,7 +14,7 @@ namespace DftNttTest.Tests
 			var f = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
 			var g = Enumerable.Range(-5, n).Select(v => (long)v).ToArray();
 			var actual = convolution(f, g);
-			Assert.AreEqual(f.Length + g.Length - 1, actual.Length);
+			Assert.AreEqual(f.Length + g.Length - 2, Enumerable.Range(0, actual.Length).Last(i => actual[i] != 0));
 		}
 
 		[TestMethod]
@@ -40,7 +40,7 @@ namespace DftNttTest.Tests
 		{
 			var w = MPow(g, (M - 1) / (n << 1));
 			var ntt = new NTT101(n << 1, M, w);
-			Test((f, g) => ntt.Convolution(f, g).Resize((n << 1) - 1));
+			Test(ntt.Convolution);
 		}
 
 		const long M = 998244353, g = 3;

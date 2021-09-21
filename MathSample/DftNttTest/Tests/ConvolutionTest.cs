@@ -13,6 +13,7 @@ namespace DftNttTest.Tests
 			var g = new long[] { -1, -1, 1 };
 			var expected = new long[] { -2, -3, 0, 0, 1 };
 			var actual = convolution(f, g);
+			if (expected.Length < actual.Length) Array.Resize(ref actual, expected.Length);
 			CollectionAssert.AreEqual(expected, actual);
 		}
 
@@ -22,6 +23,7 @@ namespace DftNttTest.Tests
 			var g = new long[] { 5, 6, 7, 8, 9 };
 			var expected = new long[] { 5, 16, 34, 60, 70, 70, 59, 36 };
 			var actual = convolution(f, g);
+			if (expected.Length < actual.Length) Array.Resize(ref actual, expected.Length);
 			CollectionAssert.AreEqual(expected, actual);
 		}
 
@@ -58,19 +60,19 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Convolution_FFT101()
 		{
-			Test((f, g) => FFT101.Convolution(f.ToComplex(), g.ToComplex()).ToInt64().Resize(f.Length + g.Length - 1));
+			Test((f, g) => FFT101.Convolution(f.ToComplex(), g.ToComplex()).ToInt64());
 		}
 
 		[TestMethod]
 		public void Convolution_FFT102()
 		{
-			Test((f, g) => FFT102.Convolution(f.ToComplex(), g.ToComplex()).ToInt64().Resize(f.Length + g.Length - 1));
+			Test((f, g) => FFT102.Convolution(f.ToComplex(), g.ToComplex()).ToInt64());
 		}
 
 		[TestMethod]
 		public void Convolution_FFT103()
 		{
-			Test((f, g) => FFT103.Convolution(f.ToComplex(), g.ToComplex()).ToInt64().Resize(f.Length + g.Length - 1));
+			Test((f, g) => FFT103.Convolution(f.ToComplex(), g.ToComplex()).ToInt64());
 		}
 
 		[TestMethod]

@@ -15,6 +15,7 @@ namespace DftNttTest.Tests
 			var f1 = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
 			var f_ = dft(f1.ToComplex());
 			var f2 = idft(f_).ToInt64();
+			if (n < f2.Length) Array.Resize(ref f2, n);
 			CollectionAssert.AreEqual(f1, f2);
 		}
 
@@ -23,6 +24,7 @@ namespace DftNttTest.Tests
 			var f1 = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
 			var f_ = dft(f1);
 			var f2 = idft(f_);
+			if (n < f2.Length) Array.Resize(ref f2, n);
 			CollectionAssert.AreEqual(f1, f2);
 		}
 
