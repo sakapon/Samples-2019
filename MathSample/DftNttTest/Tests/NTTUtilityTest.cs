@@ -30,6 +30,53 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void FindMinGenerator()
+		{
+			Assert.AreEqual(2, NTTUtility.FindMinGenerator(3));
+			Assert.AreEqual(2, NTTUtility.FindMinGenerator(5));
+			Assert.AreEqual(3, NTTUtility.FindMinGenerator(17));
+			Assert.AreEqual(5, NTTUtility.FindMinGenerator(97));
+			Assert.AreEqual(3, NTTUtility.FindMinGenerator(65537));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(104857601));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(167772161));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(469762049));
+			//Assert.AreEqual(11, NTTUtility.FindMinGenerator(754974721));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(998244353));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(1004535809));
+
+			// Too large.
+			//Assert.AreEqual(5, NTTUtility.FindMinGenerator(1001801121793));
+			//Assert.AreEqual(3, NTTUtility.FindMinGenerator(1009317314561));
+
+			Console.WriteLine(NTTUtility.FindMinGenerator(200003));
+		}
+
+		[TestMethod]
+		public void FindGenerator2()
+		{
+			Assert.AreEqual(3, NTTUtility.FindGenerator2(7));
+			Assert.AreEqual(2, NTTUtility.FindGenerator2(19));
+			Assert.AreEqual(3, NTTUtility.FindGenerator2(31));
+
+			Assert.AreEqual(2, NTTUtility.FindGenerator2(13));
+			Assert.AreEqual(2, NTTUtility.FindGenerator2(37));
+			Assert.AreEqual(2, NTTUtility.FindGenerator2(61));
+
+			Assert.AreEqual(3, NTTUtility.FindGenerator2(17));
+			Assert.AreEqual(3, NTTUtility.FindGenerator2(998244353));
+		}
+
+		[TestMethod]
+		public void FindNthRoot()
+		{
+			Assert.AreEqual(6, NTTUtility.FindNthRoot(7, 1));
+			Assert.AreEqual(5, NTTUtility.FindNthRoot(13, 2));
+			Assert.AreEqual(2, NTTUtility.FindNthRoot(17, 3));
+			Assert.AreEqual(3, NTTUtility.FindNthRoot(17, 4));
+			Assert.AreEqual(-1, NTTUtility.FindNthRoot(17, 5));
+		}
+
+		[TestMethod]
 		public void FindNthRoots()
 		{
 			for (int m = 2; m <= 200; m++)
