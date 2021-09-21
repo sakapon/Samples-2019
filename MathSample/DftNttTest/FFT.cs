@@ -59,8 +59,9 @@ namespace DftNttTest
 			for (int k = 0; k < c.Length; ++k)
 				t[br[k]] = c[k];
 
-			for (int h = 1, d = n >> 1; h < n; h <<= 1, d >>= 1)
+			for (int h = 1; h < n; h <<= 1)
 			{
+				var d = (n >> 1) / h;
 				for (int l = 0; l < n; l += h << 1)
 				{
 					for (int k = 0; k < h; ++k)

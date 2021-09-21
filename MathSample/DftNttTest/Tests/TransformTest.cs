@@ -73,7 +73,7 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Transform_FFT302()
 		{
-			var fft = new FFT302();
+			var fft = new FFT302(n);
 			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
 		}
 	}

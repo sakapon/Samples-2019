@@ -55,6 +55,7 @@ namespace DftNttTest
 		void TransformRecursive(Complex[] c, int l, int h)
 		{
 			if (h == 0) return;
+			var d = (n >> 1) / h;
 
 			TransformRecursive(c, l, h >> 1);
 			TransformRecursive(c, l + h, h >> 1);
@@ -62,7 +63,7 @@ namespace DftNttTest
 			for (int k = 0; k < h; ++k)
 			{
 				var v0 = c[l + k];
-				var v1 = c[l + k + h] * roots[(n >> 1) / h * k];
+				var v1 = c[l + k + h] * roots[d * k];
 				c[l + k] = v0 + v1;
 				c[l + k + h] = v0 - v1;
 			}
