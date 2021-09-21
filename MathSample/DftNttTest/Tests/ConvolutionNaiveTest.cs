@@ -18,12 +18,6 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Convolution_DFT()
-		{
-			Test(DFT.Convolution);
-		}
-
-		[TestMethod]
 		public void Convolution_DFT101()
 		{
 			Test((f, g) => DFT101.Convolution(f.ToComplex(), g.ToComplex()).ToInt64());
@@ -33,6 +27,12 @@ namespace DftNttTest.Tests
 		public void Convolution_DFT102()
 		{
 			Test((f, g) => DFT102.Convolution(f.ToComplex(), g.ToComplex()).ToInt64());
+		}
+
+		[TestMethod]
+		public void Convolution_DFT()
+		{
+			Test(DFT.Convolution);
 		}
 
 		[TestMethod]

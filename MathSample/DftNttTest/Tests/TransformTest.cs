@@ -20,13 +20,6 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_DFT()
-		{
-			var dft = new DFT(n);
-			Test(f => dft.Transform(f, false), f => dft.Transform(f, true));
-		}
-
-		[TestMethod]
 		public void Transform_DFT101()
 		{
 			Test(f => DFT101.Transform(f, false), f => DFT101.Transform(f, true));
@@ -39,10 +32,10 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_FFT()
+		public void Transform_DFT()
 		{
-			var fft = new FFT(n);
-			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
+			var dft = new DFT(n);
+			Test(f => dft.Transform(f, false), f => dft.Transform(f, true));
 		}
 
 		[TestMethod]
@@ -67,6 +60,13 @@ namespace DftNttTest.Tests
 		public void Transform_FFT202()
 		{
 			var fft = new FFT202(n);
+			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
+		}
+
+		[TestMethod]
+		public void Transform_FFT()
+		{
+			var fft = new FFT(n);
 			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
 		}
 	}
