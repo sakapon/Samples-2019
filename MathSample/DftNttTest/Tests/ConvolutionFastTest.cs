@@ -48,6 +48,13 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Convolution_FFT302()
+		{
+			var fft = new FFT302();
+			Test(fft.Convolution);
+		}
+
+		[TestMethod]
 		public void Convolution_FMT()
 		{
 			var fmt = new FMT(n << 1);
