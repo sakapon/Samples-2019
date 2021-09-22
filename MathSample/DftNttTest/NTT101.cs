@@ -17,32 +17,43 @@ namespace DftNttTest
 			return r;
 		}
 
-		int n;
-		long mod, nthRoot;
-		long nInv;
-
-		public NTT101(int n, long mod, long nthRoot)
-		{
-			this.n = n;
-			this.mod = mod;
-			this.nthRoot = nthRoot;
-			nInv = MPow(n, Totient(mod) - 1);
-		}
-
 		long MPow(long b, long i)
 		{
 			long r = 1;
-			for (; i != 0; b = b * b % mod, i >>= 1) if ((i & 1) != 0) r = r * b % mod;
+			for (; i != 0; b = b * b % m, i >>= 1) if ((i & 1) != 0) r = r * b % m;
 			return r;
 		}
 
-		// f(ω_n^k) の値
+		// k 番目の 1 の n 乗根 (ω^k)
+		long[] NthRoots(int n, long w)
+		{
+			var r = new long[n];
+			r[0] = 1;
+			for (int k = 1; k < n; ++k)
+				r[k] = r[k - 1] * w % m;
+			return r;
+		}
+
+		int n;
+		public int Length => n;
+		long m, nInv;
+		long[] roots;
+
+		public NTT101(int length, long mod, long nthRoot)
+		{
+			n = length;
+			m = mod;
+			nInv = MPow(n, Totient(m) - 1);
+			roots = NthRoots(n, nthRoot);
+		}
+
+		// f(ω^k) の値
 		long f(long[] c, int k)
 		{
 			var r = 0L;
 			for (int j = 0; j < c.Length; ++j)
-				r += c[j] * MPow(nthRoot, k * j) % mod;
-			return r % mod;
+				r += c[j] * roots[k * j % n] % m;
+			return r % m;
 		}
 
 		public long[] Transform(long[] c, bool inverse)
@@ -51,7 +62,7 @@ namespace DftNttTest
 
 			var r = new long[n];
 			for (int k = 0; k < n; ++k)
-				r[k] = inverse ? f(c, n - k) * nInv % mod : f(c, k);
+				r[k] = inverse ? f(c, n - k) * nInv % m : f(c, k);
 			return r;
 		}
 
@@ -65,7 +76,7 @@ namespace DftNttTest
 
 			for (int k = 0; k < n; ++k)
 			{
-				fa[k] = fa[k] * fb[k] % mod;
+				fa[k] = fa[k] * fb[k] % m;
 			}
 			return Transform(fa, true);
 		}
