@@ -36,6 +36,11 @@ namespace DftNttTest.Tests
 			Convolution(n, m, w, result);
 		}
 
+		static void Test(int n, long p, long g)
+		{
+			Test(n, p, MPow(g, (p - 1) / n, p), true);
+		}
+
 		[TestMethod]
 		public void TestAll()
 		{
@@ -48,12 +53,13 @@ namespace DftNttTest.Tests
 			Test(16, 289, 40, true);
 
 			var n = 1 << 8;
-			var w = MPow(g, (M - 1) / n);
-			Test(n, M, w, true);
+			Test(n, 65537, 3);
+			Test(n, 998244353, 3);
+			Test(n, 1107296257, 10);
+			Test(n, 2013265921, 31);
 		}
 
-		const long M = 998244353, g = 3;
-		static long MPow(long b, long i)
+		static long MPow(long b, long i, long M)
 		{
 			long r = 1;
 			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;

@@ -2,6 +2,7 @@
 
 namespace DftNttTest
 {
+	// NTT102 と FFT101
 	public class FMT101
 	{
 		public static int ToPowerOf2(int n)
