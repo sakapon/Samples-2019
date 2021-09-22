@@ -48,10 +48,10 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_NTT101()
+		public void Transform_NTT102()
 		{
 			var w = MPow(g, (M - 1) / n);
-			var ntt = new NTT101(n, M, w);
+			var ntt = new NTT102(n, M, w);
 			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 

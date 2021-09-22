@@ -36,10 +36,10 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Convolution_NTT101()
+		public void Convolution_NTT102()
 		{
 			var w = MPow(g, (M - 1) / (n << 1));
-			var ntt = new NTT101(n << 1, M, w);
+			var ntt = new NTT102(n << 1, M, w);
 			Test(ntt.Convolution);
 		}
 

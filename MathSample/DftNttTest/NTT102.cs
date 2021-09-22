@@ -2,7 +2,7 @@
 
 namespace DftNttTest
 {
-	public class NTT101
+	public class NTT102
 	{
 		static long Totient(long n)
 		{
@@ -39,7 +39,7 @@ namespace DftNttTest
 		long m, nInv;
 		long[] roots;
 
-		public NTT101(int length, long mod, long nthRoot)
+		public NTT102(int length, long mod, long nthRoot)
 		{
 			n = length;
 			m = mod;
