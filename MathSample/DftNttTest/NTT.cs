@@ -2,6 +2,7 @@
 
 namespace DftNttTest
 {
+	// パラメーターを定数とした実装です。
 	public class NTT
 	{
 		const long p = 998244353, g = 3;

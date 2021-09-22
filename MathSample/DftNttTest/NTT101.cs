@@ -2,6 +2,7 @@
 
 namespace DftNttTest
 {
+	// 最も基本的な NTT の実装です。
 	public class NTT101
 	{
 		// k 番目の 1 の n 乗根 (ω^k)
