@@ -5,6 +5,23 @@ namespace DftNttTest
 {
 	public static class NTTUtility
 	{
+		static long MPow(long b, long i, long p)
+		{
+			long r = 1;
+			for (; i != 0; b = b * b % p, i >>= 1) if ((i & 1) != 0) r = r * b % p;
+			return r;
+		}
+
+		static long[] Divisors(long n)
+		{
+			var r = new List<long>();
+			for (long x = 1; x * x <= n; ++x) if (n % x == 0) r.Add(x);
+			var i = r.Count - 1;
+			if (r[i] * r[i] == n) --i;
+			for (; i >= 0; --i) r.Add(n / r[i]);
+			return r.ToArray();
+		}
+
 		static bool IsPrime(long n)
 		{
 			for (long x = 2; x * x <= n; ++x) if (n % x == 0) return false;
@@ -32,56 +49,28 @@ namespace DftNttTest
 			}
 		}
 
-		// 最小の原始根をナイーブな方法で求めます。
+		// 最小の原始根
 		public static long FindMinGenerator(long p)
 		{
+			var ds = Divisors(p - 1);
+
 			for (long g = 1; g < p; ++g)
 			{
-				var t = 1L;
-				var count = 1;
-				while ((t = t * g % p) != 1) ++count;
-				if (count == p - 1) return g;
+				foreach (var d in ds)
+				{
+					if (d == p - 1) return g;
+					if (MPow(g, d, p) == 1) break;
+				}
 			}
 			throw new InvalidOperationException();
 		}
 
-		// p - 1 の素因数に 2 が多い場合
-		public static long FindGenerator2(long p)
+		public static bool AssertGenerator(long p, long g)
 		{
-			var d = p - 1;
-			var c = 0;
-			while (d % 2 == 0)
-			{
-				d >>= 1;
-				++c;
-			}
-
-			for (long g = 1; g < p; ++g)
-			{
-				var ok = true;
-				var t = 1L;
-
-				for (int i = 0; i < d; ++i)
-				{
-					if ((t = t * g % p) == 1)
-					{
-						ok = false;
-						break;
-					}
-				}
-				if (!ok) continue;
-
-				for (int i = 1; i < c; ++i)
-				{
-					if ((t = t * t % p) == 1)
-					{
-						ok = false;
-						break;
-					}
-				}
-				if (ok) return g;
-			}
-			throw new InvalidOperationException();
+			var t = 1L;
+			for (int i = 1; i < p - 1; ++i)
+				if ((t = t * g % p) == 1) return false;
+			return t * g % p == 1;
 		}
 
 		// 1 の 2^logn (= n) 乗根
