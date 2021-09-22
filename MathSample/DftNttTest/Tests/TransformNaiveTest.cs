@@ -50,8 +50,7 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Transform_NTT102()
 		{
-			var w = MPow(g, (M - 1) / n);
-			var ntt = new NTT102(n, M, w);
+			var ntt = new NTT102(n, true);
 			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 
@@ -60,14 +59,6 @@ namespace DftNttTest.Tests
 		{
 			var ntt = new NTT(n);
 			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
-		}
-
-		const long M = 998244353, g = 3;
-		static long MPow(long b, long i)
-		{
-			long r = 1;
-			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;
-			return r;
 		}
 	}
 }

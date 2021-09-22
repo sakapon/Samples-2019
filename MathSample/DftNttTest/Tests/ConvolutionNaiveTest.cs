@@ -38,8 +38,7 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Convolution_NTT102()
 		{
-			var w = MPow(g, (M - 1) / (n << 1));
-			var ntt = new NTT102(n << 1, M, w);
+			var ntt = new NTT102(n << 1, true);
 			Test(ntt.Convolution);
 		}
 
@@ -47,14 +46,6 @@ namespace DftNttTest.Tests
 		public void Convolution_NTT()
 		{
 			Test(NTT.Convolution);
-		}
-
-		const long M = 998244353, g = 3;
-		static long MPow(long b, long i)
-		{
-			long r = 1;
-			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;
-			return r;
 		}
 	}
 }

@@ -19,6 +19,15 @@ namespace DftNttTest.Tests
 			CollectionAssert.AreEqual(f1, f2);
 		}
 
+		static void Test(Func<long[], long[]> dft, Func<long[], long[]> idft)
+		{
+			var f1 = Enumerable.Range(3, n).Select(v => (long)v).ToArray();
+			var f_ = dft(f1);
+			var f2 = idft(f_);
+			if (n < f2.Length) Array.Resize(ref f2, n);
+			CollectionAssert.AreEqual(f1, f2);
+		}
+
 		[TestMethod]
 		public void Transform_DFT101()
 		{
@@ -75,6 +84,20 @@ namespace DftNttTest.Tests
 		{
 			var fft = new FFT302(n);
 			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
+		}
+
+		[TestMethod]
+		public void Transform_NTT102()
+		{
+			var ntt = new NTT102(n, true);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
+		}
+
+		[TestMethod]
+		public void Transform_NTT()
+		{
+			var ntt = new NTT(n);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 	}
 }

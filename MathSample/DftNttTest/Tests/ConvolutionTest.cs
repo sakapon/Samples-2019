@@ -87,5 +87,18 @@ namespace DftNttTest.Tests
 			var fft = new FFT302(16);
 			Test(fft.Convolution);
 		}
+
+		[TestMethod]
+		public void Convolution_NTT102()
+		{
+			var ntt = new NTT102(16, true);
+			Test02(ntt.Convolution);
+		}
+
+		[TestMethod]
+		public void Convolution_NTT()
+		{
+			Test02(NTT.Convolution);
+		}
 	}
 }
