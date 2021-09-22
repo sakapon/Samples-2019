@@ -55,6 +55,13 @@ namespace DftNttTest.Tests
 			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 
+		[TestMethod]
+		public void Transform_NTT()
+		{
+			var ntt = new NTT(n);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
+		}
+
 		const long M = 998244353, g = 3;
 		static long MPow(long b, long i)
 		{

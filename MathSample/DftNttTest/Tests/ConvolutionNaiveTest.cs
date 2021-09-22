@@ -43,6 +43,12 @@ namespace DftNttTest.Tests
 			Test(ntt.Convolution);
 		}
 
+		[TestMethod]
+		public void Convolution_NTT()
+		{
+			Test(NTT.Convolution);
+		}
+
 		const long M = 998244353, g = 3;
 		static long MPow(long b, long i)
 		{
