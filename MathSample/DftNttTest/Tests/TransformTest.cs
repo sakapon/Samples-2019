@@ -99,5 +99,26 @@ namespace DftNttTest.Tests
 			var ntt = new NTT(n);
 			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
+
+		[TestMethod]
+		public void Transform_FMT101()
+		{
+			var fmt = new FMT101(n, true);
+			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+		}
+
+		[TestMethod]
+		public void Transform_FMT()
+		{
+			var fmt = new FMT(n);
+			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+		}
+
+		[TestMethod]
+		public void Transform_FMT302()
+		{
+			var fmt = new FMT302(n);
+			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+		}
 	}
 }

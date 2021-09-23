@@ -100,5 +100,25 @@ namespace DftNttTest.Tests
 		{
 			Test02(NTT.Convolution);
 		}
+
+		[TestMethod]
+		public void Convolution_FMT101()
+		{
+			var fmt = new FMT101(16, true);
+			Test02(fmt.Convolution);
+		}
+
+		[TestMethod]
+		public void Convolution_FMT()
+		{
+			Test02(FMT.Convolution);
+		}
+
+		[TestMethod]
+		public void Convolution_FMT302()
+		{
+			var fmt = new FMT302(16);
+			Test02(fmt.Convolution);
+		}
 	}
 }

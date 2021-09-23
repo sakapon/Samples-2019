@@ -55,25 +55,23 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Convolution_FMT101()
+		{
+			var fmt = new FMT101(n << 1, true);
+			Test(fmt.Convolution);
+		}
+
+		[TestMethod]
 		public void Convolution_FMT()
 		{
 			Test(FMT.Convolution);
 		}
 
 		[TestMethod]
-		public void Convolution_FMT101()
+		public void Convolution_FMT302()
 		{
-			var w = MPow(g, (M - 1) / (n << 1));
-			var fmt = new FMT101(n << 1, M, w);
+			var fmt = new FMT302();
 			Test(fmt.Convolution);
-		}
-
-		const long M = 998244353, g = 3;
-		static long MPow(long b, long i)
-		{
-			long r = 1;
-			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;
-			return r;
 		}
 	}
 }

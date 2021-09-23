@@ -68,6 +68,13 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Transform_FMT101()
+		{
+			var fmt = new FMT101(n, true);
+			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+		}
+
+		[TestMethod]
 		public void Transform_FMT()
 		{
 			var fmt = new FMT(n);
@@ -75,19 +82,10 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_FMT101()
+		public void Transform_FMT302()
 		{
-			var w = MPow(g, (M - 1) / n);
-			var fmt = new FMT101(n, M, w);
+			var fmt = new FMT302();
 			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
-		}
-
-		const long M = 998244353, g = 3;
-		static long MPow(long b, long i)
-		{
-			long r = 1;
-			for (; i != 0; b = b * b % M, i >>= 1) if ((i & 1) != 0) r = r * b % M;
-			return r;
 		}
 	}
 }
