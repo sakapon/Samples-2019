@@ -57,8 +57,7 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Convolution_FMT()
 		{
-			var fmt = new FMT(n << 1);
-			Test(fmt.Convolution);
+			Test(FMT.Convolution);
 		}
 
 		[TestMethod]

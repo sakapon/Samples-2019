@@ -2,8 +2,11 @@
 
 namespace DftNttTest
 {
+	// NTT と FFT202
 	public class FMT
 	{
+		const long p = 998244353, g = 3;
+
 		public static int ToPowerOf2(int n)
 		{
 			var p = 1;
@@ -22,7 +25,7 @@ namespace DftNttTest
 			return b;
 		}
 
-		long MPow(long b, long i)
+		static long MPow(long b, long i)
 		{
 			long r = 1;
 			for (; i != 0; b = b * b % p, i >>= 1) if ((i & 1) != 0) r = r * b % p;
@@ -30,7 +33,7 @@ namespace DftNttTest
 		}
 
 		// k 番目の 1 の n 乗根 (0 <= k < n/2)
-		long[] NthRoots(int n, long w)
+		static long[] NthRoots(int n, long w)
 		{
 			var r = new long[n >> 1];
 			r[0] = 1;
@@ -41,15 +44,14 @@ namespace DftNttTest
 
 		int n;
 		public int Length => n;
-		long p, nInv;
+		long nInv;
 		int[] br;
 		long[] roots;
 
 		// length は 2 の冪に変更されます。
-		public FMT(int length, long p = 998244353, long g = 3)
+		public FMT(int length)
 		{
 			n = ToPowerOf2(length);
-			this.p = p;
 			nInv = MPow(n, p - 2);
 			br = BitReversal(n);
 			roots = NthRoots(n, MPow(g, (p - 1) / n));
@@ -60,6 +62,7 @@ namespace DftNttTest
 		void TransformRecursive(long[] c, int l, int h)
 		{
 			if (h == 0) return;
+			var d = (n >> 1) / h;
 
 			TransformRecursive(c, l, h >> 1);
 			TransformRecursive(c, l + h, h >> 1);
@@ -67,13 +70,12 @@ namespace DftNttTest
 			for (int k = 0; k < h; ++k)
 			{
 				var v0 = c[l + k];
-				var v1 = c[l + k + h] * roots[(n >> 1) / h * k] % p;
+				var v1 = c[l + k + h] * roots[d * k] % p;
 				c[l + k] = (v0 + v1) % p;
 				c[l + k + h] = (v0 - v1 + p) % p;
 			}
 		}
 
-		// 戻り値の長さは 2 の冪となります。
 		public long[] Transform(long[] c, bool inverse)
 		{
 			if (c == null) throw new ArgumentNullException(nameof(c));
@@ -92,23 +94,25 @@ namespace DftNttTest
 			return t;
 		}
 
-		// 戻り値の長さは 2 の冪となります。
-		public long[] Convolution(long[] a, long[] b)
+		// 戻り値の長さは |a| + |b| - 1 となります。
+		public static long[] Convolution(long[] a, long[] b)
 		{
 			if (a == null) throw new ArgumentNullException(nameof(a));
 			if (b == null) throw new ArgumentNullException(nameof(b));
 
-			var fa = Transform(a, false);
-			var fb = Transform(b, false);
+			var n = a.Length + b.Length - 1;
+			var fmt = new FMT(n);
 
-			for (int k = 0; k < n; ++k)
+			var fa = fmt.Transform(a, false);
+			var fb = fmt.Transform(b, false);
+
+			for (int k = 0; k < fa.Length; ++k)
 			{
 				fa[k] = fa[k] * fb[k] % p;
 			}
-			var c = Transform(fa, true);
+			var c = fmt.Transform(fa, true);
 
-			var n0 = a.Length + b.Length - 1;
-			if (n0 < c.Length) Array.Resize(ref c, n0);
+			if (n < c.Length) Array.Resize(ref c, n);
 			return c;
 		}
 	}
