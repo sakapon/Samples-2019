@@ -2,7 +2,7 @@
 
 namespace DftNttTest
 {
-	// コンストラクターを強化した実装です。
+	// パラメーターを指定するためのコンストラクターを実装します。
 	public class NTT102
 	{
 		public static int ToPowerOf2(int n)

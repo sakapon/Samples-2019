@@ -3,6 +3,7 @@
 namespace DftNttTest
 {
 	// NTT と FFT202
+	// パラメーターを定数とした実装です。
 	public class FMT
 	{
 		const long p = 998244353, g = 3;
