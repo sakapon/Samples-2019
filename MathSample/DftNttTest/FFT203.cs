@@ -5,7 +5,7 @@ namespace DftNttTest
 {
 	// FFT103 から発展
 	// 1 の n 乗根の集合を保持します。
-	public class FFT
+	public class FFT203
 	{
 		public static long[] ToInt64(Complex[] a) => Array.ConvertAll(a, x => (long)Math.Round(x.Real));
 		public static Complex[] ToComplex(long[] a) => Array.ConvertAll(a, x => new Complex(x, 0));
@@ -43,7 +43,7 @@ namespace DftNttTest
 		Complex[] roots;
 
 		// length は 2 の冪に変更されます。
-		public FFT(int length)
+		public FFT203(int length)
 		{
 			n = ToPowerOf2(length);
 			br = BitReversal(n);
@@ -89,7 +89,7 @@ namespace DftNttTest
 			if (b == null) throw new ArgumentNullException(nameof(b));
 
 			var n = a.Length + b.Length - 1;
-			var fft = new FFT(n);
+			var fft = new FFT203(n);
 
 			var fa = fft.Transform(a, false);
 			var fb = fft.Transform(b, false);

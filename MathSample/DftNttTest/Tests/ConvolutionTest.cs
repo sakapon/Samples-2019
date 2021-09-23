@@ -76,9 +76,9 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Convolution_FFT()
+		public void Convolution_FFT203()
 		{
-			Test(FFT.Convolution);
+			Test(FFT203.Convolution);
 		}
 
 		[TestMethod]
