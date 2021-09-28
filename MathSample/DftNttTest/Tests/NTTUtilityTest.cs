@@ -84,32 +84,43 @@ namespace DftNttTest.Tests
 				if (n != -1 && isCyclic && hasNInv) Console.WriteLine($"m = {m}, w = {w}, n = {n}, {(isCyclic ? 'T' : 'F')}{(hasNInv ? 'T' : 'F')}");
 			}
 
-			// NTT の十分条件を満たす場合、w の位数 n を返します。
+			// w が 1 の累乗根である場合、位数 n を返します。
 			(int, bool, bool) GetOrder(long w)
 			{
 				// 1 の累乗根かどうか
 				if (Gcd(w, m) != 1) return (-1, false, false);
 
+				var ws = GetRoots(w);
+				var n = ws.Length;
+
+				// n の逆元が存在するかどうか
+				var hasNInv = Gcd(n, m) == 1;
+
+				return (n, GetIsCyclic(ws), hasNInv);
+			}
+
+			long[] GetRoots(long w)
+			{
 				l.Clear();
 				l.Add(1);
 
 				var t = 1L;
 				while ((t = t * w % m) != 1)
 					l.Add(t);
+				return l.ToArray();
+			}
 
-				var n = l.Count;
-				// n の逆元が存在するかどうか
-				var hasNInv = Gcd(n, m) == 1;
-
-				var ws = l.ToArray();
+			// 一周の和が 0 かどうか
+			bool GetIsCyclic(long[] ws)
+			{
+				var n = ws.Length;
 				var rn = Enumerable.Range(0, n).ToArray();
 				for (int j = 1; j < n; j++)
 				{
-					// 一周の和が 0 かどうか
 					var s = rn.Sum(k => ws[k * j % n]) % m;
-					if (s != 0) return (n, false, hasNInv);
+					if (s != 0) return false;
 				}
-				return (n, true, hasNInv);
+				return true;
 			}
 		}
 
