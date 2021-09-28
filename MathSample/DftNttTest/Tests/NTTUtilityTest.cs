@@ -80,15 +80,15 @@ namespace DftNttTest.Tests
 			var l = new List<long>();
 			for (long w = 2; w < m; w++)
 			{
-				var (n, isCyclic, hasNInv) = GetOrder(w);
-				if (n != -1 && isCyclic && hasNInv) Console.WriteLine($"m = {m}, w = {w}, n = {n}, {(isCyclic ? 'T' : 'F')}{(hasNInv ? 'T' : 'F')}");
+				var (n, isCyclic, isCyclic2, hasNInv) = GetOrder(w);
+				if (n != -1 && isCyclic && hasNInv) Console.WriteLine($"m = {m}, w = {w}, n = {n}, {(isCyclic ? 'T' : 'F')}{(isCyclic2 ? 'T' : 'F')}{(hasNInv ? 'T' : 'F')}");
 			}
 
 			// w が 1 の累乗根である場合、位数 n を返します。
-			(int, bool, bool) GetOrder(long w)
+			(int, bool, bool, bool) GetOrder(long w)
 			{
 				// 1 の累乗根かどうか
-				if (Gcd(w, m) != 1) return (-1, false, false);
+				if (Gcd(w, m) != 1) return (-1, false, false, false);
 
 				var ws = GetRoots(w);
 				var n = ws.Length;
@@ -96,7 +96,7 @@ namespace DftNttTest.Tests
 				// n の逆元が存在するかどうか
 				var hasNInv = Gcd(n, m) == 1;
 
-				return (n, GetIsCyclic(ws), hasNInv);
+				return (n, GetIsCyclic(ws), GetIsCyclic2(ws), hasNInv);
 			}
 
 			long[] GetRoots(long w)
@@ -119,6 +119,17 @@ namespace DftNttTest.Tests
 				{
 					var s = rn.Sum(k => ws[k * j % n]) % m;
 					if (s != 0) return false;
+				}
+				return true;
+			}
+
+			// 一周の和の分母が存在するかどうか
+			bool GetIsCyclic2(long[] ws)
+			{
+				var n = ws.Length;
+				for (int j = 1; j < n; j++)
+				{
+					if (Gcd(ws[j] - 1, m) != 1) return false;
 				}
 				return true;
 			}
