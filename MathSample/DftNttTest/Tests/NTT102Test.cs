@@ -59,6 +59,7 @@ namespace DftNttTest.Tests
 			Test(6, 91, 10, true);
 
 			Test(8, 17, 2, true);
+			Test(8, 51, 2, false);
 			Test(8, 289, 110, true);
 
 			var n = 1 << 8;

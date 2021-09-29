@@ -43,6 +43,8 @@ namespace DftNttTest.Tests
 			Assert.AreEqual(5, NTTUtility.FindMinGenerator(97));
 			Assert.AreEqual(3, NTTUtility.FindMinGenerator(65537));
 			Assert.AreEqual(2, NTTUtility.FindMinGenerator(200003));
+			Assert.AreEqual(3, NTTUtility.FindMinGenerator(7340033));
+			Assert.AreEqual(15, NTTUtility.FindMinGenerator(13631489));
 			Assert.AreEqual(3, NTTUtility.FindMinGenerator(104857601));
 			Assert.AreEqual(3, NTTUtility.FindMinGenerator(167772161));
 			Assert.AreEqual(3, NTTUtility.FindMinGenerator(469762049));
