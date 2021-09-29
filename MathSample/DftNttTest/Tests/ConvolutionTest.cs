@@ -109,6 +109,13 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Convolution_FNTT202()
+		{
+			var t = new FNTT202(16);
+			Test02(t.Convolution);
+		}
+
+		[TestMethod]
 		public void Convolution_FMT()
 		{
 			Test02(FMT.Convolution);

@@ -108,6 +108,13 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Transform_FNTT202()
+		{
+			var t = new FNTT202(n);
+			Test(f => t.Transform(f, false), f => t.Transform(f, true));
+		}
+
+		[TestMethod]
 		public void Transform_FMT()
 		{
 			var fmt = new FMT(n);
