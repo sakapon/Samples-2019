@@ -17,8 +17,6 @@ namespace DftNttTest
 			return (y, x - q * y);
 		}
 
-		static BigInteger MInt(BigInteger x, long M) => (x %= M) < 0 ? x + M : x;
-
 		long m, n, mn;
 		long u, v;
 
@@ -35,8 +33,9 @@ namespace DftNttTest
 		// 戻り値は anv + bmu
 		public long Solve(long a, long b)
 		{
-			var r = (BigInteger)a * n * v + (BigInteger)b * m * u;
-			return (long)MInt(r, mn);
+			var x = (BigInteger)a * n * v + (BigInteger)b * m * u;
+			var r = (long)(x % mn);
+			return r < 0 ? r + mn : r;
 		}
 	}
 }
