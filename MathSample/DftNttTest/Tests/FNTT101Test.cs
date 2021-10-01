@@ -9,10 +9,10 @@ namespace DftNttTest.Tests
 	{
 		static void Transform(int n, long m, long w, bool result)
 		{
-			var fmt = new FNTT101(n, m, w);
+			var ntt = new FNTT101(n, m, w);
 			var f1 = Enumerable.Range(3, 5).Select(v => (long)v).ToArray();
-			var f_ = fmt.Transform(f1, false);
-			var f2 = fmt.Transform(f_, true).Resize(f1.Length);
+			var f_ = ntt.Transform(f1, false);
+			var f2 = ntt.Transform(f_, true).Resize(f1.Length);
 
 			if (result) CollectionAssert.AreEqual(f1, f2);
 			else CollectionAssert.AreNotEqual(f1, f2);
@@ -20,11 +20,11 @@ namespace DftNttTest.Tests
 
 		static void Convolution(int n, long m, long w, bool result)
 		{
-			var fmt = new FNTT101(n, m, w);
+			var ntt = new FNTT101(n, m, w);
 			var f = new long[] { 2, 1, 1 };
 			var g = new long[] { m - 1, m - 1, 1 };
 			var expected = new long[] { m - 2, m - 3, 0, 0, 1 };
-			var actual = fmt.Convolution(f, g).Resize(expected.Length);
+			var actual = ntt.Convolution(f, g).Resize(expected.Length);
 
 			if (result) CollectionAssert.AreEqual(expected, actual);
 			else CollectionAssert.AreNotEqual(expected, actual);

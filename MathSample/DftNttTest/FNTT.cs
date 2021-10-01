@@ -102,16 +102,16 @@ namespace DftNttTest
 			if (b == null) throw new ArgumentNullException(nameof(b));
 
 			var n = a.Length + b.Length - 1;
-			var fmt = new FNTT(n);
+			var ntt = new FNTT(n);
 
-			var fa = fmt.Transform(a, false);
-			var fb = fmt.Transform(b, false);
+			var fa = ntt.Transform(a, false);
+			var fb = ntt.Transform(b, false);
 
 			for (int k = 0; k < fa.Length; ++k)
 			{
 				fa[k] = fa[k] * fb[k] % p;
 			}
-			var c = fmt.Transform(fa, true);
+			var c = ntt.Transform(fa, true);
 
 			if (n < c.Length) Array.Resize(ref c, n);
 			return c;

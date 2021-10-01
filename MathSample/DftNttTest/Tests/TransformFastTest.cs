@@ -70,29 +70,29 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Transform_FNTT101()
 		{
-			var fmt = new FNTT101(n, true);
-			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+			var ntt = new FNTT101(n, true);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 
 		[TestMethod]
 		public void Transform_FNTT202()
 		{
-			var t = new FNTT202(n);
-			Test(f => t.Transform(f, false), f => t.Transform(f, true));
+			var ntt = new FNTT202(n);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 
 		[TestMethod]
 		public void Transform_FNTT()
 		{
-			var fmt = new FNTT(n);
-			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+			var ntt = new FNTT(n);
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 
 		[TestMethod]
 		public void Transform_FNTT302()
 		{
-			var fmt = new FNTT302();
-			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
+			var ntt = new FNTT302();
+			Test(f => ntt.Transform(f, false), f => ntt.Transform(f, true));
 		}
 	}
 }

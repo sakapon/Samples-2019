@@ -104,15 +104,15 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Convolution_FNTT101()
 		{
-			var fmt = new FNTT101(16, true);
-			Test02(fmt.Convolution);
+			var ntt = new FNTT101(16, true);
+			Test02(ntt.Convolution);
 		}
 
 		[TestMethod]
 		public void Convolution_FNTT202()
 		{
-			var t = new FNTT202(16);
-			Test02(t.Convolution);
+			var ntt = new FNTT202(16);
+			Test02(ntt.Convolution);
 		}
 
 		[TestMethod]
@@ -124,8 +124,8 @@ namespace DftNttTest.Tests
 		[TestMethod]
 		public void Convolution_FNTT302()
 		{
-			var fmt = new FNTT302(16);
-			Test02(fmt.Convolution);
+			var ntt = new FNTT302(16);
+			Test02(ntt.Convolution);
 		}
 	}
 }
