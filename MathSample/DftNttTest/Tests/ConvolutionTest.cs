@@ -102,9 +102,9 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Convolution_FMT101()
+		public void Convolution_FNTT101()
 		{
-			var fmt = new FMT101(16, true);
+			var fmt = new FNTT101(16, true);
 			Test02(fmt.Convolution);
 		}
 

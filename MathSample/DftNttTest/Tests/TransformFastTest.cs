@@ -68,9 +68,9 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_FMT101()
+		public void Transform_FNTT101()
 		{
-			var fmt = new FMT101(n, true);
+			var fmt = new FNTT101(n, true);
 			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
 		}
 

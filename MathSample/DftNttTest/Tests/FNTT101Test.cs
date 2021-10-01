@@ -5,11 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DftNttTest.Tests
 {
 	[TestClass]
-	public class FMT101Test
+	public class FNTT101Test
 	{
 		static void Transform(int n, long m, long w, bool result)
 		{
-			var fmt = new FMT101(n, m, w);
+			var fmt = new FNTT101(n, m, w);
 			var f1 = Enumerable.Range(3, 5).Select(v => (long)v).ToArray();
 			var f_ = fmt.Transform(f1, false);
 			var f2 = fmt.Transform(f_, true).Resize(f1.Length);
@@ -20,7 +20,7 @@ namespace DftNttTest.Tests
 
 		static void Convolution(int n, long m, long w, bool result)
 		{
-			var fmt = new FMT101(n, m, w);
+			var fmt = new FNTT101(n, m, w);
 			var f = new long[] { 2, 1, 1 };
 			var g = new long[] { m - 1, m - 1, 1 };
 			var expected = new long[] { m - 2, m - 3, 0, 0, 1 };

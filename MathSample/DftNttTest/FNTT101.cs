@@ -4,7 +4,7 @@ namespace DftNttTest
 {
 	// NTT102 と FFT101
 	// パラメーターを指定するためのコンストラクターを実装します。
-	public class FMT101
+	public class FNTT101
 	{
 		public static int ToPowerOf2(int n)
 		{
@@ -48,7 +48,7 @@ namespace DftNttTest
 		long m, nInv;
 		long[] roots;
 
-		public FMT101(int length, long mod, long nthRoot)
+		public FNTT101(int length, long mod, long nthRoot)
 		{
 			n = length;
 			m = mod;
@@ -57,7 +57,7 @@ namespace DftNttTest
 		}
 
 		// length は 2 の冪に変更されます。
-		public FMT101(int length, bool prime, long p = 998244353, long g = 3)
+		public FNTT101(int length, bool prime, long p = 998244353, long g = 3)
 		{
 			n = ToPowerOf2(length);
 			m = p;
