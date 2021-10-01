@@ -13,29 +13,30 @@ namespace DftNttTest
 			if (b == 1) return (1, 1 - a);
 
 			var q = Math.DivRem(a, b, out var r);
-			var (x, y) = ExtendedEuclid(b, r);
-			return (y, x - q * y);
+			var (u, v) = ExtendedEuclid(b, r);
+			return (v, u - q * v);
 		}
 
-		long m, n, mn;
-		long u, v;
+		static BigInteger MInt(BigInteger x, long mod) => (x %= mod) < 0 ? x + mod : x;
+
+		long mn;
+		BigInteger mu, nv;
 
 		// 前提: m と n は互いに素
 		public CRT(long m, long n)
 		{
-			this.m = m;
-			this.n = n;
 			mn = m * n;
-			(u, v) = ExtendedEuclid(m, n);
+			(BigInteger u, BigInteger v) = ExtendedEuclid(m, n);
+			mu = MInt(m * u, mn);
+			nv = MInt(n * v, mn);
 		}
 
-		// a mod m かつ b mod n である値 (mod mn で唯一)
+		// a (mod m) かつ b (mod n) である値 (mod mn で一意)
 		// 戻り値は anv + bmu
 		public long Solve(long a, long b)
 		{
-			var x = (BigInteger)a * n * v + (BigInteger)b * m * u;
-			var r = (long)(x % mn);
-			return r < 0 ? r + mn : r;
+			var x = a * nv + b * mu;
+			return (long)(x % mn);
 		}
 	}
 }
