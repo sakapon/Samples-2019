@@ -4,7 +4,7 @@ namespace DftNttTest
 {
 	// FFT302
 	// n を指定せずに済む実装です。
-	public class FMT302
+	public class FNTT302
 	{
 		public static int ToPowerOf2(int n)
 		{
@@ -47,7 +47,7 @@ namespace DftNttTest
 		long[] roots;
 
 		// maxLength は 2 の冪に変更されます。
-		public FMT302(int maxLength = 1 << 20, long p = 998244353, long g = 3)
+		public FNTT302(int maxLength = 1 << 20, long p = 998244353, long g = 3)
 		{
 			MaxLength = ToPowerOf2(maxLength);
 			this.p = p;

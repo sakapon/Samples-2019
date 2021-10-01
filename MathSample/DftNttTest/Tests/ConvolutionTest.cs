@@ -116,15 +116,15 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Convolution_FMT()
+		public void Convolution_FNTT()
 		{
-			Test02(FMT.Convolution);
+			Test02(FNTT.Convolution);
 		}
 
 		[TestMethod]
-		public void Convolution_FMT302()
+		public void Convolution_FNTT302()
 		{
-			var fmt = new FMT302(16);
+			var fmt = new FNTT302(16);
 			Test02(fmt.Convolution);
 		}
 	}

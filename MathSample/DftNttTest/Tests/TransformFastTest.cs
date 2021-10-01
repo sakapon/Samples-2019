@@ -82,16 +82,16 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
-		public void Transform_FMT()
+		public void Transform_FNTT()
 		{
-			var fmt = new FMT(n);
+			var fmt = new FNTT(n);
 			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
 		}
 
 		[TestMethod]
-		public void Transform_FMT302()
+		public void Transform_FNTT302()
 		{
-			var fmt = new FMT302();
+			var fmt = new FNTT302();
 			Test(f => fmt.Transform(f, false), f => fmt.Transform(f, true));
 		}
 	}

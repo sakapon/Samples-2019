@@ -4,7 +4,7 @@ namespace DftNttTest
 {
 	// NTT と FFT202
 	// パラメーターを定数とした実装です。
-	public class FMT
+	public class FNTT
 	{
 		const long p = 998244353, g = 3;
 
@@ -50,7 +50,7 @@ namespace DftNttTest
 		long[] roots;
 
 		// length は 2 の冪に変更されます。
-		public FMT(int length)
+		public FNTT(int length)
 		{
 			n = ToPowerOf2(length);
 			nInv = MPow(n, p - 2);
@@ -102,7 +102,7 @@ namespace DftNttTest
 			if (b == null) throw new ArgumentNullException(nameof(b));
 
 			var n = a.Length + b.Length - 1;
-			var fmt = new FMT(n);
+			var fmt = new FNTT(n);
 
 			var fa = fmt.Transform(a, false);
 			var fb = fmt.Transform(b, false);
