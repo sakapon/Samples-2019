@@ -61,6 +61,13 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Transform_FFT204()
+		{
+			var fft = new FFT204(n);
+			Test(f => fft.Transform(f, false), f => fft.Transform(f, true));
+		}
+
+		[TestMethod]
 		public void Transform_FFT302()
 		{
 			var fft = new FFT302();

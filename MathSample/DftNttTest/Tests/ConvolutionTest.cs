@@ -82,6 +82,12 @@ namespace DftNttTest.Tests
 		}
 
 		[TestMethod]
+		public void Convolution_FFT204()
+		{
+			Test(FFT204.Convolution);
+		}
+
+		[TestMethod]
 		public void Convolution_FFT302()
 		{
 			var fft = new FFT302(16);
